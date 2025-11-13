@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/sonner';
 import { useCart } from '@/contexts/CartContext';
 import { motion, useReducedMotion } from 'framer-motion';
+import { Chip, QuantityControl, ToppingGroup } from '@/components/common';
 
 interface ProductCardProps {
   name: string;
@@ -80,19 +81,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     });
   };
 
-  const Chip: React.FC<{ active: boolean; onClick: () => void; children: React.ReactNode; disabled?: boolean }> = ({ active, onClick, children, disabled }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={`px-3 py-2 rounded-full border text-sm transition select-none ${
-        active ? 'bg-[#FFF7F2] border-[#C35413] text-[#C35413]' : 'bg-white border-[#D6DADE] text-[#36424e]'
-      } ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent'}`}
-      aria-pressed={active}
-    >
-      {children}
-    </button>
-  );
 
   const handleAdd = () => {
     const selectedToppings = Object.entries(selected)
@@ -290,24 +278,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                 <Separator />
 
-                {toppingGroups.map((group) => (
-                  <div key={group.title} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm">{group.title}</Label>
-                      <span className="text-xs text-muted-foreground">{selectedCount}/{TOPPING_LIMIT}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {group.items.map((t) => {
-                        const checked = !!selected[t];
-                        const disabled = !checked && selectedCount >= TOPPING_LIMIT;
-                        return (
-                          <Chip key={t} active={checked} onClick={() => toggleTopping(t)} disabled={disabled}>
-                            {t}
-                          </Chip>
-                        );
-                      })}
-                    </div>
-                  </div>
+                {toppingGroups.map((group, index) => (
+                  <ToppingGroup
+                    key={group.title}
+                    title={group.title}
+                    items={group.items}
+                    selected={selected}
+                    onToggle={toggleTopping}
+                    selectedCount={selectedCount}
+                    limit={TOPPING_LIMIT}
+                    showSeparator={index < toppingGroups.length - 1}
+                  />
                 ))}
 
                 <Separator />
@@ -325,11 +306,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                 <div className="flex items-center justify-between">
                   <Label className="text-sm">Quantity</Label>
-                  <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" onClick={() => setQuantity(Math.max(1, quantity - 1))}>-</Button>
-                    <span className="w-6 text-center">{quantity}</span>
-                    <Button variant="outline" size="icon" onClick={() => setQuantity(quantity + 1)}>+</Button>
-                  </div>
+                  <QuantityControl
+                    quantity={quantity}
+                    onQuantityChange={setQuantity}
+                  />
                 </div>
               </div>
             </div>
@@ -337,11 +317,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
           <div className="absolute bottom-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-t p-4">
             <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon" onClick={() => setQuantity(Math.max(1, quantity - 1))}>-</Button>
-                <span className="w-8 text-center">{quantity}</span>
-                <Button variant="outline" size="icon" onClick={() => setQuantity(quantity + 1)}>+</Button>
-              </div>
+              <QuantityControl
+                quantity={quantity}
+                onQuantityChange={setQuantity}
+              />
               <div className="flex items-center gap-2 w-full md:w-auto">
                 <Button variant="secondary" className="hidden md:inline-flex" onClick={() => setOpen(false)}>Cancel</Button>
                 <Button className="flex-1 md:flex-none" onClick={handleAdd}>

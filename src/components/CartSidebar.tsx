@@ -3,6 +3,7 @@ import { X, Flame, UtensilsCrossed } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { CartItemDisplay, ContactInput } from '@/components/common';
 
 const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void }> = ({ open, onOpenChange }) => {
   const { items, updateQuantity, getTotalPrice, getTotalItems } = useCart();
@@ -64,54 +65,11 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
                 </h3>
                 <div className="space-y-4">
                   {items.map((item) => (
-                    <div
+                    <CartItemDisplay
                       key={item.id}
-                      className="flex gap-4 pb-4 border-b last:border-0"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between mb-1">
-                          <h4 className="font-medium text-sm text-foreground">
-                            {item.name}
-                          </h4>
-                          <span className="text-sm font-semibold text-foreground ml-2 shrink-0">
-                            {formatPrice(item.price * item.quantity)}
-                          </span>
-                        </div>
-                        <div className="text-xs text-muted-foreground space-y-1">
-                          <p>Choice of Size: <span className="font-medium">{item.size}</span></p>
-                          {item.toppings.length > 0 && (
-                            <p>
-                              Choose your toppings (${(item.toppings.length * 1.59).toFixed(2)}){' '}
-                              <span className="block mt-1 text-muted-foreground">
-                                {item.toppings.join(', ')}
-                              </span>
-                            </p>
-                          )}
-                          {item.specialInstructions && (
-                            <p className="text-muted-foreground italic">
-                              Note: {item.specialInstructions}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-2 pt-1">
-                        <button
-                          onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                          className="h-8 w-8 rounded-full bg-muted hover:bg-muted-foreground/20 flex items-center justify-center text-muted-foreground text-lg"
-                        >
-                          −
-                        </button>
-                        <span className="w-8 text-center text-sm font-medium pt-1">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="h-8 w-8 rounded-full bg-muted hover:bg-muted-foreground/20 flex items-center justify-center text-muted-foreground text-lg"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
+                      item={item}
+                      onUpdateQuantity={updateQuantity}
+                    />
                   ))}
                 </div>
               </div>
@@ -131,18 +89,10 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
 
             {/* Contact & Checkout */}
             <div className="px-6 py-4 border-t space-y-3">
-              <div>
-                <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                  Enter a contact number before proceeding to checkout
-                </label>
-                <input
-                  type="tel"
-                  placeholder="555-555-5555"
-                  value={contactNumber}
-                  onChange={(e) => setContactNumber(e.target.value)}
-                  className="w-full px-4 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
+              <ContactInput
+                value={contactNumber}
+                onChange={setContactNumber}
+              />
 
               <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg text-sm text-muted-foreground">
                 <UtensilsCrossed className="w-4 h-4" />
