@@ -1,6 +1,7 @@
 import React from 'react';
 import { CartItem } from '@/contexts/CartContext';
 import { QuantityControl, PriceDisplay } from '@/components/common';
+import { pizzaConfig } from '@/pizzaConfig';
 
 interface CartItemDisplayProps {
   item: CartItem;
@@ -8,6 +9,8 @@ interface CartItemDisplayProps {
 }
 
 const CartItemDisplay: React.FC<CartItemDisplayProps> = ({ item, onUpdateQuantity }) => {
+  const isMakeYourOwn = item.name.startsWith(pizzaConfig.pizza.name);
+
   return (
     <div className="flex gap-4 pb-4 border-b last:border-0">
       <div className="flex-1 min-w-0">
@@ -20,9 +23,11 @@ const CartItemDisplay: React.FC<CartItemDisplayProps> = ({ item, onUpdateQuantit
           />
         </div>
         <div className="text-xs text-muted-foreground space-y-1">
-          <p>
-            Choice of Size: <span className="font-medium">{item.size}</span>
-          </p>
+          {!isMakeYourOwn && (
+            <p>
+              Choice of Size: <span className="font-medium">{item.size}</span>
+            </p>
+          )}
           {item.toppings.length > 0 && (
             <p>
               Choose your toppings (${(item.toppings.length * 1.59).toFixed(2)}) 

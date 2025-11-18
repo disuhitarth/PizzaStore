@@ -19,9 +19,15 @@ const Chip: React.FC<ChipProps> = ({
     type="button"
     onClick={onClick}
     disabled={disabled}
-    className={`px-3 py-2 rounded-full border text-sm transition select-none ${
-      active ? 'bg-[#FFF7F2] border-[#C35413] text-[#C35413]' : 'bg-white border-[#D6DADE] text-[#36424e]'
-    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent'} ${className}`}
+    className={`inline-flex min-w-[120px] items-center justify-center rounded-lg border px-6 py-3 text-[15px] font-medium select-none transition-colors ${
+      active
+        ? 'bg-[#FF6A00] border-[#FF6A00] text-white shadow-sm'
+        : 'bg-white border-[#D6DADE] text-[#4B5563]'
+    } ${
+      disabled
+        ? 'opacity-50 cursor-not-allowed'
+        : 'hover:bg-[#FFF3E8]'
+    } ${className}`}
     aria-pressed={active}
   >
     {children}

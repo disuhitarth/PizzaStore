@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { menuCategories } from '@/menuData';
 
 const slugify = (str: string) =>
   str
@@ -7,20 +8,9 @@ const slugify = (str: string) =>
     .replace(/(^-|-$)/g, '');
 
 const Sidebar: React.FC = () => {
-  const [activeItem, setActiveItem] = useState("What's Hot");
+  const [activeItem, setActiveItem] = useState(menuCategories[0]?.categoryName ?? '');
 
-  const menuItems = [
-    "What's Hot",
-    "11-inch Pizzas",
-    "Fast Fire'd Favorites",
-    "Take Two",
-    "Digital Deals",
-    "Cheesy Breads & Salads",
-    "Large Pizzas",
-    "Desserts",
-    "Drinks, Beer & Wine",
-    "Single Use Items"
-  ];
+  const menuItems = menuCategories.map((category) => category.categoryName);
 
   return (
     <nav
