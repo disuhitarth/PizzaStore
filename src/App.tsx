@@ -16,7 +16,7 @@ const App = () => (
       <CartProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner />
+          <Sonner position="bottom-center" />
           <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
             <Routes>
               <Route path="/" element={<Index />} />

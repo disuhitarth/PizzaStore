@@ -2,6 +2,11 @@ import React from 'react';
 import ProductCard from './ProductCard';
 import { motion, useReducedMotion } from 'framer-motion';
 
+interface SizeOption {
+  label: string;
+  price: number;
+}
+
 interface Product {
   name: string;
   price: string;
@@ -9,6 +14,7 @@ interface Product {
   image: string;
   overlayImage?: string;
   isUnavailable?: boolean;
+  sizeOptions?: SizeOption[];
 }
 
 interface ProductSectionProps {

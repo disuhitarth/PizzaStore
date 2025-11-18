@@ -6,13 +6,45 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { CartItemDisplay, ContactInput } from '@/components/common';
 
 const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void }> = ({ open, onOpenChange }) => {
-  const { items, updateQuantity, getTotalPrice, getTotalItems } = useCart();
+  const { items, addItem, updateQuantity, getTotalPrice, getTotalItems } = useCart();
   const [contactNumber, setContactNumber] = useState('');
 
   const totalPrice = getTotalPrice();
   const totalItems = getTotalItems();
 
   const formatPrice = (price: number) => `$${price.toFixed(2)}`;
+
+  const suggestions = [
+    {
+      id: 'suggestion-creamy-garlic',
+      name: 'Creamy Garlic',
+      price: 1.49,
+      size: 'Dip',
+      image:
+        'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Ff468cd8bcc9f4b8988ac867690c9aadb',
+    },
+    {
+      id: 'suggestion-591ml-pepsi',
+      name: '591 ML BTL Pepsi',
+      price: 2.99,
+      size: '591 ml bottle',
+      image:
+        'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Ff4ad7732db884bb893e8e3c6e554dcff',
+    },
+  ] as const;
+
+  const handleAddSuggestion = (suggestion: (typeof suggestions)[number]) => {
+    addItem({
+      id: `${suggestion.id}-${Date.now()}`,
+      name: suggestion.name,
+      price: suggestion.price,
+      quantity: 1,
+      size: suggestion.size,
+      toppings: [],
+      specialInstructions: '',
+      image: suggestion.image,
+    });
+  };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -75,16 +107,43 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
               </div>
             </div>
 
-            {/* You May Also Like Section - Optional */}
+            {/* You May Also Like Section */}
             <div className="px-6 py-4 border-t">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
                 You May Also Like
               </h3>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="aspect-square bg-muted rounded-lg flex items-center justify-center text-xs text-center p-2">
-                  <span className="text-muted-foreground">More items</span>
-                </div>
+              <div className="grid grid-cols-2 gap-3">
+                {suggestions.map((suggestion) => (
+                  <button
+                    key={suggestion.id}
+                    type="button"
+                    onClick={() => handleAddSuggestion(suggestion)}
+                    className="flex items-center gap-3 p-2 rounded-lg border bg-white hover:bg-muted/60 text-left transition"
+                  >
+                    <div className="w-14 h-14 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                      <img
+                        src={suggestion.image}
+                        alt={suggestion.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium text-foreground truncate">
+                        {suggestion.name}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground truncate">
+                        {suggestion.size}
+                      </p>
+                      <p className="text-xs font-semibold mt-1">
+                        {formatPrice(suggestion.price)}
+                      </p>
+                    </div>
+                  </button>
+                ))}
               </div>
+              <p className="mt-2 text-[11px] text-muted-foreground">
+                Add a drink and creamy garlic to make it a combo.
+              </p>
             </div>
 
             {/* Contact & Checkout */}

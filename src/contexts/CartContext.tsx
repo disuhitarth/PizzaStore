@@ -5,7 +5,8 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  size: '11"' | 'Large';
+  // Human-readable size/portion label, e.g. "Medium", "Large", "X-Large", "10 Pcs".
+  size: string;
   toppings: string[];
   specialInstructions?: string;
   image?: string;

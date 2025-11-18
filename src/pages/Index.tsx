@@ -27,26 +27,18 @@ const Index: React.FC = () => {
       description: item.description,
       price: formatPrice(item.price ?? item.startingPrice ?? item.sizes?.[0]?.price),
       image: DEFAULT_IMAGE,
+      sizeOptions: item.sizes?.map((size) => ({
+        label: size.sizeDescription,
+        price: size.price,
+      })),
     })),
   }));
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Fixed Header */}
-      <Header />
-
-      {/* Cart Button */}
-      <button
-        onClick={() => setCartOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-black text-white rounded-full px-6 py-3 hover:bg-black/90 shadow-lg"
-      >
-        <ShoppingCart className="w-5 h-5" />
-        {totalItems > 0 && (
-          <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold bg-green-500 rounded-full ml-1">
-            {totalItems}
-          </span>
-        )}
-      </button>
+      {/* Fixed Header with cart icon */}
+      <Header onCartClick={() => setCartOpen(true)} totalItems={totalItems}>
+      </Header>
 
       {/* Cart Sidebar */}
       <CartSidebar open={cartOpen} onOpenChange={setCartOpen} />

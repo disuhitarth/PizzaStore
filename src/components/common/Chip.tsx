@@ -26,7 +26,7 @@ const Chip: React.FC<ChipProps> = ({
     } ${
       disabled
         ? 'opacity-50 cursor-not-allowed'
-        : 'hover:bg-[#FFF3E8]'
+        : 'hover:border-[#FF6A00]'
     } ${className}`}
     aria-pressed={active}
   >

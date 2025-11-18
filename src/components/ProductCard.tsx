@@ -7,9 +7,15 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/sonner';
 import { useCart } from '@/contexts/CartContext';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { Chip, QuantityControl, ToppingGroup } from '@/components/common';
 import { pizzaConfig } from '@/pizzaConfig';
+import { cn } from '@/lib/utils';
+
+interface SizeOption {
+  label: string;
+  price: number;
+}
 
 interface ProductCardProps {
   name: string;
@@ -19,6 +25,7 @@ interface ProductCardProps {
   overlayImage?: string;
   isUnavailable?: boolean;
   className?: string;
+  sizeOptions?: SizeOption[];
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -28,7 +35,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   image,
   overlayImage,
   isUnavailable = false,
-  className = ""
+  className = "",
+  sizeOptions,
 }) => {
   const pizzaCfg = pizzaConfig.pizza;
   // Treat any variant like "Make Your Own (Small)" as Make Your Own
@@ -45,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [currentId] = useState(Math.random().toString(36).substr(2, 9));
   // Store initial state for customizations
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState<'11"' | 'Large'>('11"');
+  const [size, setSize] = useState<string>('11"');
 
   // Crust (single choice)
   const [crust, setCrust] = useState<string>(() => {
@@ -92,6 +100,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
   // Toppings selection
   const [selected, setSelected] = useState<Record<string, boolean>>({});
 
+  type PlacementCode = 'N' | 'L' | 'W' | 'R' | 'D';
+  type ToppingCategoryKey = 'meat' | 'halal' | 'veggie' | 'free' | 'cheese';
+
+  const [toppingPlacement, setToppingPlacement] = useState<Record<string, PlacementCode>>({});
+  const [activeToppingCategory, setActiveToppingCategory] = useState<ToppingCategoryKey>('meat');
+
   // Motion config
   const reduceMotion = useReducedMotion();
   const cardVariants = {
@@ -109,48 +123,122 @@ const ProductCard: React.FC<ProductCardProps> = ({
     tap: reduceMotion ? { } : { scale: 0.96 },
   } as const;
 
+  const optionContainerMotionProps = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 6 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.18 },
+      } as const;
+
+  const dialogMotionProps = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 18, scale: 0.98 },
+        animate: { opacity: 1, y: 0, scale: 1 },
+        transition: { type: 'spring', stiffness: 260, damping: 26 },
+      } as const;
+
+  const dialogHeroMotionProps = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, scale: 0.96 },
+        animate: { opacity: 1, scale: 1 },
+        transition: { type: 'spring', stiffness: 220, damping: 28, delay: 0.04 },
+      } as const;
+
   const displayName = name?.trim() || 'Item';
   const displayPrice = price || '';
   const hasImage = Boolean(image);
-  const basePrice = Number((displayPrice.match(/[0-9]+(?:\.[0-9]{1,2})?/) ?? ["0"])![0]);
+
+  // Determine the currently selected base price based on size options (for non build-your-own)
+  const selectedSizePrice = React.useMemo(() => {
+    if (sizeOptions && sizeOptions.length > 0) {
+      const match = sizeOptions.find((opt) => opt.label === size) ?? sizeOptions[0];
+      return match.price;
+    }
+    const rawPrice = price || '';
+    return Number((rawPrice.match(/[0-9]+(?:\.[0-9]{1,2})?/) ?? ["0"])![0]);
+  }, [price, size, sizeOptions]);
+
+  const basePrice = selectedSizePrice;
   const TOPPING_SURCHARGE = 1.59; // simple flat surcharge per topping (adjust as needed)
   const TOPPING_LIMIT = 7;
 
-  const defaultToppingGroups: { title: string; items: string[] }[] = [
-    { title: 'Meats', items: ['Pepperoni', 'Meatballs', 'Ham', 'Chicken'] },
-    { title: 'Veggies', items: ['Mushrooms', 'Onions', 'Green Peppers', 'Olives', 'Jalapeño', 'Tomatoes', 'Arugula'] },
-    { title: 'Cheese', items: ['Mozzarella', 'Parmesan', 'Vegan Cheese'] },
-    { title: 'Sauce', items: ['Red Sauce', 'White Sauce', 'BBQ Sauce'] },
-  ];
+  const categoryOrder: ToppingCategoryKey[] = ['meat', 'halal', 'veggie', 'free', 'cheese'];
 
-  const makeYourOwnToppingGroups: { title: string; items: string[] }[] = [
-    {
-      title: toppingsCfg.categories.meat.displayName,
-      items: toppingsCfg.categories.meat.items.map((i) => i.name),
-    },
-    {
-      title: toppingsCfg.categories.halal.displayName,
-      items: toppingsCfg.categories.halal.items.map((i) => i.name),
-    },
-    {
-      title: toppingsCfg.categories.veggie.displayName,
-      items: toppingsCfg.categories.veggie.items.map((i) => i.name),
-    },
-    {
-      title: toppingsCfg.categories.cheese.displayName,
-      items: toppingsCfg.categories.cheese.items.map((i) => i.name),
-    },
-    {
-      title: toppingsCfg.categories.free.displayName,
-      items: toppingsCfg.categories.free.items.map((i) => i.name),
-    },
-  ];
+  const idToNameMap = React.useMemo(() => {
+    const map: Record<string, string> = {};
+    const categories = toppingsCfg.categories as Record<string, { items: { id: string; name: string }[] }>;
+    Object.values(categories).forEach((cat) => {
+      cat.items.forEach((item) => {
+        map[item.id] = item.name;
+      });
+    });
+    return map;
+  }, [toppingsCfg]);
 
-  const toppingGroups: { title: string; items: string[] }[] = isMakeYourOwn
-    ? makeYourOwnToppingGroups
-    : defaultToppingGroups;
+  const pizzaOptionIdToName = React.useMemo(() => {
+    const map: Record<string, string> = {};
+    pizzaOptionsCfg.options.forEach((opt) => {
+      map[opt.id] = opt.name;
+    });
+    return map;
+  }, [pizzaOptionsCfg]);
 
-  const selectedCount = Object.values(selected).filter(Boolean).length;
+  const specialtyPizza = React.useMemo(() => {
+    const baseName = (displayName || '').replace(/ Pizza$/i, '').trim();
+    return pizzaCfg.specialtyPizzas?.find(
+      (p) => p.name.toLowerCase() === baseName.toLowerCase()
+    );
+  }, [displayName, pizzaCfg.specialtyPizzas]);
+
+  const isSpecialtyPizza = !isMakeYourOwn && !!specialtyPizza;
+
+  const nameToIdMap = React.useMemo(() => {
+    const map: Record<string, string> = {};
+    Object.entries(idToNameMap).forEach(([id, name]) => {
+      map[name] = id;
+    });
+    return map;
+  }, [idToNameMap]);
+
+  const computeSelectedUnits = (
+    sel: Record<string, boolean>,
+    placement: Record<string, PlacementCode>
+  ): number => {
+    return Object.entries(sel).reduce((sum, [name, isOn]) => {
+      if (!isOn) return sum;
+      const code = placement[name];
+      if (code === 'L' || code === 'R') return sum + 0.5;
+      if (code === 'W') return sum + 1;
+      if (code === 'D') return sum + 2;
+      return sum + 1; // default full topping when selected but no explicit placement
+    }, 0);
+  };
+
+  const selectedCount = React.useMemo(
+    () => computeSelectedUnits(selected, toppingPlacement),
+    [selected, toppingPlacement]
+  );
+
+  const isUsingRecommendedRecipe = React.useMemo(() => {
+    if (!isSpecialtyPizza || !specialtyPizza) return false;
+    const meta = specialtyPizza as any;
+    const defaultIds = meta?.toppings as string[] | undefined;
+    if (!defaultIds || defaultIds.length === 0) return false;
+
+    const currentIds = Object.entries(selected)
+      .filter(([, isOn]) => isOn)
+      .map(([name]) => nameToIdMap[name])
+      .filter(Boolean) as string[];
+
+    if (defaultIds.length !== currentIds.length) return false;
+    const sortedDefault = [...defaultIds].sort();
+    const sortedCurrent = [...currentIds].sort();
+    return sortedDefault.every((id, idx) => id === sortedCurrent[idx]);
+  }, [isSpecialtyPizza, specialtyPizza, selected, nameToIdMap]);
+
   const toggleTopping = (name: string) => {
     setSelected((prev) => {
       const next = { ...prev };
@@ -163,7 +251,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const resetState = () => {
     setQuantity(1);
-    setSize('11"');
+    // Default to the first defined size option when available; otherwise fall back.
+    setSize(sizeOptions && sizeOptions.length > 0 ? sizeOptions[0].label : isMakeYourOwn ? 'Large' : '11"');
     setCrust(() => {
       if (isMakeYourOwn) {
         const defaultOpt = crustCfg.options.find((o) => o.id === crustCfg.default);
@@ -178,15 +267,77 @@ const ProductCard: React.FC<ProductCardProps> = ({
       }
       return 'Regular Sauce';
     });
+
+    // Base: no extra pizza options selected by default
     setPizzaOptionsSelected({});
     setMoreOptionsOpen(isMakeYourOwn);
     setBakeOption('Normal Bake');
     setCheeseAmount('Cheese');
     setSauceAmount('Normal Sauce');
     setCutOption('Standard Cut');
-    setSelected({});
+
+    if (isSpecialtyPizza && specialtyPizza) {
+      const nextSelected: Record<string, boolean> = {};
+      const nextPlacement: Record<string, PlacementCode> = {};
+      (specialtyPizza as any).toppings?.forEach((id: string) => {
+        const name = idToNameMap[id];
+        if (name) {
+          nextSelected[name] = true;
+          // Default specialty toppings to whole pizza placement
+          nextPlacement[name] = 'W';
+        }
+      });
+      setSelected(nextSelected);
+      setToppingPlacement(nextPlacement);
+
+      // Optional future hooks: if specialtyPizza defines crustId/sauceId/pizzaOptionIds,
+      // we can preselect those too without breaking current data.
+      const meta = specialtyPizza as any;
+      const crustId = meta?.crustId as string | undefined;
+      if (crustId) {
+        const crustOpt = crustCfg.options.find((o) => o.id === crustId);
+        if (crustOpt) {
+          setCrust(crustOpt.name);
+        }
+      }
+      const sauceId = meta?.sauceId as string | undefined;
+      if (sauceId) {
+        const sauceOpt = sauceCfg.options.find((o) => o.id === sauceId);
+        if (sauceOpt) {
+          setSauce(sauceOpt.name);
+        }
+      }
+      const pizzaOptionIds = meta?.pizzaOptionIds as string[] | undefined;
+      if (pizzaOptionIds && pizzaOptionIds.length > 0) {
+        const nextOpts: Record<string, boolean> = {};
+        pizzaOptionIds.forEach((id) => {
+          const name = pizzaOptionIdToName[id];
+          if (name) {
+            nextOpts[name] = true;
+          }
+        });
+        setPizzaOptionsSelected(nextOpts);
+      }
+    } else {
+      setSelected({});
+      setToppingPlacement({});
+    }
+
     setSpecialInstructions('');
   };
+
+  // For non "Make Your Own" pizzas that have a specialty definition,
+  // preselect toppings based on their configured topping IDs on first render.
+  React.useEffect(() => {
+    if (isSpecialtyPizza) {
+      resetState();
+    }
+    // We intentionally only depend on isSpecialtyPizza so this runs once per pizza type
+    // and does not overwrite user customizations afterwards.
+  }, [isSpecialtyPizza]);
+
+  const extrasTotal = selectedCount * TOPPING_SURCHARGE;
+  const total = (basePrice + extrasTotal) * quantity;
 
   const handleAdd = () => {
     const selectedToppings = Object.entries(selected)
@@ -196,9 +347,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const selectedPizzaOptions = Object.entries(pizzaOptionsSelected)
       .filter(([_, isSelected]) => isSelected)
       .map(([opt]) => opt);
-
-    const extrasTotal = selectedToppings.length * TOPPING_SURCHARGE;
-    const itemTotal = (basePrice + extrasTotal) * quantity;
 
     const crustNote = crust ? `Crust: ${crust}` : '';
     const sauceNote = sauce ? `Sauce: ${sauce}` : '';
@@ -239,11 +387,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     resetState();
   };
 
-  const extrasTotal = selectedCount * TOPPING_SURCHARGE;
-  const total = (basePrice + extrasTotal) * quantity;
-
   const openDialog = (e?: React.MouseEvent) => {
     e?.stopPropagation();
+    if (isSpecialtyPizza) {
+      resetState();
+    }
     setOpen(true);
   };
 
@@ -282,7 +430,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <motion.button
               type="button"
               aria-label={`Add ${name}`}
-              onClick={(e) => { e.stopPropagation(); setOpen(true); }}
+              onClick={openDialog}
               variants={buttonVariants}
               className="absolute bottom-1.5 right-1.5 z-10 grid place-items-center w-9 h-9 rounded-full bg-white border border-[#D6DADE] shadow-md text-[#36424e] transition will-change-transform transform-gpu"
             >
@@ -335,7 +483,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <motion.button
               type="button"
               aria-label={`Add ${name}`}
-              onClick={(e) => { e.stopPropagation(); setOpen(true); }}
+              onClick={openDialog}
               variants={buttonVariants}
               className="absolute bottom-3 right-3 z-10 grid place-items-center w-11 h-11 rounded-full bg-white border border-[#D6DADE] shadow-md text-[#36424e] transition will-change-transform transform-gpu"
             >
@@ -365,22 +513,45 @@ const ProductCard: React.FC<ProductCardProps> = ({
       {/* Quick Add Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="w-screen md:max-w-3xl flex flex-col h-[100dvh] md:max-h-[85vh] rounded-none md:rounded-lg p-0 md:p-6">
-          <DialogHeader className="px-4 pt-4 md:px-0 md:pt-0">
-            <DialogTitle className="flex items-center justify-between">
-              <span>{displayName}</span>
-              {displayPrice && <span className="text-sm text-muted-foreground">{displayPrice}</span>}
-            </DialogTitle>
-            {description ? (
-              <DialogDescription>{description}</DialogDescription>
-            ) : (
-              <DialogDescription>Choose size and toppings below.</DialogDescription>
-            )}
-          </DialogHeader>
+          <motion.div className="flex flex-col h-full" {...dialogMotionProps}>
+            <DialogHeader className="px-4 pt-4 md:px-0 md:pt-0">
+              <DialogTitle className="flex items-center justify-between">
+                <span>{displayName}</span>
+                <span className="text-sm text-muted-foreground">${selectedSizePrice.toFixed(2)}</span>
+              </DialogTitle>
+              {description ? (
+                <DialogDescription>{description}</DialogDescription>
+              ) : (
+                <DialogDescription>Choose size and toppings below.</DialogDescription>
+              )}
+              {isSpecialtyPizza && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {isUsingRecommendedRecipe
+                    ? 'Using recommended recipe toppings'
+                    : 'Customized from the recommended recipe'}
+                </p>
+              )}
+              {isSpecialtyPizza && !isUsingRecommendedRecipe && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    resetState();
+                  }}
+                  className="mt-2 inline-flex items-center text-xs font-medium text-[#f97316] hover:underline"
+                >
+                  Reset to {specialtyPizza?.name} recipe
+                </button>
+              )}
+            </DialogHeader>
 
-          <div className="flex-1 overflow-auto pr-0 md:pr-0">
-            <div className="px-4 md:px-6 space-y-6">
+            <div className="flex-1 overflow-auto pr-0 md:pr-0">
+              <div className="px-4 md:px-6 space-y-6">
               {/* Top hero image (Uber-style) */}
-              <div className="relative w-full overflow-hidden rounded-lg border bg-muted/40 aspect-[4/3] md:aspect-[16/9]">
+              <motion.div
+                className="relative w-full overflow-hidden rounded-lg border bg-muted/40 aspect-[4/3] md:aspect-[16/9]"
+                {...dialogHeroMotionProps}
+              >
                 {hasImage ? (
                   <>
                     <img src={image} alt={displayName} className="absolute inset-0 w-full h-full object-cover" />
@@ -393,7 +564,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <ImageIcon className="w-10 h-10 text-muted-foreground" />
                   </div>
                 )}
-              </div>
+              </motion.div>
 
               {/* Options */}
               <div className="space-y-5 pb-40 md:pb-6">
@@ -700,14 +871,37 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   </>
                 )}
 
-                {/* Size (only for non Build Your Own pizzas) */}
-                {!isMakeYourOwn && (
+                {/* Size options for non build-your-own pizzas and other items with sizes */}
+                {!isMakeYourOwn && sizeOptions && sizeOptions.length > 0 && (
                   <>
                     <div>
                       <Label className="text-sm">Size</Label>
-                      <div className="mt-2 flex gap-2 flex-wrap">
-                        <Chip active={size === '11"'} onClick={() => setSize('11"')}>11-inch</Chip>
-                        <Chip active={size === 'Large'} onClick={() => setSize('Large')}>Large</Chip>
+                      <div className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white">
+                        {sizeOptions.map((option, index) => {
+                          const isActive = size === option.label;
+                          return (
+                            <button
+                              key={option.label}
+                              type="button"
+                              onClick={() => setSize(option.label)}
+                              className={[
+                                'flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none',
+                                index > 0 ? 'border-t border-[#E5E7EB]' : '',
+                                'hover:bg-gray-50',
+                              ].join(' ')}
+                            >
+                              <span>{`${option.label} - $${option.price.toFixed(2)}`}</span>
+                              <span
+                                className={[
+                                  'flex items-center justify-center w-6 h-6 rounded-full border-2 transition-colors',
+                                  isActive ? 'border-black' : 'border-gray-400',
+                                ].join(' ')}
+                              >
+                                {isActive && <span className="w-2.5 h-2.5 rounded-full bg-black" />}
+                              </span>
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
 
@@ -715,18 +909,109 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   </>
                 )}
 
-                {toppingGroups.map((group, index) => (
-                  <ToppingGroup
-                    key={group.title}
-                    title={group.title}
-                    items={group.items}
-                    selected={selected}
-                    onToggle={toggleTopping}
-                    selectedCount={selectedCount}
-                    limit={TOPPING_LIMIT}
-                    showSeparator={index < toppingGroups.length - 1}
-                  />
-                ))}
+                {/* Toppings tabs + placement controls */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-2 border-b border-[#E5E7EB] pb-1">
+                    <div className="flex gap-6 overflow-x-auto whitespace-nowrap pr-6">
+                      {categoryOrder.map((key) => (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => setActiveToppingCategory(key)}
+                          className={cn(
+                            'relative -mb-px pb-2 text-sm font-medium border-b-2 transition-colors',
+                            activeToppingCategory === key
+                              ? 'border-[#FF6A00] text-[#FF6A00]'
+                              : 'border-transparent text-[#4B5563] hover:text-[#111827]'
+                          )}
+                        >
+                          {toppingsCfg.categories[key].displayName}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-[#E5E7EB] bg-white divide-y">
+                    {toppingsCfg.categories[activeToppingCategory].items.map((item) => {
+                      const name = item.name;
+                      const placement = toppingPlacement[name] ?? 'N';
+                      const isLeft = placement === 'L';
+                      const isWhole = placement === 'W';
+                      const isRight = placement === 'R';
+
+                      const updatePlacement = (code: PlacementCode) => {
+                        setToppingPlacement((prevPlacement) => {
+                          const prevCode = prevPlacement[name] ?? 'N';
+                          let nextCode: PlacementCode = code;
+                          // Clicking the same option toggles it off (None)
+                          if (prevCode === code) {
+                            nextCode = 'N';
+                          }
+
+                          const newPlacement = { ...prevPlacement, [name]: nextCode };
+                          const newSelected = {
+                            ...selected,
+                            [name]: nextCode !== 'N',
+                          };
+
+                          const units = computeSelectedUnits(newSelected, newPlacement);
+                          if (units > TOPPING_LIMIT) {
+                            // Reject change if it would exceed limit
+                            return prevPlacement;
+                          }
+
+                          setSelected(newSelected);
+                          return newPlacement;
+                        });
+                      };
+
+                      const baseCircle =
+                        'inline-flex items-center justify-center w-8 h-8 rounded-full border border-[#D1D5DB] text-[#9CA3AF] bg-white';
+                      const activeCircle = 'border-[#FF6A00] text-[#FF6A00] bg-[#FFF3E8]';
+
+                      return (
+                        <div
+                          key={item.id}
+                          className="flex items-center justify-between px-3 py-2"
+                        >
+                          <div className="flex flex-col">
+                            <span className="text-sm text-[#111827]">{name}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => updatePlacement('L')}
+                              className={cn(baseCircle, isLeft && activeCircle)}
+                              aria-label="Left half"
+                            >
+                              <span className="w-3 h-3 rounded-full border border-current border-r-transparent" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => updatePlacement('W')}
+                              className={cn(baseCircle, isWhole && activeCircle)}
+                              aria-label="Whole"
+                            >
+                              <span className="w-3 h-3 rounded-full bg-current" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => updatePlacement('R')}
+                              className={cn(baseCircle, isRight && activeCircle)}
+                              aria-label="Right half"
+                            >
+                              <span className="w-3 h-3 rounded-full border border-current border-l-transparent" />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <p className="text-xs text-muted-foreground">
+                    {selectedCount.toFixed(1)} / {TOPPING_LIMIT} toppings
+                  </p>
+                </div>
 
                 <Separator />
 
@@ -782,6 +1067,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </div>
             </div>
           </div>
+          </motion.div>
         </DialogContent>
       </Dialog>
     </motion.article>
