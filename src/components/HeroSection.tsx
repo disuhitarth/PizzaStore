@@ -55,13 +55,13 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" aria-hidden="true" />
 
       <motion.div
-        className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 sm:px-6 lg:px-8 text-white lg:flex-row lg:items-center"
+        className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 sm:px-6 lg:px-8 text-white items-center text-center lg:flex-row lg:items-center lg:text-left lg:justify-between"
         variants={containerVariants}
         initial="hidden"
         animate="show"
       >
         {/* Left: headline & CTAs */}
-        <div className="flex-1 space-y-5 max-w-xl lg:max-w-2xl">
+        <div className="flex-1 space-y-5 max-w-xl lg:max-w-2xl flex flex-col items-center lg:items-start">
           <motion.p
             variants={itemVariants}
             className="inline-flex items-center gap-2 rounded-full bg-[rgba(15,23,42,0.65)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-[rgba(249,250,251,0.88)] backdrop-blur-sm border border-white/10"
