@@ -114,13 +114,13 @@ const HeroSection: React.FC = () => {
             variants={itemVariants}
             className="mt-4 flex flex-col gap-2"
           >
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#monthly-special"
-                className="inline-flex items-center rounded-full bg-[#C81607] px-5 py-2.5 text-sm font-semibold shadow-[0_20px_50px_rgba(185,28,28,0.7)] hover:bg-[#C81607] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C81607] focus-visible:ring-offset-black transition will-change-transform"
+                className="inline-flex items-center rounded-full bg-[#C81607] px-6 py-3 text-sm font-semibold shadow-[0_20px_50px_rgba(185,28,28,0.7)] hover:bg-[#C81607] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C81607] focus-visible:ring-offset-black transition will-change-transform"
                 data-start-order="true"
               >
-                Start your order
+                Order Now
               </a>
             </div>
             {selectedStore && (

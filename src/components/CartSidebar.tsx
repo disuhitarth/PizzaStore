@@ -95,7 +95,7 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
             </div>
             <p className="text-base font-medium text-foreground">Your cart is empty</p>
             <p className="mt-1 text-sm text-muted-foreground max-w-xs">
-              Start your order by choosing a pizza or special from the menu.
+              Order now by choosing a pizza or special from the menu.
             </p>
             <Button
               className="mt-4 rounded-full px-6"
@@ -111,8 +111,8 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
                   }
                 }
               }}
-            >
-              Start your order
+>
+              Order Now
             </Button>
           </div>
         ) : (
