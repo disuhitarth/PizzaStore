@@ -21,12 +21,12 @@ const Chip: React.FC<ChipProps> = ({
     disabled={disabled}
     className={`inline-flex min-w-[120px] items-center justify-center rounded-lg border px-6 py-3 text-[15px] font-medium select-none transition-colors ${
       active
-        ? 'bg-[#FF6A00] border-[#FF6A00] text-white shadow-sm'
+        ? 'bg-[#C81607] border-[#C81607] text-white shadow-sm'
         : 'bg-white border-[#D6DADE] text-[#4B5563]'
     } ${
       disabled
         ? 'opacity-50 cursor-not-allowed'
-        : 'hover:border-[#FF6A00]'
+        : 'hover:border-[#C81607]'
     } ${className}`}
     aria-pressed={active}
   >

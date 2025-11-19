@@ -249,7 +249,7 @@ const FranchisingPage: React.FC = () => {
 
                   <button
                     type="submit"
-                    className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-[#E30613] px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-[#B8000F] focus:outline-none focus:ring-2 focus:ring-[#E30613] focus:ring-offset-2 focus:ring-offset-white sm:text-sm"
+                    className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-[#C81607] px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-[#C81607] focus:outline-none focus:ring-2 focus:ring-[#C81607] focus:ring-offset-2 focus:ring-offset-white sm:text-sm"
                   >
                     Submit inquiry
                   </button>

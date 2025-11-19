@@ -398,7 +398,7 @@ const NutritionalInfoPage: React.FC = () => {
                     onClick={() => setCategoryFilter(cat)}
                     className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                       categoryFilter === cat
-                        ? 'border-[#E30613] bg-[#E30613] text-white shadow-sm'
+                        ? 'border-[#C81607] bg-[#C81607] text-white shadow-sm'
                         : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
                     }`}
                   >
@@ -411,7 +411,7 @@ const NutritionalInfoPage: React.FC = () => {
                 <select
                   value={sizeFilter}
                   onChange={(e) => setSizeFilter(e.target.value as any)}
-                  className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] shadow-sm focus:border-[#E30613] focus:outline-none focus:ring-1 focus:ring-[#E30613] sm:w-40"
+                  className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] shadow-sm focus:border-[#C81607] focus:outline-none focus:ring-1 focus:ring-[#C81607] sm:w-40"
                 >
                   {(['All', 'Small', 'Medium', 'Large', 'Extra Large', 'Per serving'] as const).map((size) => (
                     <option key={size} value={size}>
@@ -425,7 +425,7 @@ const NutritionalInfoPage: React.FC = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search toppings or ingredients"
-                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#E30613] focus:border-transparent"
+                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#C81607] focus:border-transparent"
                   />
                 </div>
               </div>

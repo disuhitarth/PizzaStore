@@ -209,7 +209,7 @@ const Index: React.FC = () => {
                           }}
                           className={`inline-flex items-center whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-medium transition ${
                             isActive
-                              ? 'border-[#E30613] bg-[#E30613] text-white shadow-sm'
+                              ? 'border-[#C81607] bg-[#C81607] text-white shadow-sm'
                               : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
                           }`}
                         >
@@ -230,7 +230,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('all')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'all'
-                          ? 'border-[#E30613] bg-[#E30613] text-white'
+                          ? 'border-[#C81607] bg-[#C81607] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -241,7 +241,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('popular')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'popular'
-                          ? 'border-[#E30613] bg-[#E30613] text-white'
+                          ? 'border-[#C81607] bg-[#C81607] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -252,7 +252,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('veg')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'veg'
-                          ? 'border-[#E30613] bg-[#E30613] text-white'
+                          ? 'border-[#C81607] bg-[#C81607] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -263,7 +263,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('under-20')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'under-20'
-                          ? 'border-[#E30613] bg-[#E30613] text-white'
+                          ? 'border-[#C81607] bg-[#C81607] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -277,7 +277,7 @@ const Index: React.FC = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search pizzas, wings, sides..."
-                        className="w-full sm:w-64 rounded-full border border-[#D6DADE] bg-white px-4 py-2 text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#E30613] focus:border-transparent"
+                        className="w-full sm:w-64 rounded-full border border-[#D6DADE] bg-white px-4 py-2 text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#C81607] focus:border-transparent"
                         aria-label="Search menu items"
                       />
                     </div>
@@ -322,7 +322,7 @@ const Index: React.FC = () => {
         <button
           type="button"
           onClick={() => setCartOpen(true)}
-          className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-between rounded-full bg-[#E30613] px-4 py-3 text-left text-white shadow-lg shadow-slate-900/40 md:hidden"
+          className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-between rounded-full bg-[#C81607] px-4 py-3 text-left text-white shadow-lg shadow-slate-900/40 md:hidden"
           aria-label="View order summary"
         >
           <div className="flex items-center gap-2">

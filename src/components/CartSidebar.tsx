@@ -117,28 +117,6 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
           </div>
         ) : (
           <>
-            {/* Flames Section */}
-            <div className="px-6 py-4 bg-muted/50">
-              <p className="text-sm font-medium text-muted-foreground mb-3">
-                <Flame className="w-4 h-4 inline mr-2 text-orange-500" />
-                You have 0 Flames
-              </p>
-              <div className="p-3 bg-white rounded-lg border">
-                <div className="flex items-start gap-3">
-                  <div className="text-2xl">🔥</div>
-                  <div>
-                    <p className="font-semibold text-sm">10 bonus Flames</p>
-                    <p className="text-sm text-muted-foreground">
-                      <span className="text-orange-500 font-medium cursor-pointer hover:underline">
-                        Sign up
-                      </span>{' '}
-                      to apply this reward
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Cart Items */}
             <div className="flex-1 overflow-auto px-6 py-4 space-y-4">
               <div className="mb-4">

@@ -106,7 +106,7 @@ const LocationsPage: React.FC = () => {
       onClick={() => setProvinceFilter(code)}
       className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
         provinceFilter === code
-          ? 'border-[#E30613] bg-[#E30613] text-white shadow-sm'
+          ? 'border-[#C81607] bg-[#C81607] text-white shadow-sm'
           : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
       }`}
     >
@@ -192,7 +192,7 @@ const LocationsPage: React.FC = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search by city or address"
-                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#E30613] focus:border-transparent"
+                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#C81607] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -222,8 +222,8 @@ const LocationsPage: React.FC = () => {
                         </p>
                       </div>
                       <div className="flex flex-col items-end gap-1 text-[11px] text-[#4B5563]">
-                        <span className="inline-flex items-center gap-1 rounded-full border border-[#FECACA] px-2 py-0.5 text-[10px] font-medium text-[#B8000F] bg-[#FFF5F5]">
-                          <MapPin className="h-3 w-3 text-[#E30613]" />
+                        <span className="inline-flex items-center gap-1 rounded-full border border-[#FECACA] px-2 py-0.5 text-[10px] font-medium text-[#C81607] bg-[#FFF5F5]">
+                          <MapPin className="h-3 w-3 text-[#C81607]" />
                           View on map
                         </span>
                         <a
@@ -242,7 +242,7 @@ const LocationsPage: React.FC = () => {
 
             {/* Map */}
             <div className="w-full md:flex-1" id="locations-map">
-              <div className="h-[360px] rounded-3xl border border-[#E5E7EB] bg-gradient-to-br from-[#7F0010] via-[#B8000F] to-[#E30613] p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
+              <div className="h-[360px] rounded-3xl border border-[#E5E7EB] bg-gradient-to-br from-[#C81607] via-[#C81607] to-[#C81607] p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
                 <div className="flex items-center justify-between text-xs text-red-50">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-red-100/80">

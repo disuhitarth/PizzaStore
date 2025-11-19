@@ -12,9 +12,9 @@ const LoyaltyBanner: React.FC = () => {
       </div>
       <div className="flex items-center text-sm tracking-[0.22px] leading-none">
         <span className="text-[#6a747f] text-sm font-normal leading-[18px] tracking-[0.219px]">
-          10 bonus Flames when you
+          Join our rewards program for bonus points
         </span>
-        <button className="rounded flex items-center text-[#c35413] font-bold text-center justify-center px-1.5 py-1 ml-2">
+        <button className="rounded flex items-center text-[#C81607] font-bold text-center justify-center px-1.5 py-1 ml-2">
           <span className="text-sm font-bold leading-[18px] tracking-[0.219px]">
             Sign Up
           </span>

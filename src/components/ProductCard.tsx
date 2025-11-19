@@ -1021,7 +1021,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                           className={cn(
                             'relative -mb-px pb-2 text-sm font-medium border-b-2 transition-colors',
                             activeToppingCategory === key
-                              ? 'border-[#FF6A00] text-[#FF6A00]'
+                              ? 'border-[#C81607] text-[#C81607]'
                               : 'border-transparent text-[#4B5563] hover:text-[#111827]'
                           )}
                         >
@@ -1070,7 +1070,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                       const baseCircle =
                         'inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#D1D5DB] text-[#9CA3AF] bg-white';
-                      const activeCircle = 'border-[#FF6A00] text-[#FF6A00] bg-[#FFF3E8]';
+                      const activeCircle = 'border-[#C81607] text-[#C81607] bg-[#FFF3E8]';
 
                       return (
                         <div

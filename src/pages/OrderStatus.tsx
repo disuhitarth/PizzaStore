@@ -118,7 +118,7 @@ const OrderStatusPage: React.FC = () => {
                             isComplete
                               ? 'border-emerald-500 bg-emerald-500 text-white'
                               : isActive
-                              ? 'border-[#E30613] bg-[#E30613] text-white'
+                              ? 'border-[#C81607] bg-[#C81607] text-white'
                               : 'border-[#D1D5DB] bg-white text-[#6B7280]'
                           }`}
                         >
@@ -141,7 +141,7 @@ const OrderStatusPage: React.FC = () => {
 
             {/* Map + summary */}
             <div className="w-full md:flex-1 space-y-4">
-              <div className="rounded-3xl border border-[#E5E7EB] bg-gradient-to-br from-[#7F0010] via-[#B8000F] to-[#E30613] p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
+              <div className="rounded-3xl border border-[#E5E7EB] bg-gradient-to-br from-[#C81607] via-[#C81607] to-[#C81607] p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
                 <div className="flex items-center justify-between gap-3 text-xs text-red-50">
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
@@ -288,7 +288,7 @@ const OrderStatusPage: React.FC = () => {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <h2 className="flex items-center gap-2 text-base font-semibold text-[#111827]">
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#FEF2F2] text-[#B91C1C] text-xs">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#FEF2F2] text-[#C81607] text-xs">
                           <MapPin className="h-3.5 w-3.5" />
                         </span>
                         <span>Delivery details</span>
@@ -311,7 +311,7 @@ const OrderStatusPage: React.FC = () => {
                             navigate('/');
                           }
                         }}
-                        className="text-[11px] font-medium text-[#111827] underline underline-offset-2 hover:text-[#E30613]"
+                        className="text-[11px] font-medium text-[#111827] underline underline-offset-2 hover:text-[#C81607]"
                       >
                         Change details
                       </button>

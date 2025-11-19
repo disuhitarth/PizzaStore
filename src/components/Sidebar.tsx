@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
                 `block max-md:inline-block max-md:rounded-full max-md:border max-md:border-[#D6DADE] max-md:px-3 max-md:py-2 max-md:bg-white max-md:text-[#36424e]
                  text-left pl-[23px] pt-1 pb-[3px] max-md:pl-3 max-md:pt-2 max-md:pb-2 ` +
                 (isActive
-                  ? 'text-[#E30613] font-bold border-l-[3px] border-l-[#E30613] max-md:border-l-0 max-md:border-[#E30613] max-md:bg-[#FFF5F5]'
+                  ? 'text-[#C81607] font-bold border-l-[3px] border-l-[#C81607] max-md:border-l-0 max-md:border-[#C81607] max-md:bg-[#FFF5F5]'
                   : '')
               }
               onClick={() => setActiveItem(item)}

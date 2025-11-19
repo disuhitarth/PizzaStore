@@ -46,7 +46,7 @@ const DealsSection: React.FC = () => {
       toppings: [],
       specialInstructions: deal.description,
       image:
-        'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fff8a4ed4b8138568da19bb28117853c4531c44a0',
+        'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3',
     });
 
     toast.success(`${deal.name} added to your order`);
