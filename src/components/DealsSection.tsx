@@ -65,13 +65,13 @@ const DealsSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory md:mx-0 md:px-0 md:overflow-visible md:pb-0 md:grid md:grid-cols-3">
           {deals.map((deal) => (
             <button
               key={deal.id}
               type="button"
               onClick={() => handleApplyDeal(deal)}
-              className="group flex flex-col items-start gap-2 rounded-2xl border border-slate-700/80 bg-slate-900/60 px-4 py-4 text-left shadow-[0_16px_40px_rgba(15,23,42,0.6)] transition hover:border-amber-300/70 hover:bg-slate-900"
+              className="group flex flex-col items-start gap-2 rounded-2xl border border-slate-700/80 bg-slate-900/60 px-4 py-4 text-left shadow-[0_16px_40px_rgba(15,23,42,0.6)] transition hover:border-amber-300/70 hover:bg-slate-900 min-w-[260px] aspect-[5/3] snap-start md:min-w-0"
             >
               <div className="inline-flex items-center gap-2 rounded-full bg-black/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-200">
                 {deal.id === 'bf50-second-pizza' ? (
@@ -81,11 +81,11 @@ const DealsSection: React.FC = () => {
                 )}
                 <span>{deal.tag}</span>
               </div>
-              <div className="w-full overflow-hidden rounded-xl bg-black/40">
+              <div className="w-full overflow-hidden rounded-xl bg-black/40 flex-1">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3"
                   alt={deal.name}
-                  className="h-24 w-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <div>
