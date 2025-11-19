@@ -81,6 +81,13 @@ const DealsSection: React.FC = () => {
                 )}
                 <span>{deal.tag}</span>
               </div>
+              <div className="w-full overflow-hidden rounded-xl bg-black/40">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3"
+                  alt={deal.name}
+                  className="h-24 w-full object-cover"
+                />
+              </div>
               <div>
                 <p className="text-sm font-semibold leading-snug text-white">{deal.name}</p>
                 <p className="mt-1 text-[11px] text-slate-300">{deal.description}</p>
