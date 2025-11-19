@@ -203,6 +203,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return map;
   }, [idToNameMap]);
 
+  // Map of topping name -> isFree, based on pizzaConfig metadata
+  const freeToppingNames = React.useMemo(() => {
+    const freeNames: Record<string, boolean> = {};
+    const categories = toppingsCfg.categories as Record<
+      string,
+      { items: { name: string; free?: boolean }[] }
+    >;
+
+    Object.values(categories).forEach((cat) => {
+      cat.items.forEach((item) => {
+        if (item.free) {
+          freeNames[item.name] = true;
+        }
+      });
+    });
+
+    return freeNames;
+  }, [toppingsCfg]);
+
   const computeSelectedUnits = (
     sel: Record<string, boolean>,
     placement: Record<string, PlacementCode>
@@ -217,9 +236,31 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }, 0);
   };
 
+  // Only count non-free toppings towards the extra price surcharge
+  const computeChargeableUnits = (
+    sel: Record<string, boolean>,
+    placement: Record<string, PlacementCode>,
+    freeNames: Record<string, boolean>
+  ): number => {
+    return Object.entries(sel).reduce((sum, [name, isOn]) => {
+      if (!isOn) return sum;
+      if (freeNames[name]) return sum;
+      const code = placement[name];
+      if (code === 'L' || code === 'R') return sum + 0.5;
+      if (code === 'W') return sum + 1;
+      if (code === 'D') return sum + 2;
+      return sum + 1;
+    }, 0);
+  };
+
   const selectedCount = React.useMemo(
     () => computeSelectedUnits(selected, toppingPlacement),
     [selected, toppingPlacement]
+  );
+
+  const chargeableUnits = React.useMemo(
+    () => computeChargeableUnits(selected, toppingPlacement, freeToppingNames),
+    [selected, toppingPlacement, freeToppingNames]
   );
 
   const isUsingRecommendedRecipe = React.useMemo(() => {
@@ -336,7 +377,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     // and does not overwrite user customizations afterwards.
   }, [isSpecialtyPizza]);
 
-  const extrasTotal = selectedCount * TOPPING_SURCHARGE;
+  const extrasTotal = chargeableUnits * TOPPING_SURCHARGE;
   const total = (basePrice + extrasTotal) * quantity;
 
   const handleAdd = () => {
@@ -935,9 +976,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     {toppingsCfg.categories[activeToppingCategory].items.map((item) => {
                       const name = item.name;
                       const placement = toppingPlacement[name] ?? 'N';
+                      const isNone = placement === 'N';
                       const isLeft = placement === 'L';
                       const isWhole = placement === 'W';
                       const isRight = placement === 'R';
+                      const isDouble = placement === 'D';
+                      const canDouble = !item.noDouble;
 
                       const updatePlacement = (code: PlacementCode) => {
                         setToppingPlacement((prevPlacement) => {
@@ -966,7 +1010,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       };
 
                       const baseCircle =
-                        'inline-flex items-center justify-center w-8 h-8 rounded-full border border-[#D1D5DB] text-[#9CA3AF] bg-white';
+                        'inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#D1D5DB] text-[#9CA3AF] bg-white';
                       const activeCircle = 'border-[#FF6A00] text-[#FF6A00] bg-[#FFF3E8]';
 
                       return (
@@ -978,30 +1022,57 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             <span className="text-sm text-[#111827]">{name}</span>
                           </div>
                           <div className="flex items-center gap-2">
+                            {/* No topping */}
+                            <button
+                              type="button"
+                              onClick={() => updatePlacement('N')}
+                              className={cn(baseCircle, isNone && activeCircle)}
+                              aria-label="No topping"
+                            >
+                              <span className="text-[11px] font-medium">No</span>
+                            </button>
+                            {/* Left half */}
                             <button
                               type="button"
                               onClick={() => updatePlacement('L')}
                               className={cn(baseCircle, isLeft && activeCircle)}
                               aria-label="Left half"
                             >
-                              <span className="w-3 h-3 rounded-full border border-current border-r-transparent" />
+                              <span className="relative w-4 h-4 rounded-full border border-current overflow-hidden">
+                                <span className="absolute inset-y-0 left-0 w-1/2 bg-current" />
+                              </span>
                             </button>
+                            {/* Whole */}
                             <button
                               type="button"
                               onClick={() => updatePlacement('W')}
                               className={cn(baseCircle, isWhole && activeCircle)}
                               aria-label="Whole"
                             >
-                              <span className="w-3 h-3 rounded-full bg-current" />
+                              <span className="w-4 h-4 rounded-full bg-current" />
                             </button>
+                            {/* Right half */}
                             <button
                               type="button"
                               onClick={() => updatePlacement('R')}
                               className={cn(baseCircle, isRight && activeCircle)}
                               aria-label="Right half"
                             >
-                              <span className="w-3 h-3 rounded-full border border-current border-l-transparent" />
+                              <span className="relative w-4 h-4 rounded-full border border-current overflow-hidden">
+                                <span className="absolute inset-y-0 right-0 w-1/2 bg-current" />
+                              </span>
                             </button>
+                            {/* Double (2x) */}
+                            {canDouble && (
+                              <button
+                                type="button"
+                                onClick={() => updatePlacement('D')}
+                                className={cn(baseCircle, isDouble && activeCircle)}
+                                aria-label="Double topping"
+                              >
+                                <span className="text-[11px] font-semibold">2x</span>
+                              </button>
+                            )}
                           </div>
                         </div>
                       );
