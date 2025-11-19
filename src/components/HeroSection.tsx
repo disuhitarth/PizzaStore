@@ -69,7 +69,7 @@ const HeroSection: React.FC = () => {
             <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20">
               <Flame className="h-3 w-3" />
             </span>
-            Fresh. Fast. Flame-baked.
+            Global Flavours, Delivered Locally
           </motion.p>
 
           <motion.h1
