@@ -14,10 +14,9 @@ const Sidebar: React.FC = () => {
 
   return (
     <nav
-      className="sticky md:top-[100px] top-[100px] z-40 bg-[#F8F9FA] text-sm text-[#6a747f] font-normal capitalize tracking-[0.22px] leading-none
-                 flex max-md:flex-row flex-col gap-1
-                 max-md:overflow-x-auto max-md:whitespace-nowrap max-md:[scrollbar-width:none] max-md:no-scrollbar
-                 min-w-60 w-[292px] pl-12 pr-4 py-3 max-md:px-4 max-md:min-w-full"
+      className="hidden md:flex md:sticky md:top-[100px] z-40 bg-[#F8F9FA] text-sm text-[#6a747f] font-normal capitalize tracking-[0.22px] leading-none
+                 flex-col gap-1
+                 min-w-60 w-[292px] pl-12 pr-4 py-3"
     >
       {menuItems.map((item) => {
         const isActive = activeItem === item;

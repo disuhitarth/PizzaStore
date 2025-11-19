@@ -26,6 +26,8 @@ interface ProductCardProps {
   isUnavailable?: boolean;
   className?: string;
   sizeOptions?: SizeOption[];
+  /** Visual badges like "Best seller", "New", "Vegan", etc. */
+  badges?: string[];
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -37,6 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   isUnavailable = false,
   className = "",
   sizeOptions,
+  badges = [],
 }) => {
   const pizzaCfg = pizzaConfig.pizza;
   // Treat any variant like "Make Your Own (Small)" as Make Your Own
@@ -150,6 +153,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const displayName = name?.trim() || 'Item';
   const displayPrice = price || '';
   const hasImage = Boolean(image);
+  const displayBadges = badges.filter(Boolean);
 
   // Determine the currently selected base price based on size options (for non build-your-own)
   const selectedSizePrice = React.useMemo(() => {
@@ -380,6 +384,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const extrasTotal = chargeableUnits * TOPPING_SURCHARGE;
   const total = (basePrice + extrasTotal) * quantity;
 
+  const persistRecentlyViewed = () => {
+    if (typeof window === 'undefined') return;
+    try {
+      const raw = window.localStorage.getItem('recentlyViewedItems');
+      const existing: any[] = raw ? JSON.parse(raw) : [];
+      const nextItem = {
+        name: displayName,
+        price: `$${basePrice.toFixed(2)}`,
+        description,
+        image,
+      };
+      const withoutDupes = existing.filter((item) => item.name !== nextItem.name);
+      const next = [nextItem, ...withoutDupes].slice(0, 12);
+      window.localStorage.setItem('recentlyViewedItems', JSON.stringify(next));
+    } catch {
+      // ignore storage failures
+    }
+  };
+
   const handleAdd = () => {
     const selectedToppings = Object.entries(selected)
       .filter(([_, isSelected]) => isSelected)
@@ -423,6 +446,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       image,
     });
 
+    persistRecentlyViewed();
     toast.success(`${displayName} added to cart`);
     setOpen(false);
     resetState();
@@ -481,6 +505,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {isUnavailable && <div className="absolute inset-0 bg-white/60" />}
         </motion.div>
         <div className="flex-1 min-w-0">
+          {displayBadges.length > 0 && (
+            <div className="mb-1 flex flex-wrap gap-1">
+              {displayBadges.map((badge) => (
+                <span
+                  key={badge}
+                  className="inline-flex items-center rounded-full bg-[#FFF3E8] text-[#C05621] border border-[#FED7AA] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                >
+                  {badge}
+                </span>
+              ))}
+            </div>
+          )}
           <div className="flex items-start justify-between gap-2">
             <h3 className="text-[15px] font-medium text-[#36424e] truncate">{displayName}</h3>
             {displayPrice && <span className="text-sm text-[#6a747f] whitespace-nowrap">{displayPrice}</span>}
@@ -537,6 +573,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </motion.div>
 
         <div className="px-4 pt-3 pb-5">
+          {displayBadges.length > 0 && (
+            <div className="mb-1 flex flex-wrap gap-1">
+              {displayBadges.map((badge) => (
+                <span
+                  key={badge}
+                  className="inline-flex items-center rounded-full bg-[#FFF3E8] text-[#C05621] border border-[#FED7AA] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                >
+                  {badge}
+                </span>
+              ))}
+            </div>
+          )}
           <div className="flex items-start justify-between gap-3">
             <h3 className="text-base font-medium text-[#36424e]">{displayName}</h3>
             {displayPrice && <span className="text-sm text-[#6a747f] whitespace-nowrap">{displayPrice}</span>}
@@ -1082,6 +1130,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   <p className="text-xs text-muted-foreground">
                     {selectedCount.toFixed(1)} / {TOPPING_LIMIT} toppings
                   </p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    Tip: use the circles to choose left half, whole pizza, right half, or 2x toppings.
+                  </p>
                 </div>
 
                 <Separator />
@@ -1109,6 +1160,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 z-[10002] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-t p-4 pointer-events-auto">
+            <div className="mb-3 flex flex-col gap-1 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:text-sm">
+              <div className="flex flex-wrap gap-x-4 gap-y-1">
+                <span>
+                  Base: <span className="font-medium text-foreground">${basePrice.toFixed(2)}</span>
+                </span>
+                <span>
+                  Extras: <span className="font-medium text-foreground">+${extrasTotal.toFixed(2)}</span>
+                </span>
+                <span>
+                  Qty: <span className="font-medium text-foreground">{quantity}</span>
+                </span>
+              </div>
+              <div>
+                <span className="uppercase tracking-wide text-[10px] md:text-xs">Estimated total</span>{' '}
+                <span className="font-semibold text-foreground">${total.toFixed(2)}</span>
+              </div>
+            </div>
             <div className="flex items-center justify-between gap-3">
               <QuantityControl
                 quantity={quantity}

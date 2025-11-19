@@ -15,6 +15,8 @@ interface Product {
   overlayImage?: string;
   isUnavailable?: boolean;
   sizeOptions?: SizeOption[];
+  /** Optional visual badges like "Best seller", "Vegan", etc. */
+  badges?: string[];
 }
 
 interface ProductSectionProps {
@@ -32,7 +34,7 @@ const slugify = (str: string) =>
 const ProductSection: React.FC<ProductSectionProps> = ({
   title,
   products,
-  layout = 'grid'
+  layout = 'grid',
 }) => {
   const id = slugify(title);
   const reduceMotion = useReducedMotion();
@@ -57,6 +59,12 @@ const ProductSection: React.FC<ProductSectionProps> = ({
       transition: { duration: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] },
     },
   } as const;
+
+  const hasProducts = products && products.length > 0;
+
+  if (!hasProducts) {
+    return null;
+  }
 
   return (
     <section id={id} className="scroll-mt-28 w-full pb-16">

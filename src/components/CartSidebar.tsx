@@ -62,8 +62,31 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
         </SheetHeader>
 
         {items.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center text-muted-foreground">
-            <p>Your cart is empty</p>
+          <div className="flex-1 flex flex-col items-center justify-center px-6 text-center text-muted-foreground">
+            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-muted text-2xl">
+              🛒
+            </div>
+            <p className="text-base font-medium text-foreground">Your cart is empty</p>
+            <p className="mt-1 text-sm text-muted-foreground max-w-xs">
+              Start your order by choosing a pizza or special from the menu.
+            </p>
+            <Button
+              className="mt-4 rounded-full px-6"
+              variant="default"
+              onClick={() => {
+                onOpenChange(false);
+                if (typeof window !== 'undefined') {
+                  const target = document.querySelector('[data-start-order="true"]') as HTMLElement | null;
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }
+              }}
+            >
+              Start your order
+            </Button>
           </div>
         ) : (
           <>
