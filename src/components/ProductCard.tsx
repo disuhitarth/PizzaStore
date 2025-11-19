@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/sonner';
 import { useCart } from '@/contexts/CartContext';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Chip, QuantityControl, ToppingGroup } from '@/components/common';
 import { pizzaConfig } from '@/pizzaConfig';
 import { cn } from '@/lib/utils';
@@ -613,6 +614,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
               ) : (
                 <DialogDescription>Choose size and toppings below.</DialogDescription>
               )}
+              <p className="mt-2 text-[11px] text-muted-foreground">
+                Looking for calories or ingredients?{' '}
+                <Link
+                  to="/nutritional-info"
+                  className="font-medium text-[#2563EB] underline-offset-2 hover:underline"
+                >
+                  View nutritional info
+                </Link>
+                .
+              </p>
               {isSpecialtyPizza && (
                 <p className="mt-1 text-xs text-muted-foreground">
                   {isUsingRecommendedRecipe

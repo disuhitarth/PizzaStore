@@ -6,6 +6,9 @@ import Sidebar from '@/components/Sidebar';
 import ProductSection from '@/components/ProductSection';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
+import DealsSection from '@/components/DealsSection';
+import MenuSkeleton from '@/components/MenuSkeleton';
+import HeadOfficeSection from '@/components/HeadOfficeSection';
 import { useCart } from '@/contexts/CartContext';
 import { menuCategories, MenuItem } from '@/menuData';
 
@@ -36,10 +39,16 @@ const Index: React.FC = () => {
 
   const [activeMobileTab, setActiveMobileTab] = useState<string>('monthly-special');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMenuLoading, setIsMenuLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<'all' | 'popular' | 'veg' | 'under-20'>('all');
   const [recentlyViewed, setRecentlyViewed] = useState<
     { name: string; price: string; description?: string; image: string }
   >([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsMenuLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -120,7 +129,7 @@ const Index: React.FC = () => {
       // Only apply on mobile widths where the tab bar is visible
       if (window.innerWidth >= 768) return;
 
-      const headerOffset = 120; // accounts for fixed header + some padding
+      const headerOffset = 140; // accounts for fixed header, promo strip + some padding
       let currentId = activeMobileTab;
 
       for (const tab of tabs) {
@@ -161,10 +170,13 @@ const Index: React.FC = () => {
       {/* Cart Sidebar */}
       <CartSidebar open={cartOpen} onOpenChange={setCartOpen} />
 
-      {/* Main Content (offset to clear fixed header) */}
-      <main className="pt-[104px]">
+      {/* Main Content (offset to clear fixed header and promo strip) */}
+      <main className="pt-[132px]">
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Featured deals */}
+        <DealsSection />
 
         {/* Main Layout with Sidebar */}
         <div className="flex w-full pt-10 md:pt-16 max-md:flex-col">
@@ -178,7 +190,7 @@ const Index: React.FC = () => {
             <div className="max-w-[1354px] w-full mx-auto">
               {/* Mobile sticky category tabs */}
               {mobileTabs.length > 0 && (
-                <section className="sticky top-[104px] z-30 -mx-4 mb-3 border-b border-[#E5E7EB] bg-white/95 px-4 backdrop-blur md:hidden">
+                <section className="sticky top-[132px] z-30 -mx-4 mb-3 border-b border-[#E5E7EB] bg-white/95 px-4 backdrop-blur md:hidden">
                   <div className="flex items-center gap-2 overflow-x-auto py-3">
                     {mobileTabs.map((tab) => {
                       const isActive = activeMobileTab === tab.id;
@@ -197,7 +209,7 @@ const Index: React.FC = () => {
                           }}
                           className={`inline-flex items-center whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-medium transition ${
                             isActive
-                              ? 'border-black bg-black text-white shadow-sm'
+                              ? 'border-[#E30613] bg-[#E30613] text-white shadow-sm'
                               : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
                           }`}
                         >
@@ -218,7 +230,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('all')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'all'
-                          ? 'border-black bg-black text-white'
+                          ? 'border-[#E30613] bg-[#E30613] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -229,7 +241,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('popular')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'popular'
-                          ? 'border-black bg-black text-white'
+                          ? 'border-[#E30613] bg-[#E30613] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -240,7 +252,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('veg')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'veg'
-                          ? 'border-black bg-black text-white'
+                          ? 'border-[#E30613] bg-[#E30613] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -251,7 +263,7 @@ const Index: React.FC = () => {
                       onClick={() => setActiveFilter('under-20')}
                       className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                         activeFilter === 'under-20'
-                          ? 'border-black bg-black text-white'
+                          ? 'border-[#E30613] bg-[#E30613] text-white'
                           : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
                       }`}
                     >
@@ -265,7 +277,7 @@ const Index: React.FC = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search pizzas, wings, sides..."
-                        className="w-full sm:w-64 rounded-full border border-[#D6DADE] bg-white px-4 py-2 text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#111827] focus:border-transparent"
+                        className="w-full sm:w-64 rounded-full border border-[#D6DADE] bg-white px-4 py-2 text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#E30613] focus:border-transparent"
                         aria-label="Search menu items"
                       />
                     </div>
@@ -278,8 +290,11 @@ const Index: React.FC = () => {
                 )}
               </section>
 
+              {/* Skeleton while menu loads (demo-only) */}
+              {isMenuLoading && <MenuSkeleton />}
+
               {/* Recently viewed */}
-              {recentlyViewed.length > 0 && (
+              {!isMenuLoading && recentlyViewed.length > 0 && (
                 <section className="mb-6">
                   <ProductSection
                     title="Recently viewed"
@@ -289,13 +304,14 @@ const Index: React.FC = () => {
                 </section>
               )}
 
-              {sections.map((section) => (
-                <ProductSection
-                  key={section.title}
-                  title={section.title}
-                  products={section.products}
-                />
-              ))}
+              {!isMenuLoading &&
+                sections.map((section) => (
+                  <ProductSection
+                    key={section.title}
+                    title={section.title}
+                    products={section.products}
+                  />
+                ))}
             </div>
           </div>
         </div>
@@ -306,7 +322,7 @@ const Index: React.FC = () => {
         <button
           type="button"
           onClick={() => setCartOpen(true)}
-          className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-between rounded-full bg-black px-4 py-3 text-left text-white shadow-lg shadow-slate-900/40 md:hidden"
+          className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-between rounded-full bg-[#E30613] px-4 py-3 text-left text-white shadow-lg shadow-slate-900/40 md:hidden"
           aria-label="View order summary"
         >
           <div className="flex items-center gap-2">
@@ -325,6 +341,9 @@ const Index: React.FC = () => {
           <span className="text-xs font-semibold text-white/80">View</span>
         </button>
       )}
+
+      {/* Head office and contact */}
+      <HeadOfficeSection />
 
       {/* Footer */}
       <Footer />
