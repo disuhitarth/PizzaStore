@@ -5,6 +5,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useStore } from '@/contexts/StoreContext';
 import { MapPin, Bike, Clock, Phone } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import PageHero from '@/components/PageHero';
 
 const STEPS = [
   'Order placed',
@@ -52,48 +53,37 @@ const OrderStatusPage: React.FC = () => {
     <div className="min-h-screen bg-white pb-16 md:pb-0">
       <Header />
 
-      <main className="pt-[132px]">
+      <main className="pt-[96px] md:pt-0">
         {/* Hero */}
-        <section className="bg-brand-soft py-8 sm:py-12">
-          <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 sm:flex-row sm:items-end sm:px-6 lg:px-8">
-            <div className="flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">
-                Order status
-              </p>
-              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-brand">
-                We&apos;re on it.
-              </h1>
-              <p className="mt-3 max-w-xl text-sm text-[#4B5563]">
-                This live tracker is a demo view inspired by delivery apps like Domino&apos;s. Steps will
-                advance automatically so you can preview the full experience.
-              </p>
-            </div>
-
-            <div className="w-full max-w-sm rounded-2xl border border-brand-soft-border bg-white p-4 text-xs text-[#374151] shadow-sm sm:text-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-soft text-xs font-semibold text-brand">
-                    <Bike className="h-4 w-4" />
-                  </span>
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-soft-foreground">
-                      Estimated time
-                    </p>
-                    <p className="text-sm font-semibold text-[#111827]">35–45 min</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-[#6B7280]">
-                  <Clock className="h-3.5 w-3.5 text-[#C81607]" />
-                  Live demo
+        <PageHero
+          badge="Order status"
+          title="We're on it."
+          description="This live tracker is a demo view inspired by delivery apps like Domino's. Steps will advance automatically so you can preview the full experience."
+        >
+          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-black/40 p-4 text-xs text-white shadow-xl backdrop-blur-md sm:text-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-xs font-semibold text-white">
+                  <Bike className="h-4 w-4" />
+                </span>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/60">
+                    Estimated time
+                  </p>
+                  <p className="text-sm font-semibold text-white">35–45 min</p>
                 </div>
               </div>
-              <p className="mt-2 text-[11px] text-[#6B7280]">
-                When wired to a backend, this card can show real-time driver updates and accurate ETAs
-                for pickup or delivery.
-              </p>
+              <div className="flex items-center gap-1 text-[11px] text-white/60">
+                <Clock className="h-3.5 w-3.5 text-[#C81607]" />
+                Live demo
+              </div>
             </div>
+            <p className="mt-2 text-[11px] text-white/60">
+              When wired to a backend, this card can show real-time driver updates and accurate ETAs
+              for pickup or delivery.
+            </p>
           </div>
-        </section>
+        </PageHero>
 
         {/* Tracker + map + summary */}
         <section className="py-8 sm:py-10">
@@ -114,13 +104,12 @@ const OrderStatusPage: React.FC = () => {
                     return (
                       <li key={label} className="flex items-start gap-3">
                         <div
-                          className={`mt-0.5 flex h-6 w-6 items-center justify-center rounded-full border text-[11px] font-semibold ${
-                            isComplete
-                              ? 'border-emerald-500 bg-emerald-500 text-white'
-                              : isActive
+                          className={`mt-0.5 flex h-6 w-6 items-center justify-center rounded-full border text-[11px] font-semibold ${isComplete
+                            ? 'border-emerald-500 bg-emerald-500 text-white'
+                            : isActive
                               ? 'border-brand bg-brand text-white'
                               : 'border-[#D1D5DB] bg-white text-[#6B7280]'
-                          }`}
+                            }`}
                         >
                           {isComplete ? '✓' : index + 1}
                         </div>

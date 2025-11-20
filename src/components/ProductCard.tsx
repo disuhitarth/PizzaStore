@@ -72,8 +72,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [crustOpen, setCrustOpen] = useState(true);
   const crustOptions: string[] = isMakeYourOwn
     ? crustCfg.options.map((o) =>
-        o.price && o.price > 0 ? `${o.name} (+$${o.price.toFixed(2)})` : o.name
-      )
+      o.price && o.price > 0 ? `${o.name} (+$${o.price.toFixed(2)})` : o.name
+    )
     : ['Regular', 'Thin', 'Thick', 'Whole Wheat'];
 
   // Sauce (single choice)
@@ -87,8 +87,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [sauceOpen, setSauceOpen] = useState(true);
   const sauceOptions: string[] = isMakeYourOwn
     ? sauceCfg.options.map((o) =>
-        o.price && o.price > 0 ? `${o.name} (+$${o.price.toFixed(2)})` : o.name
-      )
+      o.price && o.price > 0 ? `${o.name} (+$${o.price.toFixed(2)})` : o.name
+    )
     : ['Regular Sauce', 'Easy Sauce', 'No Sauce', 'Extra Sauce'];
 
   // Pizza options (multiple choice, optional)
@@ -116,42 +116,42 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const reduceMotion = useReducedMotion();
   const cardVariants = {
     rest: { y: 0, scale: 1, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', transition: { type: 'spring', stiffness: 300, damping: 30 } },
-    hover: reduceMotion ? { } : { y: -2, scale: 1.01, boxShadow: '0 8px 24px rgba(0,0,0,0.08)', transition: { type: 'spring', stiffness: 300, damping: 22 } },
-    tap: reduceMotion ? { } : { scale: 0.985, transition: { type: 'spring', stiffness: 400, damping: 30 } },
+    hover: reduceMotion ? {} : { y: -2, scale: 1.01, boxShadow: '0 8px 24px rgba(0,0,0,0.08)', transition: { type: 'spring', stiffness: 300, damping: 22 } },
+    tap: reduceMotion ? {} : { scale: 0.985, transition: { type: 'spring', stiffness: 400, damping: 30 } },
   } as const;
   const mediaVariants = {
     rest: { scale: 1 },
-    hover: reduceMotion ? { } : { scale: 1.03 },
+    hover: reduceMotion ? {} : { scale: 1.03 },
   } as const;
   const buttonVariants = {
     rest: { scale: 1 },
-    hover: reduceMotion ? { } : { scale: 1.04 },
-    tap: reduceMotion ? { } : { scale: 0.96 },
+    hover: reduceMotion ? {} : { scale: 1.04 },
+    tap: reduceMotion ? {} : { scale: 0.96 },
   } as const;
 
   const optionContainerMotionProps = reduceMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 6 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.18 },
-      } as const;
+      initial: { opacity: 0, y: 6 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.18 },
+    } as const;
 
   const dialogMotionProps = reduceMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 18, scale: 0.98 },
-        animate: { opacity: 1, y: 0, scale: 1 },
-        transition: { type: 'spring', stiffness: 260, damping: 26 },
-      } as const;
+      initial: { opacity: 0, y: 18, scale: 0.98 },
+      animate: { opacity: 1, y: 0, scale: 1 },
+      transition: { type: 'spring', stiffness: 260, damping: 26 },
+    } as const;
 
   const dialogHeroMotionProps = reduceMotion
     ? {}
     : {
-        initial: { opacity: 0, scale: 0.96 },
-        animate: { opacity: 1, scale: 1 },
-        transition: { type: 'spring', stiffness: 220, damping: 28, delay: 0.04 },
-      } as const;
+      initial: { opacity: 0, scale: 0.96 },
+      animate: { opacity: 1, scale: 1 },
+      transition: { type: 'spring', stiffness: 220, damping: 28, delay: 0.04 },
+    } as const;
 
   const displayName = name?.trim() || 'Item';
   const displayPrice = price || '';
@@ -477,9 +477,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
       whileHover="hover"
       whileTap="tap"
       variants={cardVariants}
-      className={`group cursor-pointer border bg-white rounded-2xl border-[#D6DADE] shadow-sm transition-shadow duration-200 overflow-hidden will-change-transform transform-gpu ${
-        className
-      }`}
+      className={`group cursor-pointer border bg-white rounded-2xl border-[#D6DADE] shadow-sm transition-shadow duration-200 overflow-hidden will-change-transform transform-gpu ${className
+        }`}
     >
       {/* Mobile: horizontal layout */}
       <div className="flex md:hidden gap-4 p-4">
@@ -496,44 +495,67 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <ImageIcon className="w-8 h-8" />
             </div>
           )}
-          {!isUnavailable && (
-            <motion.button
-              type="button"
-              aria-label={`Add ${name}`}
-              onClick={openDialog}
-              variants={buttonVariants}
-              className="absolute bottom-1.5 right-1.5 z-10 grid place-items-center w-9 h-9 rounded-full bg-white border border-[#D6DADE] shadow-md text-[#36424e] transition will-change-transform transform-gpu"
-            >
-              <Plus className="w-5 h-5" />
-            </motion.button>
-          )}
-          {isUnavailable && <div className="absolute inset-0 bg-white/60" />}
-        </motion.div>
-        <div className="flex-1 min-w-0">
+
+          {/* Badges overlay on image for mobile */}
           {displayBadges.length > 0 && (
-            <div className="mb-1 flex flex-wrap gap-1">
-              {displayBadges.map((badge) => (
-                <span
-                  key={badge}
-                  className="inline-flex items-center rounded-full bg-[#FFF3E8] text-[#C05621] border border-[#FED7AA] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                >
-                  {badge}
-                </span>
-              ))}
+            <div className="absolute top-1.5 left-1.5 z-10 flex flex-col gap-1">
+              {displayBadges.map((badge) => {
+                const isBestSeller = badge.toLowerCase().includes('best') || badge.toLowerCase().includes('popular');
+                const isVeg = badge.toLowerCase().includes('veg');
+                const isNew = badge.toLowerCase().includes('new');
+
+                return (
+                  <span
+                    key={badge}
+                    className={`inline-flex items-center justify-center rounded-md px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide shadow-sm ${isBestSeller
+                        ? 'bg-accent text-accent-foreground'
+                        : isVeg
+                          ? 'bg-secondary text-secondary-foreground'
+                          : isNew
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-black/80 text-white'
+                      }`}
+                  >
+                    {badge}
+                  </span>
+                );
+              })}
             </div>
           )}
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="text-[15px] font-medium text-[#36424e] truncate">{displayName}</h3>
-            {displayPrice && <span className="text-sm text-[#6a747f] whitespace-nowrap">{displayPrice}</span>}
+
+          {isUnavailable && <div className="absolute inset-0 bg-white/60" />}
+        </motion.div>
+
+        <div className="flex-1 min-w-0 flex flex-col justify-between relative">
+          <div>
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="text-[15px] font-heading font-semibold text-[#36424e] leading-tight line-clamp-2 pr-6">{displayName}</h3>
+            </div>
+            {description ? (
+              <p className="mt-1 text-xs text-[#6a747f] line-clamp-2 leading-relaxed">{description}</p>
+            ) : (
+              <p className="mt-1 text-xs text-[#6a747f]">Customize in the next step</p>
+            )}
+            {isUnavailable && (
+              <p className="mt-1 text-xs text-[#6a747f] font-medium">Not available</p>
+            )}
           </div>
-          {description ? (
-            <p className="mt-1 text-sm text-[#6a747f] overflow-hidden max-h-10">{description}</p>
-          ) : (
-            <p className="mt-1 text-sm text-[#6a747f]">Customize in the next step</p>
-          )}
-          {isUnavailable && (
-            <p className="mt-1 text-sm text-[#6a747f]">Not available at this time</p>
-          )}
+
+          <div className="flex items-end justify-between mt-2">
+            {displayPrice && <span className="text-sm font-bold text-[#36424e]">{displayPrice}</span>}
+
+            {!isUnavailable && (
+              <motion.button
+                type="button"
+                aria-label={`Add ${name}`}
+                onClick={openDialog}
+                variants={buttonVariants}
+                className="grid place-items-center w-8 h-8 rounded-full bg-primary text-white shadow-md hover:bg-primary/90 transition-colors"
+              >
+                <Plus className="w-5 h-5" />
+              </motion.button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -580,14 +602,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="px-4 pt-3 pb-5">
           {displayBadges.length > 0 && (
             <div className="mb-1 flex flex-wrap gap-1">
-              {displayBadges.map((badge) => (
-                <span
-                  key={badge}
-                  className="inline-flex items-center rounded-full bg-[#FFF3E8] text-[#C05621] border border-[#FED7AA] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                >
-                  {badge}
-                </span>
-              ))}
+              {displayBadges.map((badge) => {
+                const isBestSeller = badge.toLowerCase().includes('best') || badge.toLowerCase().includes('popular');
+                const isVeg = badge.toLowerCase().includes('veg');
+                const isNew = badge.toLowerCase().includes('new');
+
+                return (
+                  <span
+                    key={badge}
+                    className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-wide backdrop-blur-sm ${isBestSeller
+                      ? 'bg-accent text-accent-foreground'
+                      : isVeg
+                        ? 'bg-secondary text-secondary-foreground'
+                        : isNew
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-black/70 text-white'
+                      }`}
+                  >
+                    {badge}
+                  </span>
+                );
+              })}
             </div>
           )}
           <div className="flex items-start justify-between gap-3">
@@ -665,47 +700,47 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
             <div className="flex-1 overflow-auto pr-0 md:pr-0">
               <div className="px-4 md:px-6 space-y-6">
-              {/* Top hero image (Uber-style) */}
-              <motion.div
-                className="relative w-full overflow-hidden rounded-lg border bg-muted/40 aspect-[4/3] md:aspect-[16/9]"
-                {...dialogHeroMotionProps}
-              >
-                {hasImage ? (
-                  <>
-                    <img src={image} alt={displayName} className="absolute inset-0 w-full h-full object-cover" />
-                    {overlayImage && (
-                      <img src={overlayImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
-                    )}
-                  </>
-                ) : (
-                  <div className="absolute inset-0 grid place-items-center">
-                    <ImageIcon className="w-10 h-10 text-muted-foreground" />
-                  </div>
-                )}
-              </motion.div>
-
-              {/* Options */}
-              <div className="space-y-5 pb-40 md:pb-6">
-                {/* Choice of Crust */}
-                <div>
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <Label className="text-sm">Choice of Crust</Label>
-                      <p className="mt-1 text-xs text-muted-foreground">Choose 1</p>
+                {/* Top hero image (Uber-style) */}
+                <motion.div
+                  className="relative w-full overflow-hidden rounded-lg border bg-muted/40 aspect-[4/3] md:aspect-[16/9]"
+                  {...dialogHeroMotionProps}
+                >
+                  {hasImage ? (
+                    <>
+                      <img src={image} alt={displayName} className="absolute inset-0 w-full h-full object-cover" />
+                      {overlayImage && (
+                        <img src={overlayImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                      )}
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 grid place-items-center">
+                      <ImageIcon className="w-10 h-10 text-muted-foreground" />
                     </div>
-                    <div className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-[#e7f5ed] px-2.5 py-1">
-                      <Check className="w-3.5 h-3.5 text-[#15803d]" />
-                      <span className="text-[11px] font-medium text-[#15803d] leading-none">Required</span>
-                    </div>
-                  </div>
+                  )}
+                </motion.div>
 
-                  <div
-                    role="radiogroup"
-                    aria-label="Choice of Crust"
-                    className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white"
-                  >
-                    {crustOpen
-                      ? crustOptions.map((option, index) => {
+                {/* Options */}
+                <div className="space-y-5 pb-40 md:pb-6">
+                  {/* Choice of Crust */}
+                  <div>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <Label className="text-sm">Choice of Crust</Label>
+                        <p className="mt-1 text-xs text-muted-foreground">Choose 1</p>
+                      </div>
+                      <div className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-[#e7f5ed] px-2.5 py-1">
+                        <Check className="w-3.5 h-3.5 text-[#15803d]" />
+                        <span className="text-[11px] font-medium text-[#15803d] leading-none">Required</span>
+                      </div>
+                    </div>
+
+                    <div
+                      role="radiogroup"
+                      aria-label="Choice of Crust"
+                      className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white"
+                    >
+                      {crustOpen
+                        ? crustOptions.map((option, index) => {
                           const isActive = crust === option;
                           return (
                             <button
@@ -735,45 +770,45 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </button>
                           );
                         })
-                      : (
-                        <button
-                          type="button"
-                          role="radio"
-                          aria-checked={true}
-                          onClick={() => setCrustOpen(true)}
-                          className="flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none hover:bg-gray-50"
-                        >
-                          <span>{crust}</span>
-                          <span className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-black">
-                            <span className="w-2.5 h-2.5 rounded-full bg-black" />
-                          </span>
-                        </button>
-                      )}
-                  </div>
-                </div>
-
-                <Separator />
-
-                {/* Choice of Sauce */}
-                <div>
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <Label className="text-sm">Choice of Sauce</Label>
-                      <p className="mt-1 text-xs text-muted-foreground">Choose 1</p>
-                    </div>
-                    <div className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-[#e7f5ed] px-2.5 py-1">
-                      <Check className="w-3.5 h-3.5 text-[#15803d]" />
-                      <span className="text-[11px] font-medium text-[#15803d] leading-none">Required</span>
+                        : (
+                          <button
+                            type="button"
+                            role="radio"
+                            aria-checked={true}
+                            onClick={() => setCrustOpen(true)}
+                            className="flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none hover:bg-gray-50"
+                          >
+                            <span>{crust}</span>
+                            <span className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-black">
+                              <span className="w-2.5 h-2.5 rounded-full bg-black" />
+                            </span>
+                          </button>
+                        )}
                     </div>
                   </div>
 
-                  <div
-                    role="radiogroup"
-                    aria-label="Choice of Sauce"
-                    className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white"
-                  >
-                    {sauceOpen
-                      ? sauceOptions.map((option, index) => {
+                  <Separator />
+
+                  {/* Choice of Sauce */}
+                  <div>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <Label className="text-sm">Choice of Sauce</Label>
+                        <p className="mt-1 text-xs text-muted-foreground">Choose 1</p>
+                      </div>
+                      <div className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-[#e7f5ed] px-2.5 py-1">
+                        <Check className="w-3.5 h-3.5 text-[#15803d]" />
+                        <span className="text-[11px] font-medium text-[#15803d] leading-none">Required</span>
+                      </div>
+                    </div>
+
+                    <div
+                      role="radiogroup"
+                      aria-label="Choice of Sauce"
+                      className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white"
+                    >
+                      {sauceOpen
+                        ? sauceOptions.map((option, index) => {
                           const isActive = sauce === option;
                           return (
                             <button
@@ -803,412 +838,414 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </button>
                           );
                         })
-                      : (
+                        : (
+                          <button
+                            type="button"
+                            role="radio"
+                            aria-checked={true}
+                            onClick={() => setSauceOpen(true)}
+                            className="flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none hover:bg-gray-50"
+                          >
+                            <span>{sauce}</span>
+                            <span className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-black">
+                              <span className="w-2.5 h-2.5 rounded-full bg-black" />
+                            </span>
+                          </button>
+                        )}
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Pizza Options */}
+                  {isMakeYourOwn && (
+                    <>
+                      <div>
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <Label className="text-sm">Pizza Options</Label>
+                            <p className="mt-1 text-xs text-muted-foreground">Optional</p>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white">
+                          {pizzaOptionsCfg.options.map((option, index) => {
+                            const isActive = !!pizzaOptionsSelected[option.name];
+                            return (
+                              <button
+                                key={option.id}
+                                type="button"
+                                onClick={() =>
+                                  setPizzaOptionsSelected((prev) => ({
+                                    ...prev,
+                                    [option.name]: !prev[option.name],
+                                  }))
+                                }
+                                className={[
+                                  'flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none',
+                                  index > 0 ? 'border-t border-[#E5E7EB]' : '',
+                                  'hover:bg-gray-50',
+                                ].join(' ')}
+                              >
+                                <span>{option.name}</span>
+                                <span
+                                  className={[
+                                    'flex items-center justify-center w-5 h-5 rounded-full border-2 transition-colors',
+                                    isActive ? 'border-black bg-black' : 'border-gray-400 bg-white',
+                                  ].join(' ')}
+                                >
+                                  {isActive && <span className="w-2 h-2 rounded-full bg-white" />}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <Separator />
+
+                      {/* More Options (Bake/Cheese/Sauce amount/Cut) */}
+                      <div>
                         <button
                           type="button"
-                          role="radio"
-                          aria-checked={true}
-                          onClick={() => setSauceOpen(true)}
-                          className="flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none hover:bg-gray-50"
+                          className="flex w-full items-center justify-between text-sm font-medium text-[#111827] py-1"
+                          onClick={() => setMoreOptionsOpen((prev) => !prev)}
                         >
-                          <span>{sauce}</span>
-                          <span className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-black">
-                            <span className="w-2.5 h-2.5 rounded-full bg-black" />
+                          <span className="flex items-center gap-1">
+                            <span>More Options</span>
+                            {moreOptionsOpen ? (
+                              <ChevronUp className="w-4 h-4 text-[#f97316]" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4 text-[#f97316]" />
+                            )}
                           </span>
                         </button>
-                      )}
-                  </div>
-                </div>
 
-                <Separator />
+                        {moreOptionsOpen && (
+                          <div className="mt-3 space-y-4">
+                            {/* Bake */}
+                            <div>
+                              <Label className="text-sm">Bake</Label>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                <Chip
+                                  active={bakeOption === 'Normal Bake'}
+                                  onClick={() => setBakeOption('Normal Bake')}
+                                >
+                                  Normal Bake
+                                </Chip>
+                                <Chip
+                                  active={bakeOption === 'Well Done'}
+                                  onClick={() => setBakeOption('Well Done')}
+                                >
+                                  Well Done
+                                </Chip>
+                              </div>
+                            </div>
 
-                {/* Pizza Options */}
-                {isMakeYourOwn && (
-                  <>
-                    <div>
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <Label className="text-sm">Pizza Options</Label>
-                          <p className="mt-1 text-xs text-muted-foreground">Optional</p>
+                            {/* Cheese amount */}
+                            <div>
+                              <Label className="text-sm">Cheese</Label>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                <Chip
+                                  active={cheeseAmount === 'No Cheese'}
+                                  onClick={() => setCheeseAmount('No Cheese')}
+                                >
+                                  No Cheese
+                                </Chip>
+                                <Chip
+                                  active={cheeseAmount === 'Light Cheese'}
+                                  onClick={() => setCheeseAmount('Light Cheese')}
+                                >
+                                  Light Cheese
+                                </Chip>
+                                <Chip
+                                  active={cheeseAmount === 'Cheese'}
+                                  onClick={() => setCheeseAmount('Cheese')}
+                                >
+                                  Cheese
+                                </Chip>
+                              </div>
+                            </div>
+
+                            {/* Sauce amount */}
+                            <div>
+                              <Label className="text-sm">Sauce</Label>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                <Chip
+                                  active={sauceAmount === 'No Sauce'}
+                                  onClick={() => setSauceAmount('No Sauce')}
+                                >
+                                  No Sauce
+                                </Chip>
+                                <Chip
+                                  active={sauceAmount === 'Light Sauce'}
+                                  onClick={() => setSauceAmount('Light Sauce')}
+                                >
+                                  Light Sauce
+                                </Chip>
+                                <Chip
+                                  active={sauceAmount === 'Normal Sauce'}
+                                  onClick={() => setSauceAmount('Normal Sauce')}
+                                >
+                                  Normal Sauce
+                                </Chip>
+                                <Chip
+                                  active={sauceAmount === 'Extra Sauce'}
+                                  onClick={() => setSauceAmount('Extra Sauce')}
+                                >
+                                  Extra Sauce
+                                </Chip>
+                              </div>
+                            </div>
+
+                            {/* Cut Option */}
+                            <div>
+                              <Label className="text-sm">Cut Option</Label>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                <Chip
+                                  active={cutOption === 'No Cut'}
+                                  onClick={() => setCutOption('No Cut')}
+                                >
+                                  No Cut
+                                </Chip>
+                                <Chip
+                                  active={cutOption === 'Standard Cut'}
+                                  onClick={() => setCutOption('Standard Cut')}
+                                >
+                                  Standard Cut
+                                </Chip>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <Separator />
+                    </>
+                  )}
+
+                  {/* Size options for non build-your-own pizzas and other items with sizes */}
+                  {!isMakeYourOwn && sizeOptions && sizeOptions.length > 0 && (
+                    <>
+                      <div>
+                        <Label className="text-sm">Size</Label>
+                        <div className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white">
+                          {sizeOptions.map((option, index) => {
+                            const isActive = size === option.label;
+                            return (
+                              <button
+                                key={option.label}
+                                type="button"
+                                onClick={() => setSize(option.label)}
+                                className={[
+                                  'flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none',
+                                  index > 0 ? 'border-t border-[#E5E7EB]' : '',
+                                  'hover:bg-gray-50',
+                                ].join(' ')}
+                              >
+                                <span>{`${option.label} - $${option.price.toFixed(2)}`}</span>
+                                <span
+                                  className={[
+                                    'flex items-center justify-center w-6 h-6 rounded-full border-2 transition-colors',
+                                    isActive ? 'border-black' : 'border-gray-400',
+                                  ].join(' ')}
+                                >
+                                  {isActive && <span className="w-2.5 h-2.5 rounded-full bg-black" />}
+                                </span>
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
 
-                      <div className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white">
-                        {pizzaOptionsCfg.options.map((option, index) => {
-                          const isActive = !!pizzaOptionsSelected[option.name];
-                          return (
-                            <button
-                              key={option.id}
-                              type="button"
-                              onClick={() =>
-                                setPizzaOptionsSelected((prev) => ({
-                                  ...prev,
-                                  [option.name]: !prev[option.name],
-                                }))
-                              }
-                              className={[
-                                'flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none',
-                                index > 0 ? 'border-t border-[#E5E7EB]' : '',
-                                'hover:bg-gray-50',
-                              ].join(' ')}
-                            >
-                              <span>{option.name}</span>
-                              <span
-                                className={[
-                                  'flex items-center justify-center w-5 h-5 rounded-full border-2 transition-colors',
-                                  isActive ? 'border-black bg-black' : 'border-gray-400 bg-white',
-                                ].join(' ')}
-                              >
-                                {isActive && <span className="w-2 h-2 rounded-full bg-white" />}
-                              </span>
-                            </button>
-                          );
-                        })}
+                      <Separator />
+                    </>
+                  )}
+
+                  {/* Toppings tabs + placement controls */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2 border-b border-[#E5E7EB] pb-1">
+                      <div className="flex gap-6 overflow-x-auto whitespace-nowrap pr-6">
+                        {categoryOrder.map((key) => (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => setActiveToppingCategory(key)}
+                            className={cn(
+                              'relative -mb-px pb-2 text-sm font-medium border-b-2 transition-colors',
+                              activeToppingCategory === key
+                                ? 'border-brand text-brand'
+                                : 'border-transparent text-[#4B5563] hover:text-[#111827]'
+                            )}
+                          >
+                            {toppingsCfg.categories[key].displayName}
+                          </button>
+                        ))}
                       </div>
                     </div>
 
-                    <Separator />
+                    <div className="rounded-xl border border-[#E5E7EB] bg-white divide-y">
+                      {toppingsCfg.categories[activeToppingCategory].items.map((item) => {
+                        const name = item.name;
+                        const placement = toppingPlacement[name] ?? 'N';
+                        const isNone = placement === 'N';
+                        const isLeft = placement === 'L';
+                        const isWhole = placement === 'W';
+                        const isRight = placement === 'R';
+                        const isDouble = placement === 'D';
+                        const canDouble = !item.noDouble;
 
-                    {/* More Options (Bake/Cheese/Sauce amount/Cut) */}
-                    <div>
-                      <button
-                        type="button"
-                        className="flex w-full items-center justify-between text-sm font-medium text-[#111827] py-1"
-                        onClick={() => setMoreOptionsOpen((prev) => !prev)}
-                      >
-                        <span className="flex items-center gap-1">
-                          <span>More Options</span>
-                          {moreOptionsOpen ? (
-                            <ChevronUp className="w-4 h-4 text-[#f97316]" />
-                          ) : (
-                            <ChevronDown className="w-4 h-4 text-[#f97316]" />
-                          )}
-                        </span>
-                      </button>
+                        const updatePlacement = (code: PlacementCode) => {
+                          setToppingPlacement((prevPlacement) => {
+                            const prevCode = prevPlacement[name] ?? 'N';
+                            let nextCode: PlacementCode = code;
+                            // Clicking the same option toggles it off (None)
+                            if (prevCode === code) {
+                              nextCode = 'N';
+                            }
 
-                      {moreOptionsOpen && (
-                        <div className="mt-3 space-y-4">
-                          {/* Bake */}
-                          <div>
-                            <Label className="text-sm">Bake</Label>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              <Chip
-                                active={bakeOption === 'Normal Bake'}
-                                onClick={() => setBakeOption('Normal Bake')}
-                              >
-                                Normal Bake
-                              </Chip>
-                              <Chip
-                                active={bakeOption === 'Well Done'}
-                                onClick={() => setBakeOption('Well Done')}
-                              >
-                                Well Done
-                              </Chip>
+                            const newPlacement = { ...prevPlacement, [name]: nextCode };
+                            const newSelected = {
+                              ...selected,
+                              [name]: nextCode !== 'N',
+                            };
+
+                            const units = computeSelectedUnits(newSelected, newPlacement);
+                            if (units > TOPPING_LIMIT) {
+                              // Reject change if it would exceed limit
+                              return prevPlacement;
+                            }
+
+                            setSelected(newSelected);
+                            return newPlacement;
+                          });
+                        };
+
+                        const baseCircle =
+                          'inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#D1D5DB] text-[#9CA3AF] bg-white';
+                        const activeCircle = 'border-brand text-brand bg-brand-soft';
+
+                        return (
+                          <div
+                            key={item.id}
+                            className="flex items-center justify-between px-3 py-2"
+                          >
+                            <div className="flex flex-col">
+                              <span className="text-sm text-[#111827]">{name}</span>
                             </div>
-                          </div>
-
-                          {/* Cheese amount */}
-                          <div>
-                            <Label className="text-sm">Cheese</Label>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              <Chip
-                                active={cheeseAmount === 'No Cheese'}
-                                onClick={() => setCheeseAmount('No Cheese')}
-                              >
-                                No Cheese
-                              </Chip>
-                              <Chip
-                                active={cheeseAmount === 'Light Cheese'}
-                                onClick={() => setCheeseAmount('Light Cheese')}
-                              >
-                                Light Cheese
-                              </Chip>
-                              <Chip
-                                active={cheeseAmount === 'Cheese'}
-                                onClick={() => setCheeseAmount('Cheese')}
-                              >
-                                Cheese
-                              </Chip>
-                            </div>
-                          </div>
-
-                          {/* Sauce amount */}
-                          <div>
-                            <Label className="text-sm">Sauce</Label>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              <Chip
-                                active={sauceAmount === 'No Sauce'}
-                                onClick={() => setSauceAmount('No Sauce')}
-                              >
-                                No Sauce
-                              </Chip>
-                              <Chip
-                                active={sauceAmount === 'Light Sauce'}
-                                onClick={() => setSauceAmount('Light Sauce')}
-                              >
-                                Light Sauce
-                              </Chip>
-                              <Chip
-                                active={sauceAmount === 'Normal Sauce'}
-                                onClick={() => setSauceAmount('Normal Sauce')}
-                              >
-                                Normal Sauce
-                              </Chip>
-                              <Chip
-                                active={sauceAmount === 'Extra Sauce'}
-                                onClick={() => setSauceAmount('Extra Sauce')}
-                              >
-                                Extra Sauce
-                              </Chip>
-                            </div>
-                          </div>
-
-                          {/* Cut Option */}
-                          <div>
-                            <Label className="text-sm">Cut Option</Label>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              <Chip
-                                active={cutOption === 'No Cut'}
-                                onClick={() => setCutOption('No Cut')}
-                              >
-                                No Cut
-                              </Chip>
-                              <Chip
-                                active={cutOption === 'Standard Cut'}
-                                onClick={() => setCutOption('Standard Cut')}
-                              >
-                                Standard Cut
-                              </Chip>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <Separator />
-                  </>
-                )}
-
-                {/* Size options for non build-your-own pizzas and other items with sizes */}
-                {!isMakeYourOwn && sizeOptions && sizeOptions.length > 0 && (
-                  <>
-                    <div>
-                      <Label className="text-sm">Size</Label>
-                      <div className="mt-3 rounded-xl border border-[#E5E7EB] overflow-hidden bg-white">
-                        {sizeOptions.map((option, index) => {
-                          const isActive = size === option.label;
-                          return (
-                            <button
-                              key={option.label}
-                              type="button"
-                              onClick={() => setSize(option.label)}
-                              className={[
-                                'flex w-full items-center justify-between px-4 py-3 text-sm text-[#111827] focus:outline-none',
-                                index > 0 ? 'border-t border-[#E5E7EB]' : '',
-                                'hover:bg-gray-50',
-                              ].join(' ')}
-                            >
-                              <span>{`${option.label} - $${option.price.toFixed(2)}`}</span>
-                              <span
-                                className={[
-                                  'flex items-center justify-center w-6 h-6 rounded-full border-2 transition-colors',
-                                  isActive ? 'border-black' : 'border-gray-400',
-                                ].join(' ')}
-                              >
-                                {isActive && <span className="w-2.5 h-2.5 rounded-full bg-black" />}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <Separator />
-                  </>
-                )}
-
-                {/* Toppings tabs + placement controls */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-2 border-b border-[#E5E7EB] pb-1">
-                    <div className="flex gap-6 overflow-x-auto whitespace-nowrap pr-6">
-                      {categoryOrder.map((key) => (
-                        <button
-                          key={key}
-                          type="button"
-                          onClick={() => setActiveToppingCategory(key)}
-                          className={cn(
-                            'relative -mb-px pb-2 text-sm font-medium border-b-2 transition-colors',
-                            activeToppingCategory === key
-                              ? 'border-brand text-brand'
-                              : 'border-transparent text-[#4B5563] hover:text-[#111827]'
-                          )}
-                        >
-                          {toppingsCfg.categories[key].displayName}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="rounded-xl border border-[#E5E7EB] bg-white divide-y">
-                    {toppingsCfg.categories[activeToppingCategory].items.map((item) => {
-                      const name = item.name;
-                      const placement = toppingPlacement[name] ?? 'N';
-                      const isNone = placement === 'N';
-                      const isLeft = placement === 'L';
-                      const isWhole = placement === 'W';
-                      const isRight = placement === 'R';
-                      const isDouble = placement === 'D';
-                      const canDouble = !item.noDouble;
-
-                      const updatePlacement = (code: PlacementCode) => {
-                        setToppingPlacement((prevPlacement) => {
-                          const prevCode = prevPlacement[name] ?? 'N';
-                          let nextCode: PlacementCode = code;
-                          // Clicking the same option toggles it off (None)
-                          if (prevCode === code) {
-                            nextCode = 'N';
-                          }
-
-                          const newPlacement = { ...prevPlacement, [name]: nextCode };
-                          const newSelected = {
-                            ...selected,
-                            [name]: nextCode !== 'N',
-                          };
-
-                          const units = computeSelectedUnits(newSelected, newPlacement);
-                          if (units > TOPPING_LIMIT) {
-                            // Reject change if it would exceed limit
-                            return prevPlacement;
-                          }
-
-                          setSelected(newSelected);
-                          return newPlacement;
-                        });
-                      };
-
-                      const baseCircle =
-                        'inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#D1D5DB] text-[#9CA3AF] bg-white';
-                      const activeCircle = 'border-brand text-brand bg-brand-soft';
-
-                      return (
-                        <div
-                          key={item.id}
-                          className="flex items-center justify-between px-3 py-2"
-                        >
-                          <div className="flex flex-col">
-                            <span className="text-sm text-[#111827]">{name}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {/* No topping */}
-                            <button
-                              type="button"
-                              onClick={() => updatePlacement('N')}
-                              className={cn(baseCircle, isNone && activeCircle)}
-                              aria-label="No topping"
-                            >
-                              <span className="text-[11px] font-medium">No</span>
-                            </button>
-                            {/* Left half */}
-                            <button
-                              type="button"
-                              onClick={() => updatePlacement('L')}
-                              className={cn(baseCircle, isLeft && activeCircle)}
-                              aria-label="Left half"
-                            >
-                              <span className="relative w-4 h-4 rounded-full border border-current overflow-hidden">
-                                <span className="absolute inset-y-0 left-0 w-1/2 bg-current" />
-                              </span>
-                            </button>
-                            {/* Whole */}
-                            <button
-                              type="button"
-                              onClick={() => updatePlacement('W')}
-                              className={cn(baseCircle, isWhole && activeCircle)}
-                              aria-label="Whole"
-                            >
-                              <span className="w-4 h-4 rounded-full bg-current" />
-                            </button>
-                            {/* Right half */}
-                            <button
-                              type="button"
-                              onClick={() => updatePlacement('R')}
-                              className={cn(baseCircle, isRight && activeCircle)}
-                              aria-label="Right half"
-                            >
-                              <span className="relative w-4 h-4 rounded-full border border-current overflow-hidden">
-                                <span className="absolute inset-y-0 right-0 w-1/2 bg-current" />
-                              </span>
-                            </button>
-                            {/* Double (2x) */}
-                            {canDouble && (
+                            <div className="flex items-center gap-2">
+                              {/* No topping */}
                               <button
                                 type="button"
-                                onClick={() => updatePlacement('D')}
-                                className={cn(baseCircle, isDouble && activeCircle)}
-                                aria-label="Double topping"
+                                onClick={() => updatePlacement('N')}
+                                className={cn(baseCircle, isNone && activeCircle)}
+                                aria-label="No topping"
                               >
-                                <span className="text-[11px] font-semibold">2x</span>
+                                <span className="text-[11px] font-medium">No</span>
                               </button>
-                            )}
+                              {/* Left half */}
+                              <button
+                                type="button"
+                                onClick={() => updatePlacement('L')}
+                                className={cn(baseCircle, isLeft && activeCircle)}
+                                aria-label="Left half"
+                              >
+                                <span className="relative w-4 h-4 rounded-full border border-current overflow-hidden">
+                                  <span className="absolute inset-y-0 left-0 w-1/2 bg-current" />
+                                </span>
+                              </button>
+                              {/* Whole */}
+                              <button
+                                type="button"
+                                onClick={() => updatePlacement('W')}
+                                className={cn(baseCircle, isWhole && activeCircle)}
+                                aria-label="Whole"
+                              >
+                                <span className="w-4 h-4 rounded-full bg-current" />
+                              </button>
+                              {/* Right half */}
+                              <button
+                                type="button"
+                                onClick={() => updatePlacement('R')}
+                                className={cn(baseCircle, isRight && activeCircle)}
+                                aria-label="Right half"
+                              >
+                                <span className="relative w-4 h-4 rounded-full border border-current overflow-hidden">
+                                  <span className="absolute inset-y-0 right-0 w-1/2 bg-current" />
+                                </span>
+                              </button>
+                              {/* Double (2x) */}
+                              {canDouble && (
+                                <button
+                                  type="button"
+                                  onClick={() => updatePlacement('D')}
+                                  className={cn(baseCircle, isDouble && activeCircle)}
+                                  aria-label="Double topping"
+                                >
+                                  <span className="text-[11px] font-semibold">2x</span>
+                                </button>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
+
+                    <p className="text-xs text-muted-foreground">
+                      {selectedCount.toFixed(1)} / {TOPPING_LIMIT} toppings
+                    </p>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      Tip: use the circles to choose left half, whole pizza, right half, or 2x toppings.
+                    </p>
                   </div>
 
-                  <p className="text-xs text-muted-foreground">
-                    {selectedCount.toFixed(1)} / {TOPPING_LIMIT} toppings
-                  </p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">
-                    Tip: use the circles to choose left half, whole pizza, right half, or 2x toppings.
-                  </p>
+                  <Separator />
+
+                  <div className="space-y-2">
+                    <Label className="text-sm">Special instructions</Label>
+                    <Textarea
+                      placeholder="Add a note"
+                      value={specialInstructions}
+                      onChange={(e) => setSpecialInstructions(e.target.value)}
+                    />
+                  </div>
+
+                  <Separator />
                 </div>
+              </div>
+            </div>
 
-                <Separator />
-
-                <div className="space-y-2">
-                  <Label className="text-sm">Special instructions</Label>
-                  <Textarea 
-                    placeholder="Add a note"
-                    value={specialInstructions}
-                    onChange={(e) => setSpecialInstructions(e.target.value)}
-                  />
+            <div className="absolute bottom-0 left-0 right-0 z-[10002] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-t p-4 pointer-events-auto">
+              <div className="mb-3 flex justify-end text-xs text-muted-foreground md:text-sm">
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-right">
+                  <span>
+                    Base: <span className="font-medium text-foreground">${basePrice.toFixed(2)}</span>
+                  </span>
+                  <span>
+                    Extras: <span className="font-medium text-foreground">+${extrasTotal.toFixed(2)}</span>
+                  </span>
                 </div>
-
-                <Separator />
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <QuantityControl
+                  quantity={quantity}
+                  onQuantityChange={setQuantity}
+                />
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                  <Button
+                    className="flex-1 md:flex-none rounded-full bg-primary text-white shadow-md hover:shadow-lg hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all duration-200 h-12"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAdd();
+                    }}
+                  >
+                    <span className="font-bold text-base">Add to order</span>
+                    <span className="mx-2 opacity-60">•</span>
+                    <span className="font-bold text-base">${total.toFixed(2)}</span>
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0 z-[10002] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-t p-4 pointer-events-auto">
-            <div className="mb-3 flex justify-end text-xs text-muted-foreground md:text-sm">
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-right">
-                <span>
-                  Base: <span className="font-medium text-foreground">${basePrice.toFixed(2)}</span>
-                </span>
-                <span>
-                  Extras: <span className="font-medium text-foreground">+${extrasTotal.toFixed(2)}</span>
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <QuantityControl
-                quantity={quantity}
-                onQuantityChange={setQuantity}
-              />
-              <div className="flex items-center gap-2 w-full md:w-auto">
-                <Button
-                  className="flex-1 md:flex-none rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAdd();
-                  }}
-                >
-                  {`Add to order • $${total.toFixed(2)}`}
-                </Button>
-              </div>
-            </div>
-          </div>
           </motion.div>
         </DialogContent>
       </Dialog>

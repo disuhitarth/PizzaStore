@@ -20,12 +20,15 @@ interface CartContextType {
   clearCart: () => void;
   getTotalPrice: () => number;
   getTotalItems: () => number;
+  isCartOpen: boolean;
+  setIsCartOpen: (isOpen: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const addItem = useCallback((newItem: CartItem) => {
     setItems((prevItems) => {
@@ -78,18 +81,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return items.reduce((total, item) => total + item.quantity, 0);
   }, [items]);
 
-  const value: CartContextType = {
-    items,
-    addItem,
-    removeItem,
-    updateQuantity,
-    clearCart,
-    getTotalPrice,
-    getTotalItems,
-  };
-
   return (
-    <CartContext.Provider value={value}>
+    <CartContext.Provider
+      value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        getTotalPrice,
+        getTotalItems,
+        isCartOpen,
+        setIsCartOpen,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

@@ -5,11 +5,11 @@ import HeroSection from '@/components/HeroSection';
 import Sidebar from '@/components/Sidebar';
 import ProductSection from '@/components/ProductSection';
 import Footer from '@/components/Footer';
-import CartSidebar from '@/components/CartSidebar';
 import DealsSection from '@/components/DealsSection';
 import MenuSkeleton from '@/components/MenuSkeleton';
 import { useCart } from '@/contexts/CartContext';
 import { menuCategories, MenuItem } from '@/menuData';
+import { toast } from '@/hooks/use-toast';
 
 const DEFAULT_IMAGE =
   'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fff8a4ed4b8138568da19bb28117853c4531c44a0';
@@ -31,8 +31,7 @@ const POPULAR_ITEM_IDS = new Set<string>(['C388', 'C352', 'C395', 'C578', 'C623'
 const VEG_ITEM_IDS = new Set<string>(['C320', 'C324', 'C368', 'C372', 'C479', 'C631', 'C615', 'C583', 'C587']);
 
 const Index: React.FC = () => {
-  const [cartOpen, setCartOpen] = useState(false);
-  const { getTotalItems, getTotalPrice } = useCart();
+  const { getTotalItems, getTotalPrice, isCartOpen, setIsCartOpen } = useCart();
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
 
@@ -41,7 +40,7 @@ const Index: React.FC = () => {
   const [isMenuLoading, setIsMenuLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<'all' | 'popular' | 'veg' | 'under-20'>('all');
   const [recentlyViewed, setRecentlyViewed] = useState<
-    { name: string; price: string; description?: string; image: string }
+    { name: string; price: string; description?: string; image: string }[]
   >([]);
 
   useEffect(() => {
@@ -113,6 +112,37 @@ const Index: React.FC = () => {
     }));
   }, [searchQuery, activeFilter]);
 
+  // Easter Egg: Cyberpunk Mode
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const q = searchQuery.toLowerCase().trim();
+    if (q === 'cyber' || q === 'neon' || q === 'matrix') {
+      document.documentElement.setAttribute('data-theme', 'cyberpunk');
+      toast({
+        title: '🦾 SYSTEM OVERRIDE',
+        description: 'Cyberpunk protocol initiated.',
+      });
+    } else if (q === 'reset' || q === 'normal') {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }, [searchQuery]);
+
+  const isSecretSearch = ['magic', 'secret', 'mystery'].includes(searchQuery.toLowerCase().trim());
+
+  const secretSection = {
+    title: '✨ Secret Menu ✨',
+    products: [
+      {
+        name: 'The Mystery Pizza',
+        description: 'A legendary creation known only to the chosen few. Toppings change daily based on the chef\'s mood.',
+        price: '$0.00',
+        image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80',
+        badges: ['Secret', 'Free'],
+        sizeOptions: [{ label: 'Large', price: 0 }]
+      }
+    ]
+  };
+
   const hasAnyProducts = sections.some((section) => section.products.length > 0);
 
   // Scroll-spy behavior: update activeMobileTab based on scroll position on mobile
@@ -164,10 +194,7 @@ const Index: React.FC = () => {
   return (
     <div className="min-h-screen bg-white pb-16 md:pb-0">
       {/* Fixed Header with cart icon */}
-      <Header onCartClick={() => setCartOpen(true)} totalItems={totalItems} />
-
-      {/* Cart Sidebar */}
-      <CartSidebar open={cartOpen} onOpenChange={setCartOpen} />
+      <Header onCartClick={() => setIsCartOpen(true)} totalItems={totalItems} />
 
       {/* Main Content (offset to clear fixed header and promo strip) */}
       <main className="pt-[96px] md:pt-[132px]">
@@ -206,11 +233,10 @@ const Index: React.FC = () => {
                               }
                             }
                           }}
-                          className={`inline-flex items-center whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-medium transition ${
-                            isActive
-                              ? 'border-brand bg-brand text-white shadow-sm'
-                              : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
-                          }`}
+                          className={`inline-flex items-center whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-medium transition ${isActive
+                            ? 'border-primary bg-primary text-white shadow-sm'
+                            : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
+                            }`}
                         >
                           {tab.label}
                         </button>
@@ -221,50 +247,46 @@ const Index: React.FC = () => {
               )}
 
               {/* Filters & search */}
-              <section className="mb-6 flex flex-col gap-3 rounded-2xl border border-brand-soft-border bg-brand-soft px-3 py-3 sm:px-4 sm:py-4">
+              <section className="mb-6 flex flex-col gap-3 rounded-2xl border border-primary/10 bg-primary/5 px-3 py-3 sm:px-4 sm:py-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => setActiveFilter('all')}
-                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                        activeFilter === 'all'
-                          ? 'border-brand bg-brand text-white'
-                          : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
-                      }`}
+                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${activeFilter === 'all'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
+                        }`}
                     >
                       All
                     </button>
                     <button
                       type="button"
                       onClick={() => setActiveFilter('popular')}
-                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                        activeFilter === 'popular'
-                          ? 'border-brand bg-brand text-white'
-                          : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
-                      }`}
+                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${activeFilter === 'popular'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
+                        }`}
                     >
                       <Sparkles className="mr-1 h-3.5 w-3.5" /> Popular
                     </button>
                     <button
                       type="button"
                       onClick={() => setActiveFilter('veg')}
-                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                        activeFilter === 'veg'
-                          ? 'border-brand bg-brand text-white'
-                          : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
-                      }`}
+                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${activeFilter === 'veg'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
+                        }`}
                     >
                       <Leaf className="mr-1 h-3.5 w-3.5" /> Veg
                     </button>
                     <button
                       type="button"
                       onClick={() => setActiveFilter('under-20')}
-                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                        activeFilter === 'under-20'
-                          ? 'border-brand bg-brand text-white'
-                          : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
-                      }`}
+                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition ${activeFilter === 'under-20'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-[#D6DADE] bg-white text-[#36424e] hover:bg-[#F3F4F6]'
+                        }`}
                     >
                       Under $20
                     </button>
@@ -311,56 +333,20 @@ const Index: React.FC = () => {
                     products={section.products}
                   />
                 ))}
+
+              {isSecretSearch && (
+                <ProductSection
+                  title={secretSection.title}
+                  products={secretSection.products}
+                />
+              )}
             </div>
           </div>
         </div>
       </main>
 
       {/* Sticky order summary / call-to-action on mobile */}
-      {totalItems > 0 ? (
-        <button
-          type="button"
-          onClick={() => setCartOpen(true)}
-          className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-between rounded-full bg-brand px-4 py-3 text-left text-white shadow-lg shadow-[0_16px_40px_rgba(185,28,28,0.45)] md:hidden"
-          aria-label="View order summary"
-        >
-          <div className="flex items-center gap-2">
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
-              <ShoppingCart className="h-4 w-4" />
-            </span>
-            <div className="flex flex-col">
-              <span className="text-xs font-medium uppercase tracking-wide text-white/70">
-                Your order
-              </span>
-              <span className="text-sm font-semibold">
-                {totalItems} item{totalItems !== 1 ? 's' : ''} • ${totalPrice.toFixed(2)}
-              </span>
-            </div>
-          </div>
-          <span className="text-xs font-semibold text-white/80">View</span>
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={() => {
-            if (typeof window !== 'undefined') {
-              const target = document.querySelector('#monthly-special') as HTMLElement | null;
-              if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            }
-          }}
-          className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-[0_16px_40px_rgba(185,28,28,0.45)] md:hidden"
-          aria-label="Start your order"
-        >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/10">
-            <ShoppingCart className="h-3.5 w-3.5" />
-          </span>
-          <span>Order Now</span>
-        </button>
-      )}
+      {/* Mobile sticky cart button removed in favor of MobileNav */}
 
       {/* Footer */}
       <Footer />

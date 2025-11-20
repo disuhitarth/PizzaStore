@@ -32,15 +32,15 @@ const HeroSection: React.FC = () => {
   const floatingCard = reduceMotion
     ? {}
     : {
-        animate: {
-          y: [0, -10, 0],
-        },
-        transition: {
-          duration: 5,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        },
-      } as const;
+      animate: {
+        y: [0, -10, 0],
+      },
+      transition: {
+        duration: 5,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      },
+    } as const;
 
   return (
     <section className="relative flex flex-col justify-center items-stretch overflow-hidden min-h-[480px] md:min-h-[560px] lg:min-h-[640px] w-full py-12 md:py-20 bg-gradient-to-b from-[#050816] via-[#111827] to-black">
@@ -66,18 +66,18 @@ const HeroSection: React.FC = () => {
             variants={itemVariants}
             className="inline-flex items-center gap-2 rounded-full bg-[rgba(15,23,42,0.65)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-[rgba(249,250,251,0.88)] backdrop-blur-sm border border-white/10"
           >
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20">
-              <Flame className="h-3 w-3" />
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-secondary/30">
+              <Flame className="h-3 w-3 text-secondary" />
             </span>
             Global Flavours, Delivered Locally
           </motion.p>
 
           <motion.h1
             variants={itemVariants}
-            className="text-[2.1rem] sm:text-[2.4rem] md:text-[2.9rem] lg:text-[3.1rem] font-black leading-tight drop-shadow-[0_12px_32px_rgba(0,0,0,0.6)]"
+            className="font-heading text-[2.4rem] sm:text-[3rem] md:text-[3.6rem] lg:text-[4rem] font-black leading-[1.1] drop-shadow-[0_12px_32px_rgba(0,0,0,0.6)]"
           >
             Pizza, built your way.
-            <span className="mt-1 hidden sm:block text-base sm:text-lg font-semibold text-brand">
+            <span className="mt-2 block text-base sm:text-lg md:text-xl font-semibold text-accent">
               Craft your perfect pie in just a few taps.
             </span>
           </motion.h1>
@@ -118,7 +118,7 @@ const HeroSection: React.FC = () => {
             <div className="hidden sm:flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
               <a
                 href="#monthly-special"
-                className="flex w-full max-w-sm sm:w-auto items-center justify-center rounded-full bg-brand px-8 py-3 text-sm font-semibold shadow-[0_20px_50px_rgba(185,28,28,0.7)] hover:bg-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand focus-visible:ring-offset-black transition will-change-transform"
+                className="flex w-full max-w-sm sm:w-auto items-center justify-center rounded-full bg-primary px-8 py-3.5 text-sm font-bold shadow-[0_20px_50px_rgba(236,72,40,0.5)] hover:bg-primary/90 hover:shadow-[0_25px_60px_rgba(236,72,40,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary focus-visible:ring-offset-black transition-all duration-200 will-change-transform hover:scale-105"
                 data-start-order="true"
               >
                 Order Now

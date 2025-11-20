@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useStore } from '@/contexts/StoreContext';
 import { PIZZA_DEPOT_STORES } from '@/data/pizzaDepotStores';
+import PageHero from '@/components/PageHero';
 
 const inferProvince = (city: string): 'ON' | 'MB' | 'AB' | 'SK' | 'OTHER' => {
   const c = city.toLowerCase();
@@ -104,11 +105,10 @@ const LocationsPage: React.FC = () => {
     <button
       type="button"
       onClick={() => setProvinceFilter(code)}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-        provinceFilter === code
-          ? 'border-brand bg-brand text-white shadow-sm'
-          : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
-      }`}
+      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${provinceFilter === code
+        ? 'border-brand bg-brand text-white shadow-sm'
+        : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
+        }`}
     >
       {label}
     </button>
@@ -118,58 +118,49 @@ const LocationsPage: React.FC = () => {
     <div className="min-h-screen bg-white pb-16 md:pb-0">
       <Header />
 
-      <main className="pt-[132px]">
-        <section className="bg-brand-soft py-10 sm:py-14">
-          <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:px-8 md:flex-row md:items-end">
-            <div className="flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">
-                Locations
-              </p>
-              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-brand">
-                Find a Pizza Depot near you.
-              </h1>
-              <p className="mt-3 max-w-xl text-sm text-[#4B5563]">
-                Browse all Pizza Depot locations across Ontario, Manitoba, Alberta, and Saskatchewan.
-                Use search or filters below to quickly find a store near you.
-              </p>
-
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => locateStores()}
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-md hover:bg-slate-100"
-                >
-                  <Navigation2 className="h-3.5 w-3.5" />
-                  {isLocating ? 'Locating you…' : 'Use my location'}
-                </button>
-                {active && (
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-slate-200 border border-white/10">
-                    <MapPin className="h-3 w-3 text-orange-300" />
-                    <span className="truncate max-w-[220px]">
-                      {active.city}, {active.province}
-                    </span>
-                  </div>
-                )}
-              </div>
+      <main className="pt-[96px] md:pt-0">
+        <PageHero
+          badge="Locations"
+          title="Find a Pizza Depot near you."
+          description="Browse all Pizza Depot locations across Ontario, Manitoba, Alberta, and Saskatchewan. Use search or filters below to quickly find a store near you."
+        >
+          <div className="flex flex-col gap-4 w-full max-w-md">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => locateStores()}
+                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-md hover:bg-slate-100 transition-colors"
+              >
+                <Navigation2 className="h-3.5 w-3.5" />
+                {isLocating ? 'Locating you…' : 'Use my location'}
+              </button>
+              {active && (
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-slate-200 border border-white/10 backdrop-blur-sm">
+                  <MapPin className="h-3 w-3 text-orange-300" />
+                  <span className="truncate max-w-[220px]">
+                    {active.city}, {active.province}
+                  </span>
+                </div>
+              )}
             </div>
 
             {active && (
-              <div className="w-full max-w-md rounded-2xl border border-brand-soft-border bg-white p-4 shadow-xl text-[#374151]">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#6B7280]">
+              <div className="w-full rounded-2xl border border-white/10 bg-black/40 p-4 shadow-xl backdrop-blur-md text-white">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/60">
                   Selected store
                 </p>
-                <p className="mt-1 text-sm font-semibold text-[#111827]">{active.name}</p>
-                <p className="mt-1 text-xs text-[#4B5563]">{active.address}</p>
-                <div className="mt-3 flex items-center gap-2 text-xs text-[#374151]">
+                <p className="mt-1 text-sm font-semibold text-white">{active.name}</p>
+                <p className="mt-1 text-xs text-white/80">{active.address}</p>
+                <div className="mt-3 flex items-center gap-2 text-xs text-white/80">
                   <Phone className="h-3.5 w-3.5" />
-                  <a href={`tel:${active.phone}`} className="text-[#111827] hover:underline">
+                  <a href={`tel:${active.phone}`} className="text-white hover:underline">
                     {active.phone}
                   </a>
                 </div>
               </div>
             )}
           </div>
-        </section>
+        </PageHero>
 
         <section className="py-8 sm:py-10">
           <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:px-8 md:flex-row">
@@ -210,9 +201,8 @@ const LocationsPage: React.FC = () => {
                       key={loc.id}
                       type="button"
                       onClick={() => handleSelect(loc)}
-                      className={`flex w-full items-start justify-between gap-3 px-4 py-3 text-left text-xs sm:text-sm border-b last:border-b-0 transition ${
-                        isActive ? 'bg-[#F3F4FF]' : 'hover:bg-[#F9FAFB]'
-                      }`}
+                      className={`flex w-full items-start justify-between gap-3 px-4 py-3 text-left text-xs sm:text-sm border-b last:border-b-0 transition ${isActive ? 'bg-[#F3F4FF]' : 'hover:bg-[#F9FAFB]'
+                        }`}
                     >
                       <div className="flex flex-col gap-0.5">
                         <p className="font-semibold text-[#111827]">{loc.name}</p>

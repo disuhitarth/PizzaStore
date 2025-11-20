@@ -6,9 +6,11 @@
 All colors MUST be HSL.
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;900&display=swap');
+
 @layer base {
-:root {
-    --background: 0 0% 100%;
+  :root {
+    --background: 30 20% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -17,98 +19,114 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Brand primary: Pizza Depot red */
-    --primary: 0 84% 52%;
+    /* Brand primary: Vibrant Tomato */
+    --primary: 10 90% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Brand secondary: Fresh Basil */
+    --secondary: 140 70% 40%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 30 20% 94%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    /* Soft red accent for subtle backgrounds */
-    --accent: 0 100% 96%;
-    --accent-foreground: 0 84% 40%;
-
-    /* Brand semantic aliases */
-    --brand: var(--primary);
-    --brand-foreground: var(--primary-foreground);
-    --brand-soft: var(--accent);
-    --brand-soft-foreground: var(--accent-foreground);
-    /* Approx. Tailwind red-200 (#FECACA) */
-    --brand-soft-border: 0 96% 89%;
+    /* Brand accent: Cheesy Gold */
+    --accent: 45 90% 55%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 0 84% 52%;
+    --border: 30 20% 90%;
+    --input: 30 20% 90%;
+    --ring: 10 90% 55%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
-
+    --sidebar-background: 30 20% 96%;
     --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 0 84% 52%;
-
+    --sidebar-primary: 10 90% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-
-    --sidebar-accent: 0 100% 96%;
-
-    --sidebar-accent-foreground: 0 84% 40%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 0 84% 52%;
+    --sidebar-accent: 45 90% 55%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 30 20% 88%;
+    --sidebar-ring: 10 90% 55%;
   }
 
-.dark {
-    --background: 222.2 84% 4.9%;
+  .dark {
+    --background: 220 20% 10%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 220 20% 12%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 220 20% 12%;
     --popover-foreground: 210 40% 98%;
 
-    /* Dark mode brand: brighter red on deep background */
-    --primary: 0 93% 68%;
-    --primary-foreground: 0 0% 10%;
+    --primary: 10 90% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 140 60% 45%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 0 74% 26%;
-    --accent-foreground: 0 93% 68%;
-
-    /* Brand semantic aliases */
-    --brand: var(--primary);
-    --brand-foreground: var(--primary-foreground);
-    --brand-soft: var(--accent);
-    --brand-soft-foreground: var(--accent-foreground);
-    --brand-soft-border: 0 93% 68%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 0 93% 68%;
-    --sidebar-background: 240 5.9% 10%;
+    --ring: 10 90% 60%;
+
+    --sidebar-background: 220 20% 12%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 0 93% 68%;
-    --sidebar-primary-foreground: 0 0% 10%;
-    --sidebar-accent: 0 74% 26%;
-    --sidebar-accent-foreground: 0 93% 68%;
+    --sidebar-primary: 10 90% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 45 90% 55%;
+    --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 0 93% 68%;
+    --sidebar-ring: 10 90% 60%;
+  }
+
+  /* Cyberpunk Theme */
+  [data-theme='cyberpunk'] {
+    --background: 260 50% 5%;
+    --foreground: 180 100% 50%;
+
+    --card: 260 50% 8%;
+    --card-foreground: 180 100% 50%;
+
+    --popover: 260 50% 8%;
+    --popover-foreground: 180 100% 50%;
+
+    --primary: 320 100% 55%;
+    /* Neon Pink */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 180 100% 50%;
+    /* Cyan */
+    --secondary-foreground: 260 50% 5%;
+
+    --muted: 260 30% 15%;
+    --muted-foreground: 180 70% 40%;
+
+    --accent: 60 100% 50%;
+    /* Electric Yellow */
+    --accent-foreground: 260 50% 5%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 320 80% 40%;
+    --input: 260 30% 20%;
+    --ring: 320 100% 50%;
+
+    --radius: 0;
+    /* Sharp edges for cyberpunk feel */
   }
 }
 
@@ -125,9 +143,12 @@ All colors MUST be HSL.
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none;    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
   body {
@@ -153,24 +174,24 @@ All colors MUST be HSL.
       radial-gradient(circle at 10% 0%, rgba(248, 250, 252, 0.1) 0, transparent 55%),
       radial-gradient(circle at 90% 100%, rgba(248, 250, 252, 0.12) 0, transparent 55%),
       radial-gradient(circle at 50% 120%, rgba(248, 113, 113, 0.35) 0, transparent 60%),
-      repeating-linear-gradient(
-        -45deg,
+      repeating-linear-gradient(-45deg,
         rgba(248, 113, 113, 0.14) 0,
         rgba(248, 113, 113, 0.14) 2px,
         transparent 2px,
-        transparent 6px
-      );
+        transparent 6px);
     mix-blend-mode: screen;
     animation: flame-overlay 2.4s ease-in-out infinite;
     z-index: 40;
   }
 
   @keyframes flame-overlay {
+
     0%,
     100% {
       opacity: 0.25;
       transform: translateY(0);
     }
+
     50% {
       opacity: 0.6;
       transform: translateY(-18px);
@@ -204,32 +225,39 @@ All colors MUST be HSL.
     0% {
       background-position: 0% 50%;
     }
+
     50% {
       background-position: 100% 50%;
     }
+
     100% {
       background-position: 0% 50%;
     }
   }
 
   @keyframes pizza-main-bob {
+
     0%,
     100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-4px);
     }
   }
 
   @keyframes pizza-logo-wiggle {
+
     0%,
     100% {
       transform: rotate(0deg) translateY(0);
     }
+
     25% {
       transform: rotate(-6deg) translateY(-1px);
     }
+
     75% {
       transform: rotate(5deg) translateY(-1px);
     }
@@ -255,9 +283,11 @@ All colors MUST be HSL.
     0% {
       opacity: 0;
     }
+
     15% {
       opacity: 0.9;
     }
+
     100% {
       opacity: 0;
     }
@@ -291,6 +321,7 @@ All colors MUST be HSL.
     0% {
       transform: translateX(0);
     }
+
     100% {
       transform: translateX(-50%);
     }
@@ -311,6 +342,7 @@ All colors MUST be HSL.
     0% {
       transform: translateX(0);
     }
+
     100% {
       transform: translateX(-30%);
     }
@@ -321,10 +353,12 @@ All colors MUST be HSL.
       opacity: 0;
       transform: translate3d(60px, 60px, 0) rotate(-36deg) scale(0.5);
     }
+
     60% {
       opacity: 1;
       transform: translate3d(-6px, -10px, 0) rotate(6deg) scale(1.04);
     }
+
     100% {
       opacity: 1;
       transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
@@ -335,12 +369,18 @@ All colors MUST be HSL.
     0% {
       transform: translate3d(0, 0, 0) rotate(-4deg) scale(1.02);
     }
+
     50% {
       transform: translate3d(0, -10px, 0) rotate(4deg) scale(1.06);
     }
+
     100% {
       transform: translate3d(0, 0, 0) rotate(-2deg) scale(1.02);
     }
   }
-}
 
+  /* Safe area for mobile bottom nav */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
