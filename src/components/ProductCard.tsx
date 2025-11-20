@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Image as ImageIcon, Check, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Image as ImageIcon, Check, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { Chip, QuantityControl, ToppingGroup } from '@/components/common';
 import { pizzaConfig } from '@/pizzaConfig';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface SizeOption {
   label: string;
@@ -43,6 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   badges = [],
 }) => {
   const pizzaCfg = pizzaConfig.pizza;
+  const isMobile = useIsMobile();
   // Treat any variant like "Make Your Own (Small)" as Make Your Own
   const isMakeYourOwn = name.startsWith(pizzaCfg.name);
   const crustCfg = pizzaCfg.customization.crust;
@@ -448,7 +450,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     });
 
     persistRecentlyViewed();
-    toast.success(`${displayName} added to cart`);
+    if (!isMobile) {
+      toast.success(`${displayName} added to cart`);
+    }
     setOpen(false);
     resetState();
   };
@@ -605,9 +609,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <DialogContent className="w-screen md:max-w-3xl flex flex-col h-[100dvh] md:max-h-[85vh] rounded-none md:rounded-lg p-0 md:p-6">
           <motion.div className="flex flex-col h-full" {...dialogMotionProps}>
             <DialogHeader className="px-4 pt-4 md:px-0 md:pt-0">
-              <DialogTitle className="flex items-center justify-between">
-                <span>{displayName}</span>
-                <span className="text-sm text-muted-foreground">${selectedSizePrice.toFixed(2)}</span>
+              <DialogTitle className="flex items-center justify-between gap-3">
+                <div className="flex flex-col">
+                  <span>{displayName}</span>
+                  <span className="text-sm text-muted-foreground">${selectedSizePrice.toFixed(2)}</span>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Close"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-muted"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpen(false);
+                    resetState();
+                  }}
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </DialogTitle>
               {description ? (
                 <DialogDescription>{description}</DialogDescription>
@@ -1021,7 +1039,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                           className={cn(
                             'relative -mb-px pb-2 text-sm font-medium border-b-2 transition-colors',
                             activeToppingCategory === key
-                              ? 'border-[#C81607] text-[#C81607]'
+                              ? 'border-brand text-brand'
                               : 'border-transparent text-[#4B5563] hover:text-[#111827]'
                           )}
                         >
@@ -1070,7 +1088,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                       const baseCircle =
                         'inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#D1D5DB] text-[#9CA3AF] bg-white';
-                      const activeCircle = 'border-[#C81607] text-[#C81607] bg-[#FFF3E8]';
+                      const activeCircle = 'border-brand text-brand bg-brand-soft';
 
                       return (
                         <div
@@ -1158,34 +1176,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </div>
 
                 <Separator />
-
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm">Quantity</Label>
-                  <QuantityControl
-                    quantity={quantity}
-                    onQuantityChange={setQuantity}
-                  />
-                </div>
               </div>
             </div>
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 z-[10002] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-t p-4 pointer-events-auto">
-            <div className="mb-3 flex flex-col gap-1 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:text-sm">
-              <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <div className="mb-3 flex justify-end text-xs text-muted-foreground md:text-sm">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-right">
                 <span>
                   Base: <span className="font-medium text-foreground">${basePrice.toFixed(2)}</span>
                 </span>
                 <span>
                   Extras: <span className="font-medium text-foreground">+${extrasTotal.toFixed(2)}</span>
                 </span>
-                <span>
-                  Qty: <span className="font-medium text-foreground">{quantity}</span>
-                </span>
-              </div>
-              <div>
-                <span className="uppercase tracking-wide text-[10px] md:text-xs">Estimated total</span>{' '}
-                <span className="font-semibold text-foreground">${total.toFixed(2)}</span>
               </div>
             </div>
             <div className="flex items-center justify-between gap-3">
@@ -1194,17 +1197,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 onQuantityChange={setQuantity}
               />
               <div className="flex items-center gap-2 w-full md:w-auto">
-                <Button
-                  variant="outline"
-                  className="flex-none rounded-full px-5"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpen(false);
-                    resetState();
-                  }}
-                >
-                  Cancel
-                </Button>
                 <Button
                   className="flex-1 md:flex-none rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
                   onClick={(e) => {

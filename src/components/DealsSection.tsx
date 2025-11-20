@@ -2,6 +2,7 @@ import React from 'react';
 import { Sparkles, Percent, Pizza } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from '@/components/ui/sonner';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const deals = [
   {
@@ -30,10 +31,35 @@ const deals = [
 
 const DealsSection: React.FC = () => {
   const { addItem } = useCart();
+  const isMobile = useIsMobile();
+  const [hasUserSeenRow, setHasUserSeenRow] = React.useState(false);
+  const rowRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    if (!isMobile) return;
+    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return;
+    const target = rowRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setHasUserSeenRow(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [isMobile]);
 
   const handleApplyDeal = (deal: (typeof deals)[number]) => {
     if (deal.id === 'bf50-second-pizza') {
-      toast.success('Promo code BF50 will be applied at checkout in this demo.');
+      if (!isMobile) {
+        toast.success('Promo code BF50 will be applied at checkout in this demo.');
+      }
       return;
     }
 
@@ -49,39 +75,46 @@ const DealsSection: React.FC = () => {
         'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3',
     });
 
-    toast.success(`${deal.name} added to your order`);
+    if (!isMobile) {
+      toast.success(`${deal.name} added to your order`);
+    }
   };
 
   return (
-    <section id="specials" className="bg-[#020617] text-white">
+    <section id="specials" className="bg-white text-[#111827]">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:px-6 sm:py-7 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
-            <Sparkles className="h-4 w-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand-soft-foreground">
+            <Sparkles className="h-4 w-4 text-[#F97316]" />
             <span>Featured deals</span>
           </div>
-          <p className="text-[11px] text-slate-400">
+          <p className="text-[11px] text-[#6B7280]">
             Prices and availability may vary by location. Taxes and delivery fees extra.
           </p>
         </div>
 
-        <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory md:mx-0 md:px-0 md:overflow-visible md:pb-0 md:grid md:grid-cols-3">
+        <div
+          ref={rowRef}
+          className={`flex gap-3 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scroll-px-4 md:mx-0 md:px-0 md:overflow-visible md:pb-0 md:grid md:grid-cols-3 ${
+            isMobile && !hasUserSeenRow ? 'deals-marquee-row' : ''
+          }`}
+        >
           {deals.map((deal) => (
             <button
               key={deal.id}
               type="button"
               onClick={() => handleApplyDeal(deal)}
-              className="group flex flex-col items-start gap-2 rounded-2xl border border-slate-700/80 bg-slate-900/60 px-4 py-4 text-left shadow-[0_16px_40px_rgba(15,23,42,0.6)] transition hover:border-amber-300/70 hover:bg-slate-900 min-w-[260px] snap-start md:min-w-0"
+              className="group flex flex-col items-start gap-2 rounded-2xl border border-brand-soft-border bg-white px-4 py-4 text-left shadow-[0_10px_25px_rgba(15,23,42,0.08)] transition hover:border-brand hover:bg-brand-soft min-w-[260px] snap-center md:snap-start md:min-w-0"
             >
-              <div className="inline-flex items-center gap-2 rounded-full bg-black/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-200">
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-soft-foreground">
                 {deal.id === 'bf50-second-pizza' ? (
-                  <Percent className="h-3 w-3 text-amber-300" />
+                  <Percent className="h-3 w-3 text-brand" />
                 ) : (
-                  <Pizza className="h-3 w-3 text-amber-300" />
+                  <Pizza className="h-3 w-3 text-brand" />
                 )}
                 <span>{deal.tag}</span>
               </div>
-              <div className="w-full overflow-hidden rounded-xl bg-black/40 aspect-square">
+              <div className="w-full overflow-hidden rounded-xl bg-brand-soft aspect-square">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3"
                   alt={deal.name}
@@ -89,21 +122,21 @@ const DealsSection: React.FC = () => {
                 />
               </div>
               <div>
-                <p className="text-sm font-semibold leading-snug text-white">{deal.name}</p>
-                <p className="mt-1 text-[11px] text-slate-300">{deal.description}</p>
+                <p className="text-sm font-semibold leading-snug text-[#111827]">{deal.name}</p>
+                <p className="mt-1 text-[11px] text-[#4B5563]">{deal.description}</p>
               </div>
-              <div className="mt-2 flex w-full items-center justify-between text-xs text-slate-200">
+              <div className="mt-2 flex w-full items-center justify-between text-xs text-[#374151]">
                 <div className="flex items-baseline gap-1">
                   {deal.price > 0 ? (
                     <>
-                      <span className="text-[11px] uppercase tracking-wide text-slate-400">From</span>
-                      <span className="text-sm font-semibold text-white">${deal.price.toFixed(2)}</span>
+                      <span className="text-[11px] uppercase tracking-wide text-[#6B7280]">From</span>
+                      <span className="text-sm font-semibold text-[#111827]">${deal.price.toFixed(2)}</span>
                     </>
                   ) : (
-                    <span className="text-[11px] text-amber-200">Code: {deal.code}</span>
+                    <span className="text-[11px] text-brand-soft-foreground">Code: {deal.code}</span>
                   )}
                 </div>
-                <span className="rounded-full bg-white text-[11px] font-semibold text-black px-3 py-1 shadow-sm group-hover:bg-amber-200">
+                <span className="rounded-full bg-brand text-[11px] font-semibold text-white px-3 py-1 shadow-sm group-hover:bg-brand/90">
                   {deal.id === 'bf50-second-pizza' ? 'Copy code' : 'Add deal'}
                 </span>
               </div>

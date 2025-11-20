@@ -372,15 +372,15 @@ const NutritionalInfoPage: React.FC = () => {
       <Header />
 
       <main className="pt-[132px]">
-        <section className="bg-[#020617] py-8 sm:py-12">
+        <section className="bg-brand-soft py-8 sm:py-12">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">
               Nutritional info
             </p>
-            <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-white">
+            <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-brand">
               See what&apos;s in your pizza.
             </h1>
-            <p className="mt-3 max-w-2xl text-sm text-slate-300">
+            <p className="mt-3 max-w-2xl text-sm text-[#4B5563]">
               Browse approximate nutritional information for crusts, sauces, cheeses, and toppings.
               Values are per serving and may vary slightly by store.
             </p>
@@ -398,7 +398,7 @@ const NutritionalInfoPage: React.FC = () => {
                     onClick={() => setCategoryFilter(cat)}
                     className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                       categoryFilter === cat
-                        ? 'border-[#C81607] bg-[#C81607] text-white shadow-sm'
+                        ? 'border-brand bg-brand text-white shadow-sm'
                         : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
                     }`}
                   >
@@ -411,7 +411,7 @@ const NutritionalInfoPage: React.FC = () => {
                 <select
                   value={sizeFilter}
                   onChange={(e) => setSizeFilter(e.target.value as any)}
-                  className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] shadow-sm focus:border-[#C81607] focus:outline-none focus:ring-1 focus:ring-[#C81607] sm:w-40"
+                  className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:w-40"
                 >
                   {(['All', 'Small', 'Medium', 'Large', 'Extra Large', 'Per serving'] as const).map((size) => (
                     <option key={size} value={size}>
@@ -425,7 +425,7 @@ const NutritionalInfoPage: React.FC = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search toppings or ingredients"
-                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#C81607] focus:border-transparent"
+                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
                   />
                 </div>
               </div>

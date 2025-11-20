@@ -31,6 +31,14 @@ All colors MUST be HSL.
     --accent: 0 100% 96%;
     --accent-foreground: 0 84% 40%;
 
+    /* Brand semantic aliases */
+    --brand: var(--primary);
+    --brand-foreground: var(--primary-foreground);
+    --brand-soft: var(--accent);
+    --brand-soft-foreground: var(--accent-foreground);
+    /* Approx. Tailwind red-200 (#FECACA) */
+    --brand-soft-border: 0 96% 89%;
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
@@ -79,6 +87,13 @@ All colors MUST be HSL.
 
     --accent: 0 74% 26%;
     --accent-foreground: 0 93% 68%;
+
+    /* Brand semantic aliases */
+    --brand: var(--primary);
+    --brand-foreground: var(--primary-foreground);
+    --brand-soft: var(--accent);
+    --brand-soft-foreground: var(--accent-foreground);
+    --brand-soft-border: 0 93% 68%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
@@ -258,6 +273,47 @@ All colors MUST be HSL.
 
   body.pizza-party-mode .hero-slice-easter {
     animation: hero-slice-party 2.8s ease-in-out 0.1s infinite alternate;
+    transform-origin: center bottom;
+  }
+
+  /* Announcement bar marquee animation */
+  .announcement-marquee {
+    animation: announcement-marquee 28s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-marquee {
+      animation: none;
+    }
+  }
+
+  @keyframes announcement-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Deals row gentle marquee motion on mobile */
+  .deals-marquee-row {
+    animation: deals-marquee 24s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .deals-marquee-row {
+      animation: none;
+    }
+  }
+
+  @keyframes deals-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-30%);
+    }
   }
 
   @keyframes hero-slice-rotate-in {

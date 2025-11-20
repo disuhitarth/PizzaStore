@@ -54,40 +54,40 @@ const OrderStatusPage: React.FC = () => {
 
       <main className="pt-[132px]">
         {/* Hero */}
-        <section className="bg-[#020617] py-8 sm:py-12">
+        <section className="bg-brand-soft py-8 sm:py-12">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 sm:flex-row sm:items-end sm:px-6 lg:px-8">
             <div className="flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">
                 Order status
               </p>
-              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-white">
+              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-brand">
                 We&apos;re on it.
               </h1>
-              <p className="mt-3 max-w-xl text-sm text-slate-300">
+              <p className="mt-3 max-w-xl text-sm text-[#4B5563]">
                 This live tracker is a demo view inspired by delivery apps like Domino&apos;s. Steps will
                 advance automatically so you can preview the full experience.
               </p>
             </div>
 
-            <div className="w-full max-w-sm rounded-2xl border border-slate-700 bg-slate-900/40 p-4 text-xs text-slate-100 shadow-xl sm:text-sm">
+            <div className="w-full max-w-sm rounded-2xl border border-brand-soft-border bg-white p-4 text-xs text-[#374151] shadow-sm sm:text-sm">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-xs font-semibold">
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-soft text-xs font-semibold text-brand">
                     <Bike className="h-4 w-4" />
                   </span>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-soft-foreground">
                       Estimated time
                     </p>
-                    <p className="text-sm font-semibold text-white">35–45 min</p>
+                    <p className="text-sm font-semibold text-[#111827]">35–45 min</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-300">
-                  <Clock className="h-3.5 w-3.5" />
+                <div className="flex items-center gap-1 text-[11px] text-[#6B7280]">
+                  <Clock className="h-3.5 w-3.5 text-[#C81607]" />
                   Live demo
                 </div>
               </div>
-              <p className="mt-2 text-[11px] text-slate-300">
+              <p className="mt-2 text-[11px] text-[#6B7280]">
                 When wired to a backend, this card can show real-time driver updates and accurate ETAs
                 for pickup or delivery.
               </p>
@@ -118,7 +118,7 @@ const OrderStatusPage: React.FC = () => {
                             isComplete
                               ? 'border-emerald-500 bg-emerald-500 text-white'
                               : isActive
-                              ? 'border-[#C81607] bg-[#C81607] text-white'
+                              ? 'border-brand bg-brand text-white'
                               : 'border-[#D1D5DB] bg-white text-[#6B7280]'
                           }`}
                         >
@@ -141,7 +141,7 @@ const OrderStatusPage: React.FC = () => {
 
             {/* Map + summary */}
             <div className="w-full md:flex-1 space-y-4">
-              <div className="rounded-3xl border border-[#E5E7EB] bg-gradient-to-br from-[#C81607] via-[#C81607] to-[#C81607] p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
+              <div className="rounded-3xl border border-brand-soft-border bg-gradient-to-br from-brand via-brand to-brand p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
                 <div className="flex items-center justify-between gap-3 text-xs text-red-50">
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
@@ -182,7 +182,7 @@ const OrderStatusPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-4 h-[230px] rounded-2xl bg-slate-900/40 p-3 sm:h-[260px]">
+                <div className="mt-4 h-[230px] rounded-2xl bg-brand-soft p-3 sm:h-[260px]">
                   <div
                     className="relative h-full w-full overflow-hidden rounded-xl border border-white/5 bg-[radial-gradient(circle_at_1px_1px,#1f2937_1px,transparent_0)] [background-size:18px_18px]"
                     aria-hidden="true"
@@ -288,7 +288,7 @@ const OrderStatusPage: React.FC = () => {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <h2 className="flex items-center gap-2 text-base font-semibold text-[#111827]">
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#FEF2F2] text-[#C81607] text-xs">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-soft text-brand text-xs">
                           <MapPin className="h-3.5 w-3.5" />
                         </span>
                         <span>Delivery details</span>

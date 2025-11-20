@@ -19,53 +19,53 @@ const FranchisingPage: React.FC = () => {
 
       <main className="pt-[132px]">
         {/* Hero */}
-        <section className="bg-[#020617] py-10 sm:py-14">
+        <section className="bg-brand-soft py-10 sm:py-14">
           <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:px-8 md:flex-row md:items-end">
             <div className="flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">
                 Franchising
               </p>
-              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-white">
+              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-brand">
                 Grow with Pizza Depot.
               </h1>
-              <p className="mt-3 max-w-xl text-sm text-slate-300">
+              <p className="mt-3 max-w-xl text-sm text-[#4B5563]">
                 Join a fast-growing brand with loyal guests, modern digital ordering, and a support
                 team that sets you up to win in your local market.
               </p>
 
-              <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-slate-200 sm:text-sm">
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+              <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-[#374151] sm:text-sm">
+                <div className="rounded-2xl border border-brand-soft-border bg-white px-3 py-3 shadow-sm">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6B7280]">
                     Footprint
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-white">60+ locations</p>
-                  <p className="mt-0.5 text-[11px] text-slate-300">Across ON, MB, AB & SK.</p>
+                  <p className="mt-1 text-sm font-semibold text-[#111827]">60+ locations</p>
+                  <p className="mt-0.5 text-[11px] text-[#4B5563]">Across ON, MB, AB & SK.</p>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                <div className="rounded-2xl border border-brand-soft-border bg-white px-3 py-3 shadow-sm">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6B7280]">
                     Support
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-white">Training & marketing</p>
-                  <p className="mt-0.5 text-[11px] text-slate-300">Site selection, launch & beyond.</p>
+                  <p className="mt-1 text-sm font-semibold text-[#111827]">Training & marketing</p>
+                  <p className="mt-0.5 text-[11px] text-[#4B5563]">Site selection, launch & beyond.</p>
                 </div>
               </div>
             </div>
 
-            <div className="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900/40 p-4 text-xs text-slate-100 shadow-xl sm:text-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+            <div className="w-full max-w-md rounded-2xl border border-brand-soft-border bg-white p-4 text-xs text-[#374151] shadow-xl sm:text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6B7280]">
                 The Pizza Depot playbook
               </p>
               <ol className="mt-3 space-y-2">
                 <li>
-                  <span className="font-semibold text-white">1. Apply.</span> Share a bit about your
+                  <span className="font-semibold text-[#111827]">1. Apply.</span> Share a bit about your
                   background and preferred market.
                 </li>
                 <li>
-                  <span className="font-semibold text-white">2. Connect.</span> Our team walks you
+                  <span className="font-semibold text-[#111827]">2. Connect.</span> Our team walks you
                   through financials, territory, and fit.
                 </li>
                 <li>
-                  <span className="font-semibold text-white">3. Launch.</span> Get support on site
+                  <span className="font-semibold text-[#111827]">3. Launch.</span> Get support on site
                   selection, build-out, training, and marketing.
                 </li>
               </ol>
@@ -249,7 +249,7 @@ const FranchisingPage: React.FC = () => {
 
                   <button
                     type="submit"
-                    className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-[#C81607] px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-[#C81607] focus:outline-none focus:ring-2 focus:ring-[#C81607] focus:ring-offset-2 focus:ring-offset-white sm:text-sm"
+                    className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-brand px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-white sm:text-sm"
                   >
                     Submit inquiry
                   </button>

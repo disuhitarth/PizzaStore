@@ -106,7 +106,7 @@ const LocationsPage: React.FC = () => {
       onClick={() => setProvinceFilter(code)}
       className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
         provinceFilter === code
-          ? 'border-[#C81607] bg-[#C81607] text-white shadow-sm'
+          ? 'border-brand bg-brand text-white shadow-sm'
           : 'border-[#D6DADE] bg-white text-[#374151] hover:bg-[#F3F4F6]'
       }`}
     >
@@ -119,16 +119,16 @@ const LocationsPage: React.FC = () => {
       <Header />
 
       <main className="pt-[132px]">
-        <section className="bg-[#020617] py-10 sm:py-14">
+        <section className="bg-brand-soft py-10 sm:py-14">
           <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:px-8 md:flex-row md:items-end">
             <div className="flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">
                 Locations
               </p>
-              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-white">
+              <h1 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-brand">
                 Find a Pizza Depot near you.
               </h1>
-              <p className="mt-3 max-w-xl text-sm text-slate-300">
+              <p className="mt-3 max-w-xl text-sm text-[#4B5563]">
                 Browse all Pizza Depot locations across Ontario, Manitoba, Alberta, and Saskatchewan.
                 Use search or filters below to quickly find a store near you.
               </p>
@@ -154,15 +154,15 @@ const LocationsPage: React.FC = () => {
             </div>
 
             {active && (
-              <div className="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900/40 p-4 shadow-xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+              <div className="w-full max-w-md rounded-2xl border border-brand-soft-border bg-white p-4 shadow-xl text-[#374151]">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#6B7280]">
                   Selected store
                 </p>
-                <p className="mt-1 text-sm font-semibold text-white">{active.name}</p>
-                <p className="mt-1 text-xs text-slate-300">{active.address}</p>
-                <div className="mt-3 flex items-center gap-2 text-xs text-slate-200">
+                <p className="mt-1 text-sm font-semibold text-[#111827]">{active.name}</p>
+                <p className="mt-1 text-xs text-[#4B5563]">{active.address}</p>
+                <div className="mt-3 flex items-center gap-2 text-xs text-[#374151]">
                   <Phone className="h-3.5 w-3.5" />
-                  <a href={`tel:${active.phone}`} className="hover:underline">
+                  <a href={`tel:${active.phone}`} className="text-[#111827] hover:underline">
                     {active.phone}
                   </a>
                 </div>
@@ -192,7 +192,7 @@ const LocationsPage: React.FC = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search by city or address"
-                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#C81607] focus:border-transparent"
+                    className="w-full rounded-full border border-[#D6DADE] bg-white px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
                   />
                 </div>
               </div>
@@ -222,8 +222,8 @@ const LocationsPage: React.FC = () => {
                         </p>
                       </div>
                       <div className="flex flex-col items-end gap-1 text-[11px] text-[#4B5563]">
-                        <span className="inline-flex items-center gap-1 rounded-full border border-[#FECACA] px-2 py-0.5 text-[10px] font-medium text-[#C81607] bg-[#FFF5F5]">
-                          <MapPin className="h-3 w-3 text-[#C81607]" />
+                        <span className="inline-flex items-center gap-1 rounded-full border border-brand-soft-border px-2 py-0.5 text-[10px] font-medium text-brand-soft-foreground bg-brand-soft">
+                          <MapPin className="h-3 w-3 text-brand" />
                           View on map
                         </span>
                         <a
@@ -242,7 +242,7 @@ const LocationsPage: React.FC = () => {
 
             {/* Map */}
             <div className="w-full md:flex-1" id="locations-map">
-              <div className="h-[360px] rounded-3xl border border-[#E5E7EB] bg-gradient-to-br from-[#C81607] via-[#C81607] to-[#C81607] p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
+              <div className="h-[360px] rounded-3xl border border-brand-soft-border bg-gradient-to-br from-brand via-brand to-brand p-4 shadow-[0_22px_45px_rgba(15,23,42,0.35)]">
                 <div className="flex items-center justify-between text-xs text-red-50">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-red-100/80">

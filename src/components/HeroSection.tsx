@@ -77,7 +77,7 @@ const HeroSection: React.FC = () => {
             className="text-[2.1rem] sm:text-[2.4rem] md:text-[2.9rem] lg:text-[3.1rem] font-black leading-tight drop-shadow-[0_12px_32px_rgba(0,0,0,0.6)]"
           >
             Pizza, built your way.
-            <span className="mt-1 block text-base sm:text-lg font-semibold text-[#C81607]">
+            <span className="mt-1 hidden sm:block text-base sm:text-lg font-semibold text-brand">
               Craft your perfect pie in just a few taps.
             </span>
           </motion.h1>
@@ -96,7 +96,7 @@ const HeroSection: React.FC = () => {
             className="mt-3 flex flex-wrap items-center gap-2.5 text-[11px] sm:text-xs text-white/75"
           >
             <div className="inline-flex items-center gap-2 rounded-full bg-black/40 px-3 py-1.5 border border-white/10">
-              <Clock className="h-3.5 w-3.5 text-[#C81607]" />
+              <Clock className="h-3.5 w-3.5 text-brand" />
               <span>
                 Pickup ready in <span className="font-semibold">~20–25 min</span>
               </span>
@@ -114,10 +114,11 @@ const HeroSection: React.FC = () => {
             variants={itemVariants}
             className="mt-4 flex flex-col gap-2"
           >
-            <div className="flex flex-wrap items-center justify-center gap-3">
+            {/* Desktop / tablet Order Now only; mobile uses bottom CTA */}
+            <div className="hidden sm:flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
               <a
                 href="#monthly-special"
-                className="inline-flex items-center rounded-full bg-[#C81607] px-6 py-3 text-sm font-semibold shadow-[0_20px_50px_rgba(185,28,28,0.7)] hover:bg-[#C81607] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C81607] focus-visible:ring-offset-black transition will-change-transform"
+                className="flex w-full max-w-sm sm:w-auto items-center justify-center rounded-full bg-brand px-8 py-3 text-sm font-semibold shadow-[0_20px_50px_rgba(185,28,28,0.7)] hover:bg-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand focus-visible:ring-offset-black transition will-change-transform"
                 data-start-order="true"
               >
                 Order Now
@@ -141,7 +142,7 @@ const HeroSection: React.FC = () => {
           {...floatingCard}
         >
           <div className="relative mx-auto max-w-xs xl:max-w-sm">
-            <div className="pointer-events-none absolute -inset-1 rounded-[32px] bg-gradient-to-tr from-[#C81607]/60 via-[#C81607]/30 to-transparent opacity-60 blur-2xl" />
+            <div className="pointer-events-none absolute -inset-1 rounded-[32px] bg-gradient-to-tr from-brand/60 via-brand/30 to-transparent opacity-60 blur-2xl" />
             <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-black/55 px-4 py-4 shadow-[0_16px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl">
               <div className="mb-3 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
@@ -153,7 +154,7 @@ const HeroSection: React.FC = () => {
                     <span className="text-sm font-semibold text-white">Late Night Special</span>
                   </div>
                 </div>
-                <span className="rounded-full bg-white/10 px-2 py-1 text-[11px] font-semibold text-[#C81607] inline-flex items-center gap-1">
+                <span className="rounded-full bg-white/10 px-2 py-1 text-[11px] font-semibold text-brand inline-flex items-center gap-1">
                   <Flame className="h-3 w-3" /> Hot
                 </span>
               </div>

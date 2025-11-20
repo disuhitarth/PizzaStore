@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="mt-24 bg-[#020617] text-slate-200 max-md:mt-10">
+    <footer className="mt-24 bg-brand-soft text-[#374151] max-md:mt-10">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8 md:flex-row md:items-start md:justify-between">
         {/* Brand */}
         <div className="space-y-3 md:w-1/3">
@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
             alt="Pizza Depot Logo"
             className="h-8 w-auto object-contain"
           />
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-[#4B5563]">
             Fresh, flame-baked pizzas made your way. Order online for pickup or delivery from locations
             across Ontario, Manitoba, Alberta and Saskatchewan.
           </p>
@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
         {/* Navigation */}
         <div className="grid flex-1 grid-cols-2 gap-6 text-xs sm:grid-cols-3">
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#6B7280]">
               Explore
             </p>
             <ul className="space-y-1">
@@ -83,7 +83,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#6B7280]">
               Help
             </p>
             <ul className="space-y-1">
@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#6B7280]">
               Head office
             </p>
             <ul className="space-y-1 text-xs">
@@ -127,8 +127,8 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="border-t border-slate-800 bg-[#020617]">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-[11px] text-slate-500 sm:px-6 lg:px-8">
+      <div className="border-t border-brand-soft-border bg-brand-soft">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-[11px] text-[#6B7280] sm:px-6 lg:px-8">
           <span>
             © {new Date().getFullYear()} Pizza Depot. All rights reserved.
           </span>
@@ -137,7 +137,7 @@ const Footer: React.FC = () => {
             <button
               type="button"
               onClick={handlePoweredByClick}
-              className="font-semibold text-slate-300 hover:text-white focus:outline-none"
+              className="font-semibold text-[#374151] hover:text-brand focus:outline-none"
             >
               BOLO
             </button>
