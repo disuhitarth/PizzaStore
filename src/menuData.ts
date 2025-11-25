@@ -10,6 +10,7 @@ export interface MenuItem {
   price?: number;
   startingPrice?: number;
   sizes?: MenuItemSize[];
+  imageUrl?: string;
 }
 
 export interface MenuCategory {

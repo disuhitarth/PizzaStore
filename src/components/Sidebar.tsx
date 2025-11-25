@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { menuCategories } from '@/menuData';
+import { useMenu } from '@/contexts/MenuContext';
 
 const slugify = (str: string) =>
   str
@@ -8,13 +8,14 @@ const slugify = (str: string) =>
     .replace(/(^-|-$)/g, '');
 
 const Sidebar: React.FC = () => {
-  const [activeItem, setActiveItem] = useState(menuCategories[0]?.categoryName ?? '');
+  const { categories } = useMenu();
+  const [activeItem, setActiveItem] = useState(categories[0]?.categoryName ?? '');
 
-  const menuItems = menuCategories.map((category) => category.categoryName);
+  const menuItems = categories.map((category) => category.categoryName);
 
   return (
     <nav
-      className="hidden md:flex md:sticky md:top-[100px] z-40 bg-[#F8F9FA] text-sm text-[#6a747f] font-normal capitalize tracking-[0.22px] leading-none
+      className="hidden md:flex md:sticky md:top-[112px] z-40 bg-[#F8F9FA] text-sm text-[#6a747f] font-normal capitalize tracking-[0.22px] leading-none
                  flex-col gap-1
                  min-w-60 w-[292px] pl-12 pr-4 py-3"
     >
