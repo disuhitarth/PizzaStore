@@ -115,11 +115,11 @@ const LocationsPage: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-white pb-16 md:pb-0">
+    <div className="min-h-screen pb-16 md:pb-0" style={{ backgroundColor: '#F7F5EA' }}>
       <Header />
 
-      <main className="pt-[132px]">
-        <section className="bg-brand-soft py-10 sm:py-14">
+      <main>
+        <section className="bg-brand-soft pt-[132px] pb-10 sm:pb-14">
           <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:px-8 md:flex-row md:items-end">
             <div className="flex-1">
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">

@@ -8,7 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
 :root {
-    --background: 0 0% 100%;
+    /* Light background: warm off-white #F7F5EA */
+    --background: 50 45% 94%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -27,17 +28,17 @@ All colors MUST be HSL.
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    /* Soft red accent for subtle backgrounds */
-    --accent: 0 100% 96%;
-    --accent-foreground: 0 84% 40%;
+    /* Soft accent for subtle backgrounds: #F7F5EA */
+    --accent: 50 45% 94%;
+    --accent-foreground: 0 25% 25%;
 
     /* Brand semantic aliases */
     --brand: var(--primary);
     --brand-foreground: var(--primary-foreground);
     --brand-soft: var(--accent);
     --brand-soft-foreground: var(--accent-foreground);
-    /* Approx. Tailwind red-200 (#FECACA) */
-    --brand-soft-border: 0 96% 89%;
+    /* Soft border for brand surfaces (slightly darker than #F7F5EA) */
+    --brand-soft-border: 50 30% 88%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;

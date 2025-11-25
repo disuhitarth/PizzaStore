@@ -30,7 +30,33 @@ interface ProductCardProps {
   sizeOptions?: SizeOption[];
   /** Visual badges like "Best seller", "New", "Vegan", etc. */
   badges?: string[];
+  /** If false, treat as non-pizza: no customization dialog, direct add-to-cart. */
+  isPizzaItem?: boolean;
 }
+
+const getBadgeClasses = (label: string, size: 'sm' | 'md') => {
+  const key = label.toLowerCase();
+
+  const base =
+    'inline-flex items-center rounded-full border px-2 py-0.5 font-semibold uppercase tracking-wide';
+  const sizeClasses = size === 'sm' ? 'text-[10px]' : 'text-[11px] px-2.5';
+
+  if (key.includes('veg')) {
+    // Veg: green
+    return `${base} ${sizeClasses} bg-[#ECFDF3] text-[#166534] border-[#BBF7D0]`;
+  }
+  if (key.includes('best')) {
+    // Best seller: amber/gold
+    return `${base} ${sizeClasses} bg-[#FFFBEB] text-[#92400E] border-[#FDE68A]`;
+  }
+  if (key.includes('new')) {
+    // New: brand red
+    return `${base} ${sizeClasses} bg-[#FEF2F2] text-[#B91C1C] border-[#FECACA]`;
+  }
+
+  // Fallback: existing warm/orange style
+  return `${base} ${sizeClasses} bg-[#FFF3E8] text-[#C05621] border-[#FED7AA]`;
+};
 
 const ProductCard: React.FC<ProductCardProps> = ({
   name,
@@ -42,6 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   className = "",
   sizeOptions,
   badges = [],
+  isPizzaItem = true,
 }) => {
   const pizzaCfg = pizzaConfig.pizza;
   const isMobile = useIsMobile();
@@ -397,12 +424,36 @@ const ProductCard: React.FC<ProductCardProps> = ({
         price: `$${basePrice.toFixed(2)}`,
         description,
         image,
+        isPizzaItem,
       };
       const withoutDupes = existing.filter((item) => item.name !== nextItem.name);
       const next = [nextItem, ...withoutDupes].slice(0, 12);
       window.localStorage.setItem('recentlyViewedItems', JSON.stringify(next));
     } catch {
       // ignore storage failures
+    }
+  };
+
+  const handleQuickAddNonPizza = () => {
+    const rawPrice = price || '';
+    const numericFromText = Number((rawPrice.match(/[0-9]+(?:\.[0-9]{1,2})?/) ?? ["0"])![0]);
+    const quickPrice = sizeOptions && sizeOptions.length > 0 ? sizeOptions[0].price : numericFromText;
+    const quickSize = sizeOptions && sizeOptions.length > 0 ? sizeOptions[0].label : undefined;
+
+    addItem({
+      id: currentId,
+      name: displayName,
+      price: quickPrice,
+      quantity: 1,
+      size: quickSize,
+      toppings: [],
+      specialInstructions: '',
+      image,
+    });
+
+    persistRecentlyViewed();
+    if (!isMobile) {
+      toast.success(`${displayName} added to cart`);
     }
   };
 
@@ -459,6 +510,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const openDialog = (e?: React.MouseEvent) => {
     e?.stopPropagation();
+    if (!isPizzaItem) {
+      // For non-pizza items, bypass customization dialog and quick-add.
+      handleQuickAddNonPizza();
+      return;
+    }
     if (isSpecialtyPizza) {
       resetState();
     }
@@ -470,7 +526,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <motion.article
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' ? openDialog() : null)}
+      onKeyDown={(e) => (e.key === 'Enter' ? openDialog(e) : null)}
       onClick={openDialog}
       initial="rest"
       animate="rest"
@@ -482,8 +538,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
       }`}
     >
       {/* Mobile: horizontal layout */}
-      <div className="flex md:hidden gap-4 p-4">
-        <motion.div variants={mediaVariants} className="relative shrink-0 w-32 h-24 rounded-xl overflow-hidden will-change-transform transform-gpu">
+      <div className="flex md:hidden gap-3 px-4 py-4">
+        <motion.div variants={mediaVariants} className="relative shrink-0 w-28 h-24 rounded-xl overflow-hidden will-change-transform transform-gpu">
           {hasImage ? (
             <>
               <img src={image} alt={displayName} className="w-full h-full object-cover" />
@@ -496,6 +552,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <ImageIcon className="w-8 h-8" />
             </div>
           )}
+
+          {/* Badge overlay on image (mobile) */}
+          {displayBadges.length > 0 && (
+            <div className="absolute left-1.5 top-1.5 z-10">
+              <span className={getBadgeClasses(displayBadges[0], 'sm')}>
+                {displayBadges[0]}
+              </span>
+            </div>
+          )}
+
           {!isUnavailable && (
             <motion.button
               type="button"
@@ -510,18 +576,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {isUnavailable && <div className="absolute inset-0 bg-white/60" />}
         </motion.div>
         <div className="flex-1 min-w-0">
-          {displayBadges.length > 0 && (
-            <div className="mb-1 flex flex-wrap gap-1">
-              {displayBadges.map((badge) => (
-                <span
-                  key={badge}
-                  className="inline-flex items-center rounded-full bg-[#FFF3E8] text-[#C05621] border border-[#FED7AA] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                >
-                  {badge}
-                </span>
-              ))}
-            </div>
-          )}
           <div className="flex items-start justify-between gap-2">
             <h3 className="text-[15px] font-medium text-[#36424e] truncate">{displayName}</h3>
             {displayPrice && <span className="text-sm text-[#6a747f] whitespace-nowrap">{displayPrice}</span>}
@@ -561,6 +615,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <ImageIcon className="w-10 h-10" />
             </div>
           )}
+
+          {/* Badge overlay on image (desktop) */}
+          {displayBadges.length > 0 && (
+            <div className="absolute left-3 top-3 z-10">
+              <span className={getBadgeClasses(displayBadges[0], 'md')}>
+                {displayBadges[0]}
+              </span>
+            </div>
+          )}
+
           {!isUnavailable && (
             <motion.button
               type="button"
@@ -578,18 +642,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </motion.div>
 
         <div className="px-4 pt-3 pb-5">
-          {displayBadges.length > 0 && (
-            <div className="mb-1 flex flex-wrap gap-1">
-              {displayBadges.map((badge) => (
-                <span
-                  key={badge}
-                  className="inline-flex items-center rounded-full bg-[#FFF3E8] text-[#C05621] border border-[#FED7AA] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                >
-                  {badge}
-                </span>
-              ))}
-            </div>
-          )}
           <div className="flex items-start justify-between gap-3">
             <h3 className="text-base font-medium text-[#36424e]">{displayName}</h3>
             {displayPrice && <span className="text-sm text-[#6a747f] whitespace-nowrap">{displayPrice}</span>}
@@ -605,6 +657,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </div>
       {/* Quick Add Dialog */}
+      {isPizzaItem && (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="w-screen md:max-w-3xl flex flex-col h-[100dvh] md:max-h-[85vh] rounded-none md:rounded-lg p-0 md:p-6">
           <motion.div className="flex flex-col h-full" {...dialogMotionProps}>
@@ -1212,6 +1265,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </motion.div>
         </DialogContent>
       </Dialog>
+      )}
     </motion.article>
   );
 };

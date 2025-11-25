@@ -81,17 +81,28 @@ const DealsSection: React.FC = () => {
   };
 
   return (
-    <section id="specials" className="bg-white text-[#111827]">
+    <section
+      id="specials"
+      className="text-[#111827]"
+      style={{ backgroundColor: '#F7F5EA' }}
+    >
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:px-6 sm:py-7 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand-soft-foreground">
-            <Sparkles className="h-4 w-4 text-[#F97316]" />
-            <span>Featured deals</span>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand text-white shadow-md">
+              <Sparkles className="h-4 w-4" />
+            </span>
+            <div className="flex flex-col">
+              <h2 className="text-lg sm:text-xl font-black leading-tight text-[#111827] uppercase tracking-[0.18em]">
+                Featured Deals
+              </h2>
+            </div>
           </div>
-          <p className="text-[11px] text-[#6B7280]">
-            Prices and availability may vary by location. Taxes and delivery fees extra.
-          </p>
         </div>
+
+        <p className="mt-1 text-[11px] text-[#6B7280]">
+          Prices and availability may vary by location. Taxes and delivery fees extra.
+        </p>
 
         <div
           ref={rowRef}
@@ -127,16 +138,14 @@ const DealsSection: React.FC = () => {
               </div>
               <div className="mt-2 flex w-full items-center justify-between text-xs text-[#374151]">
                 <div className="flex items-baseline gap-1">
-                  {deal.price > 0 ? (
-                    <>
-                      <span className="text-[11px] uppercase tracking-wide text-[#6B7280]">From</span>
-                      <span className="text-sm font-semibold text-[#111827]">${deal.price.toFixed(2)}</span>
-                    </>
-                  ) : (
-                    <span className="text-[11px] text-brand-soft-foreground">Code: {deal.code}</span>
-                  )}
+                  <span className="text-[11px] uppercase tracking-wide text-[#6B7280] whitespace-nowrap">
+                    {deal.price > 0 ? 'From' : 'Code'}
+                  </span>
+                  <span className="text-sm font-semibold text-[#111827] whitespace-nowrap">
+                    {deal.price > 0 ? `$${deal.price.toFixed(2)}` : deal.code}
+                  </span>
                 </div>
-                <span className="rounded-full bg-brand text-[11px] font-semibold text-white px-3 py-1 shadow-sm group-hover:bg-brand/90">
+                <span className="rounded-full bg-brand text-[11px] font-semibold text-white px-3 py-1 shadow-sm group-hover:bg-brand/90 whitespace-nowrap">
                   {deal.id === 'bf50-second-pizza' ? 'Copy code' : 'Add deal'}
                 </span>
               </div>

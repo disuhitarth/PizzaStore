@@ -368,11 +368,11 @@ const NutritionalInfoPage: React.FC = () => {
   }, [search, categoryFilter, sizeFilter]);
 
   return (
-    <div className="min-h-screen bg-white pb-16 md:pb-0">
+    <div className="min-h-screen pb-16 md:pb-0" style={{ backgroundColor: '#F7F5EA' }}>
       <Header />
 
-      <main className="pt-[132px]">
-        <section className="bg-brand-soft py-8 sm:py-12">
+      <main>
+        <section className="bg-brand-soft pt-[132px] pb-8 sm:pb-12">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-soft-foreground">
               Nutritional info

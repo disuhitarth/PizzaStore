@@ -25,11 +25,20 @@ interface ProductSectionProps {
   layout?: 'single' | 'grid';
 }
 
-const slugify = (str: string) =>
-  str
+const slugify = (str: string) => {
+  const base = str
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+
+  // Ensure the ID is a valid CSS selector (for querySelector) by avoiding
+  // leading digits, which would otherwise need escaping.
+  if (/^[0-9]/.test(base)) {
+    return `section-${base}`;
+  }
+
+  return base || 'section';
+};
 
 const ProductSection: React.FC<ProductSectionProps> = ({
   title,
@@ -68,7 +77,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
 
   return (
     <section id={id} className="scroll-mt-28 w-full pb-16">
-      <div className="mx-auto max-w-screen-2xl w-full px-4 sm:px-6 lg:px-8 flex flex-col gap-6">
+      <div className="mx-auto max-w-screen-2xl w-full px-3 sm:px-6 lg:px-8 flex flex-col gap-6">
         <header className="w-full text-[#36424e]">
           <h2 className="text-2xl md:text-3xl font-black leading-tight tracking-[0.5px]">
             {title}
@@ -95,7 +104,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: '-80px' }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 xl:gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 xl:gap-8"
             >
               {products.map((product, index) => (
                 <motion.div key={index} variants={itemVariants} className="flex justify-center">
