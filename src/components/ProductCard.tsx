@@ -32,6 +32,14 @@ interface ProductCardProps {
   badges?: string[];
   /** If false, treat as non-pizza: no customization dialog, direct add-to-cart. */
   isPizzaItem?: boolean;
+  /** Optional default pizzaConfig topping IDs to preselect in the dialog. */
+  initialToppingIds?: string[];
+  /** Optional default crust config ID. */
+  initialCrustId?: string;
+  /** Optional default sauce config ID. */
+  initialSauceId?: string;
+  /** Optional default pizza option IDs. */
+  initialPizzaOptionIds?: string[];
 }
 
 const getBadgeClasses = (label: string, size: 'sm' | 'md') => {
@@ -69,6 +77,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   sizeOptions,
   badges = [],
   isPizzaItem = true,
+  initialToppingIds,
+  initialCrustId,
+  initialSauceId,
+  initialPizzaOptionIds,
 }) => {
   const pizzaCfg = pizzaConfig.pizza;
   const isMobile = useIsMobile();
@@ -351,7 +363,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
     setSauceAmount('Normal Sauce');
     setCutOption('Standard Cut');
 
-    if (isSpecialtyPizza && specialtyPizza) {
+    if (initialToppingIds && initialToppingIds.length > 0) {
+      const nextSelected: Record<string, boolean> = {};
+      const nextPlacement: Record<string, PlacementCode> = {};
+      initialToppingIds.forEach((id) => {
+        const name = idToNameMap[id];
+        if (name) {
+          nextSelected[name] = true;
+          nextPlacement[name] = 'W';
+        }
+      });
+      setSelected(nextSelected);
+      setToppingPlacement(nextPlacement);
+    } else if (isSpecialtyPizza && specialtyPizza) {
       const nextSelected: Record<string, boolean> = {};
       const nextPlacement: Record<string, PlacementCode> = {};
       (specialtyPizza as any).toppings?.forEach((id: string) => {
@@ -365,25 +389,26 @@ const ProductCard: React.FC<ProductCardProps> = ({
       setSelected(nextSelected);
       setToppingPlacement(nextPlacement);
 
-      // Optional future hooks: if specialtyPizza defines crustId/sauceId/pizzaOptionIds,
-      // we can preselect those too without breaking current data.
       const meta = specialtyPizza as any;
-      const crustId = meta?.crustId as string | undefined;
+      const crustId = (initialCrustId || meta?.crustId) as string | undefined;
       if (crustId) {
         const crustOpt = crustCfg.options.find((o) => o.id === crustId);
         if (crustOpt) {
           setCrust(crustOpt.name);
         }
       }
-      const sauceId = meta?.sauceId as string | undefined;
+      const sauceId = (initialSauceId || meta?.sauceId) as string | undefined;
       if (sauceId) {
         const sauceOpt = sauceCfg.options.find((o) => o.id === sauceId);
         if (sauceOpt) {
           setSauce(sauceOpt.name);
         }
       }
-      const pizzaOptionIds = meta?.pizzaOptionIds as string[] | undefined;
-      if (pizzaOptionIds && pizzaOptionIds.length > 0) {
+      const pizzaOptionIds =
+        (initialPizzaOptionIds && initialPizzaOptionIds.length > 0
+          ? initialPizzaOptionIds
+          : (meta?.pizzaOptionIds as string[] | undefined)) ?? [];
+      if (pizzaOptionIds.length > 0) {
         const nextOpts: Record<string, boolean> = {};
         pizzaOptionIds.forEach((id) => {
           const name = pizzaOptionIdToName[id];
@@ -404,12 +429,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
   // For non "Make Your Own" pizzas that have a specialty definition,
   // preselect toppings based on their configured topping IDs on first render.
   React.useEffect(() => {
-    if (isSpecialtyPizza) {
+    if (
+      isSpecialtyPizza ||
+      (initialToppingIds && initialToppingIds.length > 0) ||
+      initialCrustId ||
+      initialSauceId ||
+      (initialPizzaOptionIds && initialPizzaOptionIds.length > 0)
+    ) {
       resetState();
     }
-    // We intentionally only depend on isSpecialtyPizza so this runs once per pizza type
+    // We intentionally only depend on the flags/defaults so this runs once per pizza type
     // and does not overwrite user customizations afterwards.
-  }, [isSpecialtyPizza]);
+  }, [
+    isSpecialtyPizza,
+    initialToppingIds,
+    initialCrustId,
+    initialSauceId,
+    initialPizzaOptionIds,
+  ]);
 
   const extrasTotal = chargeableUnits * TOPPING_SURCHARGE;
   const total = (basePrice + extrasTotal) * quantity;

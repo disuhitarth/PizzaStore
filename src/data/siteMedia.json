@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "type": "video",
+    "src": "https://cdn.builder.io/o/assets%2F5497bee253214f7fa692ffe091e0dd84%2F6c5c5a542df34a01aef07c1166da96ca?alt=media&token=5908eed9-593c-4e36-9c97-3e4bfaa5dfb3&apiKey=5497bee253214f7fa692ffe091e0dd84",
+    "poster": "",
+    "headline": "Your pizza, your way.",
+    "subheadline": "Choose your toppings, explore our favourites, create your masterpiece, and let us work our magic."
+  },
+  "categoryTiles": {
+    "defaultImageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fff8a4ed4b8138568da19bb28117853c4531c44a0",
+    "perCategory": {}
+  },
+  "banners": {
+    "closeIconUrl": "https://api.builder.io/api/v1/image/assets/5497bee253214f7fa692ffe091e0dd84/d14b980e94dca74288ca9138f4be0f95c6b4a3e7?placeholderIfAbsent=true",
+    "loyaltyIconUrl": "https://api.builder.io/api/v1/image/assets/5497bee253214f7fa692ffe091e0dd84/51ccd1e009e612fbe5606c1cdef43283bdee40df?placeholderIfAbsent=true"
+  }
+}

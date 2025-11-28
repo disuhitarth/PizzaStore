@@ -1,11 +1,12 @@
 import React from 'react';
+import { siteMedia } from '@/siteMedia';
 
 const LoyaltyBanner: React.FC = () => {
   return (
     <div className="flex w-full flex-wrap items-center justify-center bg-white px-16 py-4 max-md:px-5">
       <div className="flex w-14 pr-4">
         <img
-          src="https://api.builder.io/api/v1/image/assets/5497bee253214f7fa692ffe091e0dd84/51ccd1e009e612fbe5606c1cdef43283bdee40df?placeholderIfAbsent=true"
+          src={siteMedia.banners.loyaltyIconUrl}
           alt="Flames icon"
           className="aspect-[1] object-contain w-10 max-w-10"
         />

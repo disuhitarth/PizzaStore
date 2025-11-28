@@ -17,6 +17,16 @@ interface Product {
   sizeOptions?: SizeOption[];
   /** Optional visual badges like "Best seller", "Vegan", etc. */
   badges?: string[];
+  /** Whether this card should behave like a pizza item (open customization dialog). */
+  isPizzaItem?: boolean;
+  /** Optional default pizzaConfig topping IDs to preselect. */
+  initialToppingIds?: string[];
+  /** Optional default crust config ID. */
+  initialCrustId?: string;
+  /** Optional default sauce config ID. */
+  initialSauceId?: string;
+  /** Optional default pizza option IDs. */
+  initialPizzaOptionIds?: string[];
 }
 
 interface ProductSectionProps {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteMedia } from '@/siteMedia';
 
 interface BannerProps {
   type: 'pickup' | 'promo';
@@ -43,7 +44,7 @@ const Banner: React.FC<BannerProps> = ({ type, title, subtitle, backgroundColor 
       
       <button className="absolute z-0 w-[34px] pr-4 pt-2 right-0 top-0" aria-label="Close banner">
         <img
-          src="https://api.builder.io/api/v1/image/assets/5497bee253214f7fa692ffe091e0dd84/d14b980e94dca74288ca9138f4be0f95c6b4a3e7?placeholderIfAbsent=true"
+          src={siteMedia.banners.closeIconUrl}
           alt="Close"
           className="aspect-[1] object-contain w-full"
         />

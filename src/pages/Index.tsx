@@ -130,7 +130,11 @@ const Index: React.FC = () => {
                 price: size.price,
               })),
               badges,
-              isPizzaItem: isPizzaCategory,
+              isPizzaItem: typeof item.isPizzaItem === 'boolean' ? item.isPizzaItem : isPizzaCategory,
+              initialToppingIds: item.defaultToppingIds,
+              initialCrustId: item.defaultCrustId,
+              initialSauceId: item.defaultSauceId,
+              initialPizzaOptionIds: item.defaultPizzaOptionIds,
             };
           }),
       };

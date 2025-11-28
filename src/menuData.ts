@@ -11,6 +11,16 @@ export interface MenuItem {
   startingPrice?: number;
   sizes?: MenuItemSize[];
   imageUrl?: string;
+  /** Whether this item should use the pizza customization flow (sizes, toppings, etc.). */
+  isPizzaItem?: boolean;
+  /** Optional list of pizzaConfig topping IDs to preselect in the customization dialog. */
+  defaultToppingIds?: string[];
+  /** Optional default crust config ID (from pizzaConfig.pizza.customization.crust.options). */
+  defaultCrustId?: string;
+  /** Optional default sauce config ID (from pizzaConfig.pizza.customization.sauce.options). */
+  defaultSauceId?: string;
+  /** Optional default pizza option IDs (from pizzaConfig.pizza.customization.pizzaOptions.options). */
+  defaultPizzaOptionIds?: string[];
 }
 
 import rawMenu from './data/menu.json';
