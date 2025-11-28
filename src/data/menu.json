@@ -883,7 +883,8 @@
             "sizeDescription": "40 Pcs",
             "price": 48.99
           }
-        ]
+        ],
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/Dry-Wings.jpg"
       },
       {
         "itemId": "C597",
@@ -907,25 +908,29 @@
             "sizeDescription": "40 Wings - 2 Flavours",
             "price": 56.99
           }
-        ]
+        ],
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/breaded_wings_.jpg"
       },
       {
         "itemId": "C301",
         "itemName": "Wings Combo",
         "description": "10 wings, small fries, and 1 bottle of pop",
-        "price": 18.99
+        "price": 18.99,
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/wings-combo.jpg"
       },
       {
         "itemId": "I322",
         "itemName": "Boneless Wings (10 pcs)",
         "description": "Crispy battered boneless wings of chicken breast available with your choice of dip",
-        "price": 12.99
+        "price": 12.99,
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/chicken_chunks.png"
       },
       {
         "itemId": "I323",
         "itemName": "Chicken Strips (6 pcs)",
         "description": "Boneless strips of chicken breast meat available with your choice of dip",
-        "price": 11.99
+        "price": 11.99,
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/chicken_strips.png"
       },
       {
         "itemId": "I457",
@@ -949,7 +954,8 @@
             "sizeDescription": "40 Pcs",
             "price": 50.99
           }
-        ]
+        ],
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/Indian-Twist.jpg"
       }
     ]
   },
@@ -970,7 +976,8 @@
             "sizeDescription": "2 Pcs",
             "price": 11.99
           }
-        ]
+        ],
+        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F3fca0e0eab674635a3c0bcc9438b2ada"
       },
       {
         "itemId": "I201",
@@ -985,19 +992,22 @@
             "sizeDescription": "Large",
             "price": 5.99
           }
-        ]
+        ],
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/FRIES.png"
       },
       {
         "itemId": "I602",
         "itemName": "Seasoned Fries",
         "description": "Drizzled with Garlic Sauce",
-        "price": 7.99
+        "price": 7.99,
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/Fries%20Web.png"
       },
       {
         "itemId": "I600",
         "itemName": "Loaded Fries",
         "description": "Loaded French Fries with Chicken or Tandoori Veggie Paneer",
-        "price": 11.99
+        "price": 11.99,
+        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F97561f9946d94d85b93afb6516723598"
       },
       {
         "itemId": "I589",
@@ -1012,37 +1022,43 @@
             "sizeDescription": "Large",
             "price": 9.4
           }
-        ]
+        ],
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/Poutine.png"
       },
       {
         "itemId": "I206",
         "itemName": "Potato Wedges - Large",
         "description": "Seasoned and savoury wedges",
-        "price": 6.99
+        "price": 6.99,
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/wedges-500_500.jpg"
       },
       {
         "itemId": "I603",
         "itemName": "Seasoned Potato Wedges",
         "description": "Drizzled with Garlic Sauce",
-        "price": 8.99
+        "price": 8.99,
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/Potato%20Wedges%20Web.png"
       },
       {
         "itemId": "I242",
         "itemName": "Onion Rings - 10 Pcs",
         "description": "Large, delicious golden rings",
-        "price": 5.99
+        "price": 5.99,
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/onion-rings-500_500.jpg"
       },
       {
         "itemId": "I316",
         "itemName": "Mozzarella Sticks (6 Pcs)",
         "description": "Breaded sticks of mozzarella",
-        "price": 6.99
+        "price": 6.99,
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/mozza-sticks-500_500.jpg"
       },
       {
         "itemId": "I318",
         "itemName": "Oven Baked Samosa",
         "description": "A tasty South Asian treat",
-        "price": 1.26
+        "price": 1.26,
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/samosas.png"
       },
       {
         "itemId": "I586",
@@ -1061,13 +1077,15 @@
             "sizeDescription": "Malai Chaap",
             "price": 12.99
           }
-        ]
+        ],
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/masala-chaap.jpg"
       },
       {
         "itemId": "C247",
         "itemName": "Fish & Chips Combo",
         "description": "1 piece of perfectly fried fish, small fries, and pop bottle",
-        "price": 11.99
+        "price": 11.99,
+        "imageUrl": "https://img.freepik.com/premium-photo/fish-chips-irish-dish-white-plate-white-background-directly-view_864588-12800.jpg?w=2000"
       }
     ]
   },
@@ -1079,31 +1097,36 @@
         "itemId": "I78",
         "itemName": "Garlic Bread",
         "description": "Toasted garlic baguette",
-        "price": 4.99
+        "price": 4.99,
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/garlic-bread-500_500.jpg"
       },
       {
         "itemId": "I349",
         "itemName": "Garlic Bread with Cheese",
         "description": "Toasted garlic baguette with a topping of cheese",
-        "price": 6.99
+        "price": 6.99,
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/garlic-bread-500_500.jpg"
       },
       {
         "itemId": "I153",
         "itemName": "Garlic Sticks 6 Pcs",
         "description": "Scrumptuous fingers of garlic bread topped with cheese",
-        "price": 6.99
+        "price": 6.99,
+        "imageUrl": "https://pizzadepot.com/wp-content/uploads/2025/04/breadsticks-500_500-1.jpg"
       },
       {
         "itemId": "I371",
         "itemName": "Cheesy Bread",
         "description": "Strips of freshly made bread topped with a tasty cheese mix",
-        "price": 6.99
+        "price": 6.99,
+        "imageUrl": "https://olo-images-live.imgix.net/27/27e63fa975c348efac7d8d785571571f.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=9a9a9d41e2ea0c31ca985d2bcafb1b29"
       },
       {
         "itemId": "I372",
         "itemName": "Cinnamon Bread",
         "description": "Strips of cinnamon flavoured bread with icing, perfect for sharing",
-        "price": 7.99
+        "price": 7.99,
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/cinnamon_bread_sticks.png"
       }
     ]
   },
