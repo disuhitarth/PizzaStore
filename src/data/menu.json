@@ -17,7 +17,8 @@
             "sizeDescription": "Large",
             "price": 16.99
           }
-        ]
+        ],
+        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F21764a8267ab18273cbe7ea7ec925bb6e1a5a27d"
       },
       {
         "itemId": "C290",
@@ -375,7 +376,8 @@
             "sizeDescription": "X-Large",
             "price": 22.99
           }
-        ]
+        ],
+        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F203e781f66424c6fbebe0c9c4e8758ad"
       },
       {
         "itemId": "C368",
