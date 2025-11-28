@@ -4,6 +4,8 @@ import type { MenuCategory, MenuItem } from '@/menuData';
 import { pizzaConfig } from '@/pizzaConfig';
 import { siteMedia as initialSiteMedia } from '@/siteMedia';
 
+// Admin menu UI: local-only editing with GitHub/Netlify publish hooks.
+
 const ADMIN_PASSWORD = import.meta.env.VITE_MENU_ADMIN_PASSWORD || 'admin123';
 
 const getNumericPrice = (item: MenuItem): number =>
