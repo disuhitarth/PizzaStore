@@ -317,7 +317,39 @@ const MenuAdmin: React.FC = () => {
         {publishMessage && (
           <p className="text-xs text-emerald-600">{publishMessage}</p>
         )}
-
+ 
+        <section className="rounded-xl border border-slate-200 bg-white shadow-sm p-4 space-y-3">
+          <h2 className="text-sm font-semibold text-slate-900">Quick guide: how to use this page</h2>
+          <p className="text-[11px] text-slate-600">
+            This admin is a <span className="font-semibold">local preview</span>. Edit here to test, then publish to
+            GitHub to update the live site that customers see.
+          </p>
+          <ol className="list-decimal space-y-1 pl-4 text-[11px] text-slate-600">
+            <li>
+              <span className="font-medium">Edit items:</span> scroll to a category below, change titles, descriptions,
+              prices and image URLs. Changes save automatically in this browser.
+            </li>
+            <li>
+              <span className="font-medium">Mark pizzas:</span> check <span className="font-semibold">Pizza item</span>
+              {' '}for pizza rows and use the <span className="font-semibold">Pizza defaults</span> box to set default
+              crust, sauce, options and toppings.
+            </li>
+            <li>
+              <span className="font-medium">Adjust visuals:</span> use the Site visuals card to change the hero
+              image/video, category tile images, and banner icons.
+            </li>
+            <li>
+              <span className="font-medium">Publish to GitHub:</span> when you are happy, click
+              {' '}<span className="font-semibold">Publish menu to GitHub</span> and/or
+              {' '}<span className="font-semibold">Publish visuals to GitHub</span>. Netlify will build and deploy.
+            </li>
+            <li>
+              <span className="font-medium">Check the live site:</span> open the storefront, hard-refresh the page
+              (Cmd+Shift+R), and confirm everything looks correct.
+            </li>
+          </ol>
+        </section>
+ 
         <section className="rounded-xl border border-slate-200 bg-white shadow-sm p-4 space-y-3">
           <h2 className="text-sm font-semibold text-slate-900">Site visuals</h2>
           <p className="text-[11px] text-slate-500">
