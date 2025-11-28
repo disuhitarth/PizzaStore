@@ -87,7 +87,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
 
   return (
     <section id={id} className="scroll-mt-28 w-full pb-16">
-      <div className="mx-auto max-w-screen-2xl w-full px-3 sm:px-6 lg:px-8 flex flex-col gap-6">
+      <div className="mx-auto max-w-[1354px] w-full px-0 flex flex-col gap-6">
         <header className="w-full text-[#36424e]">
           <h2 className="text-2xl md:text-3xl font-black leading-tight tracking-[0.5px]">
             {title}

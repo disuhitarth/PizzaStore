@@ -12,6 +12,8 @@ const deals = [
     code: 'BF50',
     price: 0,
     tag: 'Limited time',
+    image:
+      'https://pizzadepot.ca/wp-content/uploads/2025/06/mango-mobile.jpg',
   },
   {
     id: 'family-feast',
@@ -19,6 +21,8 @@ const deals = [
     description: '2 large 3-topping pizzas, 10 wings & 4 cans of pop.',
     price: 39.99,
     tag: 'Most popular',
+    image:
+      'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3',
   },
   {
     id: 'late-night',
@@ -26,6 +30,8 @@ const deals = [
     description: 'Any 11" specialty pizza + dip after 9PM.',
     price: 14.99,
     tag: 'After 9PM',
+    image:
+      'https://pizzadepot.ca/wp-content/uploads/2025/06/banner-25-Wings-Mobile.jpg',
   },
 ] as const;
 
@@ -71,8 +77,7 @@ const DealsSection: React.FC = () => {
       size: 'Deal',
       toppings: [],
       specialInstructions: deal.description,
-      image:
-        'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3',
+      image: deal.image,
     });
 
     if (!isMobile) {
@@ -125,9 +130,9 @@ const DealsSection: React.FC = () => {
                 )}
                 <span>{deal.tag}</span>
               </div>
-              <div className="w-full overflow-hidden rounded-xl bg-brand-soft aspect-square">
+              <div className="w-full overflow-hidden rounded-xl bg-brand-soft aspect-square featured-deals-aspect-auto">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F17f6ae84473042fb97e6a63073930cb3"
+                  src={deal.image}
                   alt={deal.name}
                   className="h-full w-full object-cover"
                 />

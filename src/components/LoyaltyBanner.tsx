@@ -1,12 +1,13 @@
 import React from 'react';
-import { siteMedia } from '@/siteMedia';
+import { useSiteMedia } from '@/contexts/SiteMediaContext';
 
 const LoyaltyBanner: React.FC = () => {
+  const { media } = useSiteMedia();
   return (
     <div className="flex w-full flex-wrap items-center justify-center bg-white px-16 py-4 max-md:px-5">
       <div className="flex w-14 pr-4">
         <img
-          src={siteMedia.banners.loyaltyIconUrl}
+          src={media.banners.loyaltyIconUrl}
           alt="Flames icon"
           className="aspect-[1] object-contain w-10 max-w-10"
         />

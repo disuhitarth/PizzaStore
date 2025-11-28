@@ -8,7 +8,22 @@
   },
   "categoryTiles": {
     "defaultImageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fff8a4ed4b8138568da19bb28117853c4531c44a0",
-    "perCategory": {}
+    "perCategory": {
+      "monthly-special": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F8575f3803004421988b4e178c650c8b0",
+      "specials": "https://olo-images-live.imgix.net/bb/bbd8f8a204a64be38ec25159d7d8c06a.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=b48ab466f325c3a778e8954b4398fb26",
+      "build-your-own": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fff8a4ed4b8138568da19bb28117853c4531c44a0",
+      "traditional-pizzas": "https://olo-images-live.imgix.net/bb/bba4237a56994db3925fa9b91c4e724f.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=c238fe1dbff80535fa9f97fa4d37c5c2",
+      "gourmet-pizzas": "https://olo-images-live.imgix.net/d6/d633784158e248c3b1a5e5351c69c9a5.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=aab6a66197751cf5d8ab5481da13f19b",
+      "chicken": "https://tse2.mm.bing.net/th/id/OIP.IZrjPaxMzHU6RjdL-9nvVQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "perfect-sides": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F97561f9946d94d85b93afb6516723598",
+      "breads": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fb1107503fa7674dcc4f1cfef2cda5970f851c4b9",
+      "sandwiches": "https://images.squarespace-cdn.com/content/v1/54627f77e4b08fe952e6f797/1570741179615-6EWJBNYSJ51WER5P906G/6+Inch+Cold+Itallian+Sub.jpg",
+      "salads": "https://olo-images-live.imgix.net/ec/ec5d921c1bea478b9d12266adc4461b3.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=5c6d9b7fce7a0021f16b3935d14c0501",
+      "591ml-bottles": "https://pizzadepot.com/wp-content/uploads/2025/03/aquafina-water.png",
+      "2l-pop": "https://pizzadepot.com/wp-content/uploads/2025/03/7up-2l-1.jpg",
+      "dips": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Ff468cd8bcc9f4b8988ac867690c9aadb",
+      "desserts": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F63d401b84cfec1c0313387f51b4d34dc758a7639"
+    }
   },
   "banners": {
     "closeIconUrl": "https://api.builder.io/api/v1/image/assets/5497bee253214f7fa692ffe091e0dd84/d14b980e94dca74288ca9138f4be0f95c6b4a3e7?placeholderIfAbsent=true",

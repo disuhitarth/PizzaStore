@@ -2,7 +2,7 @@ import React, { FormEvent, useMemo, useRef, useState } from 'react';
 import { useMenu } from '@/contexts/MenuContext';
 import type { MenuCategory, MenuItem } from '@/menuData';
 import { pizzaConfig } from '@/pizzaConfig';
-import { siteMedia as initialSiteMedia } from '@/siteMedia';
+import { useSiteMedia } from '@/contexts/SiteMediaContext';
 
 // Admin menu UI: local-only editing with GitHub/Netlify publish hooks.
 
@@ -40,7 +40,7 @@ const MenuAdmin: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { categories, updateItem, addItem, removeItem, replaceAll } = useMenu();
-  const [siteMediaConfig, setSiteMediaConfig] = useState(() => initialSiteMedia);
+  const { media: siteMediaConfig, setMedia: setSiteMediaConfig } = useSiteMedia();
 
   const allToppings = useMemo(() => {
     const categories = pizzaConfig.pizza.customization.toppings.categories as Record<
@@ -374,7 +374,7 @@ const MenuAdmin: React.FC = () => {
               </select>
             </div>
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-medium text-slate-700">Hero media URL</label>
+              <label className="block text-[11px] font-medium text-slate-700">Hero media URL (desktop)</label>
               <input
                 type="text"
                 value={siteMediaConfig.hero.src}
@@ -386,6 +386,21 @@ const MenuAdmin: React.FC = () => {
                 }
                 className="mt-0.5 block w-full rounded border border-slate-200 px-2 py-1.5 text-xs text-slate-800 focus:border-brand focus:ring-brand"
                 placeholder="https://..."
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-medium text-slate-700">Hero media URL (mobile, optional)</label>
+              <input
+                type="text"
+                value={siteMediaConfig.hero.mobileSrc ?? ''}
+                onChange={(e) =>
+                  setSiteMediaConfig((prev) => ({
+                    ...prev,
+                    hero: { ...prev.hero, mobileSrc: e.target.value || undefined },
+                  }))
+                }
+                className="mt-0.5 block w-full rounded border border-slate-200 px-2 py-1.5 text-xs text-slate-800 focus:border-brand focus:ring-brand"
+                placeholder="https://... (mobile-optimized image or video)"
               />
             </div>
             <div className="space-y-1.5">
@@ -431,6 +446,30 @@ const MenuAdmin: React.FC = () => {
                 rows={2}
                 className="mt-0.5 block w-full rounded border border-slate-200 px-2 py-1.5 text-[11px] text-slate-800 focus:border-brand focus:ring-brand resize-y"
                 placeholder="Short supporting copy for the hero section"
+              />
+            </div>
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="block text-[11px] font-medium text-slate-700">
+                Additional hero image URLs (optional)
+              </label>
+              <p className="text-[10px] text-slate-500">
+                One URL per line. These will rotate behind the hero every ~8 seconds.
+              </p>
+              <textarea
+                rows={3}
+                value={(siteMediaConfig.hero.extraImages ?? []).join('\n')}
+                onChange={(e) => {
+                  const lines = e.target.value
+                    .split('\n')
+                    .map((line) => line.trim())
+                    .filter((line) => line.length > 0);
+                  setSiteMediaConfig((prev) => ({
+                    ...prev,
+                    hero: { ...prev.hero, extraImages: lines },
+                  }));
+                }}
+                className="mt-0.5 block w-full rounded border border-slate-200 px-2 py-1.5 text-[11px] text-slate-800 focus:border-brand focus:ring-brand resize-y"
+                placeholder={"https://example.com/hero2.jpg\nhttps://example.com/hero3.jpg"}
               />
             </div>
             <div className="space-y-1.5 md:col-span-2">

@@ -579,9 +579,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <motion.div variants={mediaVariants} className="relative shrink-0 w-28 h-24 rounded-xl overflow-hidden will-change-transform transform-gpu">
           {hasImage ? (
             <>
-              <img src={image} alt={displayName} className="w-full h-full object-cover" />
+              <img src={image} alt={displayName} className="w-full h-full object-scale-down" />
               {overlayImage && (
-                <img src={overlayImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                <img src={overlayImage} alt="" className="absolute inset-0 w-full h-full object-scale-down" />
               )}
             </>
           ) : (
@@ -637,13 +637,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <img
                 src={image}
                 alt={displayName}
-                className="absolute inset-0 w-full h-full object-cover block"
+                className="absolute inset-0 w-full h-full object-scale-down block"
               />
               {overlayImage && (
                 <img
                   src={overlayImage}
                   alt=""
-                  className="absolute inset-0 w-full h-full object-cover block"
+                  className="absolute inset-0 w-full h-full object-scale-down block"
                 />
               )}
             </>
@@ -698,16 +698,59 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="w-screen md:max-w-3xl flex flex-col h-[100dvh] md:max-h-[85vh] rounded-none md:rounded-lg p-0 md:p-6">
           <motion.div className="flex flex-col h-full" {...dialogMotionProps}>
-            <DialogHeader className="px-4 pt-4 md:px-0 md:pt-0">
-              <DialogTitle className="flex items-center justify-between gap-3">
-                <div className="flex flex-col">
-                  <span>{displayName}</span>
-                  <span className="text-sm text-muted-foreground">${selectedSizePrice.toFixed(2)}</span>
+            <DialogHeader className="px-4 pt-4 pb-3 md:px-0 md:pt-0 md:pb-4 border-b border-[#E5E7EB] bg-[#F7F5EA] text-left">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1.5 text-left">
+                  <DialogTitle className="text-lg sm:text-xl font-black leading-tight text-[#111827]">
+                    {displayName}
+                  </DialogTitle>
+                  <p className="text-base font-semibold text-[#111827]">
+                    ${selectedSizePrice.toFixed(2)}
+                  </p>
+                  {description ? (
+                    <DialogDescription className="text-sm text-[#4B5563]">
+                      {description}
+                    </DialogDescription>
+                  ) : (
+                    <DialogDescription className="text-sm text-[#4B5563]">
+                      Choose size and toppings below.
+                    </DialogDescription>
+                  )}
+                  <p className="mt-1 text-[11px] text-[#6B7280]">
+                    Looking for calories or ingredients?{' '}
+                    <Link
+                      to="/nutritional-info"
+                      className="font-medium text-[#2563EB] underline-offset-2 hover:underline"
+                    >
+                      View nutritional info
+                    </Link>
+                    .
+                  </p>
+                  {isSpecialtyPizza && (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {isUsingRecommendedRecipe
+                        ? 'Using recommended recipe toppings'
+                        : 'Customized from the recommended recipe'}
+                    </p>
+                  )}
+                  {isSpecialtyPizza && !isUsingRecommendedRecipe && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        resetState();
+                      }}
+                      className="mt-1 inline-flex items-center text-xs font-medium text-[#f97316] hover:underline"
+                    >
+                      Reset to {specialtyPizza?.name} recipe
+                    </button>
+                  )}
                 </div>
+
                 <button
                   type="button"
                   aria-label="Close"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-muted"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-muted flex-shrink-0"
                   onClick={(e) => {
                     e.stopPropagation();
                     setOpen(false);
@@ -716,48 +759,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 >
                   <X className="w-4 h-4" />
                 </button>
-              </DialogTitle>
-              {description ? (
-                <DialogDescription>{description}</DialogDescription>
-              ) : (
-                <DialogDescription>Choose size and toppings below.</DialogDescription>
-              )}
-              <p className="mt-2 text-[11px] text-muted-foreground">
-                Looking for calories or ingredients?{' '}
-                <Link
-                  to="/nutritional-info"
-                  className="font-medium text-[#2563EB] underline-offset-2 hover:underline"
-                >
-                  View nutritional info
-                </Link>
-                .
-              </p>
-              {isSpecialtyPizza && (
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {isUsingRecommendedRecipe
-                    ? 'Using recommended recipe toppings'
-                    : 'Customized from the recommended recipe'}
-                </p>
-              )}
-              {isSpecialtyPizza && !isUsingRecommendedRecipe && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    resetState();
-                  }}
-                  className="mt-2 inline-flex items-center text-xs font-medium text-[#f97316] hover:underline"
-                >
-                  Reset to {specialtyPizza?.name} recipe
-                </button>
-              )}
+              </div>
             </DialogHeader>
 
             <div className="flex-1 overflow-auto pr-0 md:pr-0">
               <div className="px-4 md:px-6 space-y-6">
-              {/* Top hero image (Uber-style) */}
+              {/* Top hero image */}
               <motion.div
-                className="relative w-full overflow-hidden rounded-lg border bg-muted/40 aspect-[4/3] md:aspect-[16/9]"
+                className="relative w-full overflow-hidden rounded-xl border border-[#E5E7EB] bg-white my-1 aspect-[4/3] md:aspect-[4/3] shadow-sm"
                 {...dialogHeroMotionProps}
               >
                 {hasImage ? (

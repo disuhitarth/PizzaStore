@@ -133,6 +133,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
   }
 
   /* Konami-code "flame mode": fiery arcade overlay + extra saturation */
@@ -194,6 +195,11 @@ All colors MUST be HSL.
 
   body.pizza-party-mode main {
     animation: pizza-main-bob 4s ease-in-out infinite;
+  }
+
+  /* Featured Deals: let images use natural aspect ratio even if aspect-square is present */
+  .featured-deals-aspect-auto {
+    aspect-ratio: auto;
   }
 
   body.pizza-party-mode .pizza-logo-trigger img {

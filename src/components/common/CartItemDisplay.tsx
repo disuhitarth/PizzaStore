@@ -11,6 +11,8 @@ interface CartItemDisplayProps {
 const CartItemDisplay: React.FC<CartItemDisplayProps> = ({ item, onUpdateQuantity }) => {
   const isMakeYourOwn = item.name.startsWith(pizzaConfig.pizza.name);
 
+  const unitPrice = item.price;
+
   return (
     <div className="flex gap-3 pb-4 border-b last:border-0">
       {/* Thumbnail */}
@@ -19,7 +21,7 @@ const CartItemDisplay: React.FC<CartItemDisplayProps> = ({ item, onUpdateQuantit
           <img
             src={item.image}
             alt={item.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-scale-down"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[10px] text-muted-foreground">
@@ -43,6 +45,11 @@ const CartItemDisplay: React.FC<CartItemDisplayProps> = ({ item, onUpdateQuantit
         <div className="text-xs text-muted-foreground space-y-1">
           <p>
             Size: <span className="font-medium">{item.size}</span>
+            {typeof unitPrice === 'number' && (
+              <span className="ml-2 text-[11px] text-muted-foreground">
+                @ ${unitPrice.toFixed(2)} each
+              </span>
+            )}
           </p>
           {item.toppings.length > 0 && (
             <p>

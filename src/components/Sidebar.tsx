@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { useMenu } from '@/contexts/MenuContext';
 
-const slugify = (str: string) =>
-  str
+const slugify = (str: string) => {
+  const base = str
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+
+  // Match the same rules used for section IDs so anchors line up
+  if (/^[0-9]/.test(base)) {
+    return `section-${base}`;
+  }
+
+  return base || 'section';
+};
 
 const Sidebar: React.FC = () => {
   const { categories } = useMenu();
@@ -15,7 +23,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <nav
-      className="hidden md:flex md:sticky md:top-[112px] z-40 bg-[#F8F9FA] text-sm text-[#6a747f] font-normal capitalize tracking-[0.22px] leading-none
+      className="hidden md:flex md:sticky md:top-[160px] z-40 bg-[#F8F9FA] text-sm text-[#6a747f] font-normal capitalize tracking-[0.22px] leading-none
                  flex-col gap-1
                  min-w-60 w-[292px] pl-12 pr-4 py-3"
     >

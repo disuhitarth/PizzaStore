@@ -1,5 +1,5 @@
 import React from 'react';
-import { siteMedia } from '@/siteMedia';
+import { useSiteMedia } from '@/contexts/SiteMediaContext';
 
 interface BannerProps {
   type: 'pickup' | 'promo';
@@ -9,6 +9,7 @@ interface BannerProps {
 }
 
 const Banner: React.FC<BannerProps> = ({ type, title, subtitle, backgroundColor }) => {
+  const { media } = useSiteMedia();
   return (
     <div 
       className={`relative flex w-full flex-col justify-center items-center pl-6 pr-12 py-4 max-md:px-5`}
@@ -44,7 +45,7 @@ const Banner: React.FC<BannerProps> = ({ type, title, subtitle, backgroundColor 
       
       <button className="absolute z-0 w-[34px] pr-4 pt-2 right-0 top-0" aria-label="Close banner">
         <img
-          src={siteMedia.banners.closeIconUrl}
+          src={media.banners.closeIconUrl}
           alt="Close"
           className="aspect-[1] object-contain w-full"
         />

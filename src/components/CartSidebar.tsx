@@ -10,6 +10,8 @@ import { useStore } from '@/contexts/StoreContext';
 const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void }> = ({ open, onOpenChange }) => {
   const { items, addItem, updateQuantity, getTotalPrice, getTotalItems } = useCart();
   const [contactNumber, setContactNumber] = useState('');
+  const [promoCode, setPromoCode] = useState('');
+  const [promoMessage, setPromoMessage] = useState<string | null>(null);
   const [deliveryAddress, setDeliveryAddress] = useState({
     name: '',
     street: '',
@@ -40,6 +42,20 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
   );
 
   const formatPrice = (price: number) => `$${price.toFixed(2)}`;
+
+  const handleApplyPromo = () => {
+    const code = promoCode.trim().toUpperCase();
+    if (!code) {
+      setPromoMessage(null);
+      return;
+    }
+
+    if (code === 'BF50') {
+      setPromoMessage('Promo code BF50 will be applied at checkout in this demo.');
+    } else {
+      setPromoMessage('Promo codes are for demo only in this build.');
+    }
+  };
 
   const suggestions = [
     {
@@ -76,9 +92,14 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full md:max-w-2xl p-0 flex flex-col">
-        <SheetHeader className="px-6 pt-6 pb-0">
+        {/* Soft header with subtle red accent under the title */}
+        <SheetHeader className="px-6 pt-6 pb-3 bg-[#F7F5EA] border-b border-[#E5E7EB]">
           <div className="flex items-center justify-between">
-            <SheetTitle className="text-xl">Your Order ({totalItems})</SheetTitle>
+            <SheetTitle className="text-xl font-black tracking-[0.02em] text-[#111827]">
+              <span className="inline-block border-b-2 border-[#C81607] pb-0.5">
+                Your Order ({totalItems})
+              </span>
+            </SheetTitle>
           </div>
         </SheetHeader>
 
@@ -317,12 +338,37 @@ const CartSidebar: React.FC<{ open: boolean; onOpenChange: (open: boolean) => vo
             </div>
 
             {/* Sticky subtotal, order type, and checkout at the bottom */}
-            <div className="px-6 py-4 border-t space-y-3">
+            <div className="px-6 py-4 border-t border-[#E5E7EB] space-y-3">
               <div className="pt-2 space-y-2">
                 <div className="flex justify-between text-sm font-medium">
                   <span>Subtotal:</span>
                   <span>{formatPrice(totalPrice)}</span>
                 </div>
+
+                {/* Promo code (UI only; discount is applied at checkout in this demo) */}
+                <div className="flex items-center gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    placeholder="Promo code"
+                    className="flex-1 rounded-full border border-[#D6DADE] bg-white px-3 py-2 text-xs text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full px-3 py-1 text-[11px]"
+                    onClick={handleApplyPromo}
+                  >
+                    Apply
+                  </Button>
+                </div>
+                {promoMessage && (
+                  <p className="text-[11px] text-muted-foreground mt-1">
+                    {promoMessage}
+                  </p>
+                )}
                 <div className="space-y-1 text-xs text-muted-foreground">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-medium text-foreground">Order type</span>

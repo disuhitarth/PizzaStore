@@ -12,9 +12,7 @@ import { useCart } from '@/contexts/CartContext';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { MenuItem } from '@/menuData';
 import { useMenu } from '@/contexts/MenuContext';
-
-const DEFAULT_IMAGE =
-  'https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fff8a4ed4b8138568da19bb28117853c4531c44a0';
+import { useSiteMedia } from '@/contexts/SiteMediaContext';
 
 const formatPrice = (value?: number) =>
   typeof value === 'number' ? `$${value.toFixed(2)}` : '';
@@ -56,6 +54,10 @@ const Index: React.FC = () => {
     { name: string; price: string; description?: string; image: string; isPizzaItem?: boolean }
   >([]);
 
+  const { media } = useSiteMedia();
+  const defaultImage = media.categoryTiles.defaultImageUrl;
+  const perCategoryImages = media.categoryTiles.perCategory ?? {};
+
   useEffect(() => {
     const timer = setTimeout(() => setIsMenuLoading(false), 500);
     return () => clearTimeout(timer);
@@ -73,7 +75,7 @@ const Index: React.FC = () => {
             name: item.name as string,
             price: item.price as string,
             description: item.description as string | undefined,
-            image: item.image || DEFAULT_IMAGE,
+            image: item.image || defaultImage,
             // Default to true (pizza) when flag is missing, so old data behaves as before.
             isPizzaItem: typeof item.isPizzaItem === 'boolean' ? item.isPizzaItem : true,
           }));
@@ -124,7 +126,7 @@ const Index: React.FC = () => {
               name: item.itemName,
               description: item.description,
               price: formatPrice(getNumericPrice(item)),
-              image: item.imageUrl ?? DEFAULT_IMAGE,
+              image: item.imageUrl ?? defaultImage,
               sizeOptions: item.sizes?.map((size) => ({
                 label: size.sizeDescription,
                 price: size.price,
@@ -225,6 +227,13 @@ const Index: React.FC = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
                   {menuCategories.map((category) => {
                     const href = `#${slugify(category.categoryName)}`;
+                    const tileImage = perCategoryImages[category.categoryId] ?? defaultImage;
+                    const imageFitClass =
+                      category.categoryId === 'monthly-special' ||
+                      category.categoryId === '591ml-bottles' ||
+                      category.categoryId === 'dips'
+                        ? 'object-contain'
+                        : 'object-cover';
                     return (
                       <button
                         key={category.categoryId}
@@ -244,12 +253,15 @@ const Index: React.FC = () => {
                             {category.categoryName}
                           </h3>
                         </div>
-                        <div className="relative flex-1 bg-gradient-to-b from-[#FFE9D5] to-[#FDBA74]/60 overflow-hidden">
-                          <img
-                            src={DEFAULT_IMAGE}
-                            alt={category.categoryName}
-                            className="w-full h-full object-cover drop-shadow-[0_18px_40px_rgba(0,0,0,0.28)]"
-                          />
+                        <div className="relative flex-1 bg-white overflow-hidden flex items-stretch justify-stretch">
+                          {/* White framed image with fixed aspect ratio so all tiles look consistent */}
+                          <div className="relative m-3 w-full rounded-2xl bg-white overflow-hidden aspect-[16/9]">
+                            <img
+                              src={tileImage}
+                              alt={category.categoryName}
+                              className={`w-full h-full ${imageFitClass}`}
+                            />
+                          </div>
                           <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-end px-4 py-3 bg-gradient-to-t from-black/35 via-black/0 to-transparent">
                             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#C81607] text-white shadow-[0_16px_36px_rgba(0,0,0,0.45)]">
                               <svg

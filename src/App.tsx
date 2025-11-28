@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { StoreProvider } from "@/contexts/StoreContext";
 import { MenuProvider } from "@/contexts/MenuContext";
+import { SiteMediaProvider } from "@/contexts/SiteMediaContext";
 import { useKonamiFlameMode } from "@/hooks/use-konami-flame-mode";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -26,27 +27,29 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
-        <MenuProvider>
-          <CartProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner position="bottom-center" />
-              <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/locations" element={<LocationsPage />} />
-                  <Route path="/franchising" element={<FranchisingPage />} />
-                  <Route path="/nutritional-info" element={<NutritionalInfoPage />} />
-                  <Route path="/order-status" element={<OrderStatusPage />} />
-                  <Route path="/pineapple" element={<PineapplePage />} />
-                  <Route path="/admin/menu" element={<MenuAdmin />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </TooltipProvider>
-          </CartProvider>
-        </MenuProvider>
+        <SiteMediaProvider>
+          <MenuProvider>
+            <CartProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner position="bottom-center" />
+                <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/locations" element={<LocationsPage />} />
+                    <Route path="/franchising" element={<FranchisingPage />} />
+                    <Route path="/nutritional-info" element={<NutritionalInfoPage />} />
+                    <Route path="/order-status" element={<OrderStatusPage />} />
+                    <Route path="/pineapple" element={<PineapplePage />} />
+                    <Route path="/admin/menu" element={<MenuAdmin />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </TooltipProvider>
+            </CartProvider>
+          </MenuProvider>
+        </SiteMediaProvider>
       </StoreProvider>
     </QueryClientProvider>
   );
