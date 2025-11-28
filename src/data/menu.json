@@ -18,7 +18,7 @@
             "price": 16.99
           }
         ],
-        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F1a511cd78708a8ef0cbf1a7da8492276cd3a885f",
+        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F3f3322ba8602454db13b1000fcc545a0",
         "isPizzaItem": false,
         "defaultToppingIds": []
       },
@@ -26,43 +26,50 @@
         "itemId": "C290",
         "itemName": "Seasons Eating",
         "description": "1 Large Pizza with 3 Toppings, 1 Cake Slice, 1 Dipping & 1 591ml Pop",
-        "price": 24.99
+        "price": 24.99,
+        "imageUrl": "https://olo-images-live.imgix.net/73/738c4a7fbc024231ac337d990dc6333f.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=8d728506c013d2879294aca9012b8f81"
       },
       {
         "itemId": "C559",
         "itemName": "Jingle Bell Bundle",
         "description": "1 Large Pizza 3 toppings, Loaded Fries, 1 Pop Bottle & 1 Dipping Sauce",
-        "price": 29.99
+        "price": 29.99,
+        "imageUrl": "https://olo-images-live.imgix.net/35/35056b0efd1446aab63beaaec66d8f0d.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=289edc12529cee2e5f7652153191c2cf"
       },
       {
         "itemId": "C620",
         "itemName": "Merry Pair Special",
         "description": "2 Pizzas with 3 toppings on each & 2 Dips, Add 2 Cheesecake or Loaded Fries for $9.99",
-        "price": 31.99
+        "price": 31.99,
+        "imageUrl": "https://olo-images-live.imgix.net/bb/bbd8f8a204a64be38ec25159d7d8c06a.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=b48ab466f325c3a778e8954b4398fb26"
       },
       {
         "itemId": "C644",
         "itemName": "Pizza Depot Classic",
         "description": "2 Large Pizzas with 3 Toppings on each, Garlic Bread with Cheese, 2 Dips & 591ml pop",
-        "price": 42.99
+        "price": 42.99,
+        "imageUrl": "https://olo-images-live.imgix.net/d6/d633784158e248c3b1a5e5351c69c9a5.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=aab6a66197751cf5d8ab5481da13f19b"
       },
       {
         "itemId": "C642",
         "itemName": "Santa's Square Deal",
         "description": "1 topping square party pizza, 1 dip, 20 classic chicken wings",
-        "price": 49.99
+        "price": 49.99,
+        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2Fcf409be2471c4659bdeb9b619a6bd4ea"
       },
       {
         "itemId": "C410",
         "itemName": "Family Feast Special",
         "description": "2 Pizzas with 6 Top Combined, 10 Chicken Wings, Potato Wedges or Garlic Bread, 2 Pop Bottles + 3 Dip",
-        "price": 55.99
+        "price": 55.99,
+        "imageUrl": "https://olo-images-live.imgix.net/31/31ad455772ec41b1a5b39f8ec1c014f7.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=2560&h=512&fit=fill&fm=png32&bg=transparent&s=dc8cd701279bfd3c41df055919135176"
       },
       {
         "itemId": "C643",
         "itemName": "Bundle of Fun",
         "description": "2 X-Large Pizzas 3 toppings on each, 20 Classic Wings, 2 Loaded Fries, 2x 2L Pop, 5 Dips",
-        "price": 99.99
+        "price": 99.99,
+        "imageUrl": "https://cdn.builder.io/api/v1/image/assets%2F5497bee253214f7fa692ffe091e0dd84%2F7ddafb6300654996b5e27b849de9b6aa"
       }
     ]
   },
@@ -90,7 +97,8 @@
           }
         ],
         "isPizzaItem": false,
-        "defaultToppingIds": []
+        "defaultToppingIds": [],
+        "imageUrl": "https://pizzadepot.ca/orderonline/sitedata/comboimages/Special1-sep2025.jpg"
       },
       {
         "itemId": "C500",
