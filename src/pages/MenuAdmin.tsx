@@ -28,6 +28,8 @@ const MenuAdmin: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishMessage, setPublishMessage] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -58,6 +60,35 @@ const MenuAdmin: React.FC = () => {
       URL.revokeObjectURL(url);
     } catch {
       setImportError('Failed to export menu JSON.');
+    }
+  };
+
+  const handlePublish = async () => {
+    setImportError(null);
+    setPublishMessage(null);
+    setIsPublishing(true);
+    try {
+      const res = await fetch('/.netlify/functions/publish-menu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ categories }),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        const msg = data?.error ?? `Publish failed with status ${res.status}`;
+        setImportError(msg);
+        return;
+      }
+
+      setPublishMessage(
+        data?.message ?? 'Menu published to GitHub. Netlify will redeploy shortly.',
+      );
+    } catch {
+      setImportError('Failed to reach publish endpoint. Check your network or Netlify setup.');
+    } finally {
+      setIsPublishing(false);
     }
   };
 
@@ -134,19 +165,27 @@ const MenuAdmin: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-6">
       <div className="mx-auto max-w-6xl space-y-6">
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+          This page edits a <span className="font-semibold">local preview only</span> (stored in this browser via
+          localStorage). To update the live site deployed from GitHub (e.g. on Netlify), export JSON and paste it into
+          <code className="mx-1 rounded bg-amber-100 px-1 py-0.5">src/menuData.ts</code> in your repo, commit, and
+          redeploy.
+        </div>
         <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-xl font-semibold text-slate-900">Menu admin</h1>
             <p className="text-sm text-slate-600">
-              Edit titles, descriptions, prices, and image URLs. Changes are saved locally in this browser and
-              reflected on the main menu in real time.
+              Edit titles, descriptions, prices, and image URLs. Changes here are a local preview in this browser
+              (stored in localStorage) and are reflected on the main menu in real time on this device only.
             </p>
             <p className="mt-1 text-xs text-slate-500">
-              You can also export the full menu as JSON, edit it offline, and import it back.
+              To update the live site on Netlify, export the JSON, paste it into <code>src/menuData.ts</code> in
+              GitHub, commit, and let Netlify redeploy. Import JSON is for loading a draft back into this local
+              preview.
             </p>
           </div>
           <div className="flex flex-col items-stretch gap-2 sm:items-end">
-            <div className="inline-flex gap-2">
+            <div className="inline-flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={handleExport}
@@ -160,6 +199,14 @@ const MenuAdmin: React.FC = () => {
                 className="inline-flex items-center rounded-md bg-slate-900 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-slate-800"
               >
                 Import JSON
+              </button>
+              <button
+                type="button"
+                onClick={handlePublish}
+                disabled={isPublishing}
+                className="inline-flex items-center rounded-md border border-emerald-600 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-800 shadow-sm hover:bg-emerald-100 disabled:opacity-60"
+              >
+                {isPublishing ? 'Publishing…' : 'Publish to GitHub'}
               </button>
             </div>
             <a
@@ -180,6 +227,9 @@ const MenuAdmin: React.FC = () => {
 
         {importError && (
           <p className="text-xs text-red-600">{importError}</p>
+        )}
+        {publishMessage && (
+          <p className="text-xs text-emerald-600">{publishMessage}</p>
         )}
 
         <div className="space-y-8">

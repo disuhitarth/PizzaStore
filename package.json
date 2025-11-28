@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "validate:menu": "node scripts/validateMenu.mjs",
     "test:watch": "vitest --watch"
   },
   "dependencies": {
